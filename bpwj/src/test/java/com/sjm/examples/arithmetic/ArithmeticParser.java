@@ -244,25 +244,20 @@ public class ArithmeticParser {
      * example of how to use the parser.
      *
      * @param s the string to evaluate.
-     * @return the value of an arithmetic expression given in a
-     * string
-     * @throws ArithmeticExpressionException if this
-     *                                       parser does not recognize the given string
-     *                                       as a valid expression
+     * @return the value of an arithmetic expression given in a string
      */
-    public static double value(String s)
-            throws ArithmeticExpressionException {
+    public static double value(String s) {
 
         TokenAssembly ta = new TokenAssembly(s);
         Assembly a = start().completeMatch(ta);
         if (a == null) {
-            throw new ArithmeticExpressionException("Improperly formed arithmetic expression");
+            throw new RuntimeException("Improperly formed arithmetic expression");
         }
         Double d;
         try {
             d = (Double) a.pop();
         } catch (Exception e) {
-            throw new ArithmeticExpressionException("Internal error in ArithmeticParser");
+            throw new RuntimeException("Internal error in ArithmeticParser");
         }
         return d;
     }

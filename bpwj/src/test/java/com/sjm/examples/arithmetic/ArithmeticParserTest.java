@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ArithmeticParserTest {
 
     @Test
-    public void testArithmeticParser() throws ArithmeticExpressionException {
+    public void testArithmeticParser() {
         assertResult("9^2 - 81       ", 0); // exponentiation
         assertResult("7 - 3 - 1      ", 3); // minus associativity
         assertResult("2 ^ 1 ^ 4      ", 2); // exp associativity
@@ -16,7 +16,7 @@ class ArithmeticParserTest {
         assertResult("(100 - 5^2) * 3", 225); // parentheses
     }
 
-    private static void assertResult(String s, double d) throws ArithmeticExpressionException {
+    private static void assertResult(String s, double d) {
         assertEquals(d, ArithmeticParser.value(s));
     }
 }
