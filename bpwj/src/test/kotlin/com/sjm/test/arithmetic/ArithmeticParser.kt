@@ -44,6 +44,9 @@ class ArithmeticParser {
     private var factor: Alternation? = null
 
     companion object {
+        const val ERR_IMPROPERLY_FORMED = "Improperly formed arithmetic expression"
+        private const val ERR_INTERNAL = "Internal error in ArithmeticParser"
+
         fun start(): Parser = ArithmeticParser().expression()
 
         /**
@@ -54,8 +57,11 @@ class ArithmeticParser {
          *
          * @return the value of an arithmetic expression given in a string
          */
-        fun value(s: String): Double = start().completeMatch(TokenAssembly(s)).pop() as? Double
-                ?: throw RuntimeException("Improperly formed arithmetic expression")
+        fun value(s: String): Double {
+            val x = start().completeMatch(TokenAssembly(s))
+                    ?: throw RuntimeException(ERR_IMPROPERLY_FORMED)
+            return x.pop() as? Double ?: throw RuntimeException(ERR_INTERNAL)
+        }
     }
 
 

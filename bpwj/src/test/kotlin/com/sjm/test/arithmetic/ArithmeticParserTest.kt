@@ -1,22 +1,63 @@
 package com.sjm.test.arithmetic
 
+import com.sjm.parse.tokens.TokenTester
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestTemplate
+import java.lang.RuntimeException
 
 internal class ArithmeticParserTest {
+
     @Test
-    fun testArithmeticParser() {
-        assertResult("9^2 - 81       ", 0.0) // exponentiation
-        assertResult("7 - 3 - 1      ", 3.0) // minus associativity
-        assertResult("2 ^ 1 ^ 4      ", 2.0) // exp associativity
-        assertResult("100 - 25*3     ", 25.0) // precedence
-        assertResult("100 - 5^2*3    ", 25.0) // precedence
-        assertResult("(100 - 5^2) * 3", 225.0) // parentheses
+    fun testAssociativity() {
+        assertResult("7 - 3 - 1", 3.0) // minus associativity
+        assertResult("2 ^ 1 ^ 4", 2.0) // exp associativity
+    }
+
+    @Test
+    fun testIllegalExpression() {
+        assertIllegalExpression("7 / ")
+        assertIllegalExpression("7 ++ 6 ")
+        assertIllegalExpression("7 **/ 2 ")
+        assertIllegalExpression("7^*2")
+    }
+
+    @Test
+    fun testInteger() {
+        assertResult("42", 42.0)
+    }
+
+    @Test
+    fun testParentheses() {
+        assertResult("((3 * 7) + (11 * 3)) / 3", 18.0)
+    }
+
+    @Test
+    fun testPrecedence() {
+        assertResult("7 - 3 * 2 + 6", 7.0)
+        assertResult("2^1^4", 2.0)
+        assertResult("2^3^2", 512.0)
+        assertResult("1000+2*2^3^2/2", 1512.0)
+        assertResult("3*2^2*3", 36.0)
+    }
+
+    @Test
+    fun testRandomExpressions() {
+        TokenTester(ArithmeticParser.start()).test()
     }
 
     companion object {
         private fun assertResult(s: String, d: Double) {
-            Assertions.assertEquals(d, ArithmeticParser.Companion.value(s))
+            assertEquals(d, ArithmeticParser.Companion.value(s))
+        }
+
+        private fun assertIllegalExpression(s: String) {
+            val exception = assertThrows(RuntimeException::class.java) {
+                ArithmeticParser.Companion.value(s)
+            }
+            assertEquals(ArithmeticParser.ERR_IMPROPERLY_FORMED, exception.message)
         }
     }
 }
