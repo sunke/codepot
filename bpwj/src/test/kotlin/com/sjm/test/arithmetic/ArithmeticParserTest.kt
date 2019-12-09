@@ -1,12 +1,10 @@
 package com.sjm.test.arithmetic
 
-import com.sjm.parse.tokens.TokenTester
-import org.junit.jupiter.api.Assertions
+import com.sjm.parse.tokens.TokenAssembly
+import com.sjm.test.ParserTester
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestTemplate
-import java.lang.RuntimeException
 
 internal class ArithmeticParserTest {
 
@@ -45,7 +43,7 @@ internal class ArithmeticParserTest {
 
     @Test
     fun testRandomExpressions() {
-        TokenTester(ArithmeticParser.start()).test()
+        ParserTester(ArithmeticParser.start(), false).test(::TokenAssembly)
     }
 
     companion object {
