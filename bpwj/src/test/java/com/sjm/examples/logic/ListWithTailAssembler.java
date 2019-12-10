@@ -32,10 +32,10 @@ public void workOn(Assembly a) {
 	
 	Token fence = new Token('[');
 	
-	Vector termVector = elementsAbove(a, fence);
+	List termList = elementsAbove(a, fence);
 	Term[] termsToLast = 
-		StructureWithTermsAssembler.vectorReversedIntoTerms(
-			termVector);
+		StructureWithTermsAssembler.ListReversedIntoTerms(
+			termList);
 		
 	a.push(Structure.list(termsToLast, tail));
 }

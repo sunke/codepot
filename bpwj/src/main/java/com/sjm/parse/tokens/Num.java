@@ -23,7 +23,7 @@ public class Num extends Terminal {
 /**
  * Returns true if an assembly's next element is a number.
  *
- * @param   object   an element from an assembly
+ * @param   o   an element from an assembly
  *
  * @return   true, if an assembly's next element is a number as
  *           recognized the tokenizer
@@ -36,23 +36,23 @@ protected boolean qualifies(Object o) {
  * Create a set with one random number (between 0 and 
  * 100).
  */
-public Vector randomExpansion(int maxDepth, int depth) {
+public List randomExpansion(int maxDepth, int depth) {
 	double d = Math.floor(1000.0 * Math.random()) / 10;
-	Vector v = new Vector();
-	v.addElement(Double.toString(d));
+	List v = new ArrayList();
+	v.add(Double.toString(d));
 	return v;
 }
 /**
  * Returns a textual description of this parser.
  *
- * @param   vector   a list of parsers already printed in 
+ * @param   visited  a list of parsers already printed in
  *                   this description
  * 
  * @return   string   a textual description of this parser
  *
  * @see Parser#toString()
  */
-public String unvisitedString(Vector visited) {
+public String unvisitedString(List visited) {
 	return "Num";
 }
 }

@@ -51,7 +51,7 @@ public class SlingMediator
  * This method reacts, when the user presses one of the
  * IDE's buttons.
  *
- * @param   ActionEvent   the event
+ * @param   e   the event
  */
 public void actionPerformed(ActionEvent e) {
 	Object object = e.getSource();
@@ -110,14 +110,14 @@ protected void checkResult(
  * by popping individual commands from an assembly.
  */
 protected CommandSequence command(Assembly out) {
-	Vector statements = new Vector();
+	List statements = new ArrayList();
 	while (!out.stackIsEmpty()) {
-		statements.addElement(out.pop());
+		statements.add(out.pop());
 	}
 	CommandSequence cs = new CommandSequence();
 	int n = statements.size();
 	for (int i = n - 1; i >= 0; i--) {
-		Object o = statements.elementAt(i);
+		Object o = statements.get(i);
 		try {
 			cs.addCommand((Command) o);
 		} catch (ClassCastException e) {
@@ -233,7 +233,7 @@ protected Assembly tryMatch(TokenAssembly ta) {
 	try {
 		return parser.start().bestMatch(ta);
 	} catch (com.sjm.examples.track.TrackException e) {
-		Vector rez = parser.wors.getReservedWords();
+		List rez = parser.wors.getReservedWords();
 		if (rez.contains(e.getFound())) {
 			throw new RuntimeException(
 				e.getMessage() + "\n> " + 

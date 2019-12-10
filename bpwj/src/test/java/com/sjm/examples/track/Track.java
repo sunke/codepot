@@ -43,19 +43,17 @@ public Track(String name) {
  * If the match begins but does not complete, this method
  * throws a <code>TrackException</code>.
  *
- * @return   a Vector of assemblies that result from matching
+ * @return   a List of assemblies that result from matching
  *           against a beginning set of assemblies
  *
- * @param Vector a vector of assemblies to match against
+ * @param in a List of assemblies to match against
  *
  */
-public Vector match(Vector in) {
+public List match(List in) {
 	boolean inTrack = false;
-	Vector last = in;
-	Vector out = in;
-	Enumeration e = subparsers.elements();
-	while (e.hasMoreElements()) {
-		Parser p = (Parser) e.nextElement();
+	List last = in;
+	List out = in;
+	for (Parser p: subparsers) {
 		out = p.matchAndAssemble(last);
 		if (out.isEmpty()) {
 			if (inTrack) {
@@ -74,7 +72,7 @@ public Vector match(Vector in) {
  * expecting.
  */
 protected void throwTrackException(
-	Vector previousState, Parser p) {
+	List previousState, Parser p) {
 		
 	Assembly best = best(previousState);
 	String after = best.consumed(" ");

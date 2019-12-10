@@ -28,9 +28,9 @@ public class ShowRepetitionMatch {
 public static void main(String[] args) {
 	
 	Parser p = new Repetition(new Word());
-	Vector v = new Vector();
+	List v = new ArrayList();
 	String s = "How many cups are in a gallon?";
-	v.addElement(new TokenAssembly(s));
+	v.add(new TokenAssembly(s));
 	System.out.println(p.match(v));
 }
 }

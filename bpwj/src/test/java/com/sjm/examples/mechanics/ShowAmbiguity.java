@@ -53,9 +53,8 @@ public static void main(String[] args) {
 		.add(new Repetition(wordOrVolume))
 		.add(new Symbol('?'));
 
-	Vector v = new Vector();
-	v.addElement(
-		new TokenAssembly("How many cups are in a gallon?"));
+	List v = new ArrayList();
+	v.add(new TokenAssembly("How many cups are in a gallon?"));
 	
 	System.out.println(query.match(v));
 }

@@ -19,7 +19,7 @@ import java.util.*;
  */
 
 public class CompositeNode extends ComponentNode {
-	protected Vector children = new Vector();
+	protected List children = new ArrayList();
 /**
  * Create a node that can contain other nodes, and that
  * holds the given value.
@@ -30,11 +30,11 @@ public CompositeNode(Object v) {
 /**
  * Add a node after the currently held nodes.
  *
- * @param    ComponentNode   another node, either a composite
+ * @param    node   another node, either a composite
  *                           or a terminal node
  */
 public void add(ComponentNode node) {
-	children.addElement(node);
+	children.add(node);
 }
 /**
  * Add a node before the currently held nodes.
@@ -43,7 +43,7 @@ public void add(ComponentNode node) {
  *                           or a terminal node
  */
 public void insert(ComponentNode n) {
-	children.insertElementAt(n, 0);
+	children.add(0, n);
 }
 /*
  * Return a textual description of this node. We take care
@@ -55,21 +55,19 @@ public void insert(ComponentNode n) {
  * needing to see the composite's value.
  */
 protected String toString(
-	int depth, boolean label, Vector visited) {
+	int depth, boolean label, List visited) {
 		
 	if (visited.contains(this)) {
 		return "...";
 	}
-	visited.addElement(this);
+	visited.add(this);
 	StringBuffer buf = new StringBuffer();
 	if (label) {
 		buf.append(indent(depth));
 		buf.append(value);
 		buf.append("\n");
 	}
-	Enumeration e = children.elements();
-	while (e.hasMoreElements()) {
-		ComponentNode child = (ComponentNode) e.nextElement();
+	for (CompositeNode child: (List<CompositeNode>) children) {
 		buf.append(child.toString(depth + 1, label, visited));
 	}
 	return buf.toString();

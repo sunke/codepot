@@ -53,16 +53,16 @@ import java.io.*;
  */
 public class SymbolNode {
 	protected char myChar;
-	protected Vector children = new Vector(); // of Node
+	protected List children = new ArrayList(); // of Node
 	protected boolean valid = false;
 	protected SymbolNode parent;
 /**
  * Constructs a SymbolNode with the given parent, representing 
  * the given character.
  *
- * @param   SymbolNode   this node's parent
+ * @param   parent   this node's parent
  *
- * @param   char   this node's character
+ * @param   myChar   this node's character
  */
 public SymbolNode(SymbolNode parent, char myChar) {
 	this.parent = parent;
@@ -109,7 +109,7 @@ protected SymbolNode ensureChildWithChar(char c) {
 	SymbolNode n = findChildWithChar(c);
 	if (n == null) {
 		n = new SymbolNode(this, c);
-		children.addElement(n);
+		children.add(n);
 	}
 	return n;
 }
@@ -117,9 +117,7 @@ protected SymbolNode ensureChildWithChar(char c) {
  * Find a child with the given character.
  */
 protected SymbolNode findChildWithChar(char c) {
-	Enumeration e = children.elements();
-	while (e.hasMoreElements()) {
-		SymbolNode n = (SymbolNode) e.nextElement();
+	for (SymbolNode n: (List<SymbolNode>) children) {
 		if (n.myChar == c) {
 			return n;
 		}

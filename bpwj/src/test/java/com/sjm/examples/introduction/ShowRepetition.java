@@ -28,8 +28,8 @@ public static void main(String[] args) {
 	Assembly a = new TokenAssembly(s);
 	Parser p = new Repetition(new Word());
 
-	Vector v = new Vector();
-	v.addElement(a);
+	List v = new ArrayList();
+	v.add(a);
 
 	System.out.println(p.match(v));	
 }

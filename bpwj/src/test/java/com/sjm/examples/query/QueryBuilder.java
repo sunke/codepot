@@ -59,9 +59,9 @@ import com.sjm.utensil.*;
  */
 public class QueryBuilder implements PubliclyCloneable {
 	protected Speller speller;
-	protected Vector terms = new Vector();
-	protected Vector classNames = new Vector();
-	protected Vector comparisons = new Vector();
+	protected List<Term> terms = new ArrayList();
+	protected List<String> classNames = new ArrayList();
+	protected List<Comparison> comparisons = new ArrayList();
 /**
  * Construct a query builder that will use the given speller.
  */
@@ -79,51 +79,43 @@ public void addClassName(String s) {
 		throw new UnrecognizedClassException(
 			"No class named " + s + " in object model");
 	}
-	classNames.addElement(properName);
+	classNames.add(properName);
 }
 /**
  * Add a comparison to the query.
  */
 public void addComparison(Comparison c) {
-	comparisons.addElement(c);
+	comparisons.add(c);
 }
 /**
  * Add a term that will appear in the head structure of
  * the query.
  */
 public void addTerm(Term t) { 
-	terms.addElement(t);
+	terms.add(t);
 }
 /**
  * Create a query from the terms, class names and variables
  * this object has received so far.
  */
 public Query build(AxiomSource as) {
-	Vector structures = new Vector();
+	List<Structure> structures = new ArrayList();
 
 	// create the "projection" structure
 	Term[] termArray = new Term[terms.size()];
-	terms.copyInto(termArray);
+	termArray = terms.toArray(termArray);
 	Structure s = new Structure("q", termArray);
-	structures.addElement(s);
+	structures.add(s);
 
 	// add each queried table
-	Enumeration e = classNames.elements();
-	while (e.hasMoreElements()) {
-		String name = (String) e.nextElement();
-		structures.addElement(ChipSource.queryStructure(name));
-	}
+	classNames.forEach(name -> structures.add(ChipSource.queryStructure(name)));
 
 	// add each comparison
-	e = comparisons.elements();
-	while (e.hasMoreElements()) {
-		Comparison c = (Comparison) e.nextElement();
-		structures.addElement(c);
-	}
+	comparisons.forEach(cmp -> structures.add(cmp));
 
 	// create and return a query
 	Structure sarray[] = new Structure[structures.size()];
-	structures.copyInto(sarray);
+	sarray = structures.toArray(sarray);
 	return new Query(as, sarray);
 }
 /**
@@ -134,9 +126,12 @@ public Query build(AxiomSource as) {
 public Object clone() {
 	try {
 		QueryBuilder c = (QueryBuilder) super.clone();
-		c.terms = (Vector) terms.clone();
-		c.classNames = (Vector) classNames.clone();
-		c.comparisons = (Vector) comparisons.clone();
+		//c.terms = (List) terms.clone();
+		//c.classNames = (List) classNames.clone();
+		//c.comparisons = (List) comparisons.clone();
+		c.terms.addAll(terms);
+		c.classNames.addAll(classNames);
+		c.comparisons.addAll(comparisons);
 		return c;
 	} catch (CloneNotSupportedException e) {
 		// this shouldn't happen, since we are Cloneable

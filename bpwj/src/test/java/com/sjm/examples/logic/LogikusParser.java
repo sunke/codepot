@@ -316,7 +316,7 @@ protected Parser listTail() {
 	
 	Alternation a = new Alternation();
 	a.add(barTail);
-	a.add(new Empty().setAssembler(new ListAssembler()));
+	a.add(new Empty().setAssembler(new ListWithTailAssembler()));
 	return a;
 }
 /*

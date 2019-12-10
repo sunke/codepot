@@ -41,16 +41,14 @@ public PrettyParser(Parser parser) {
 /*
  * Return a collection of complete parses of the given assembly.
  */
-protected Vector completeMatches(Assembly inAssembly) {
-	Vector inState = new Vector();
-	inState.addElement(inAssembly);
-	Vector outState = parser.matchAndAssemble(inState);
-	Vector outComplete = new Vector();
-	Enumeration e = outState.elements();
-	while (e.hasMoreElements()) {
-		Assembly a = (Assembly) e.nextElement();
+protected List completeMatches(Assembly inAssembly) {
+	List inState = new ArrayList();
+	inState.add(inAssembly);
+	List<Assembly> outState = parser.matchAndAssemble(inState);
+	List outComplete = new ArrayList();
+	for (Assembly a: outState) {
 		if (!a.hasMoreElements()) {
-			outComplete.addElement(a);
+			outComplete.add(a);
 		}
 	}
 	return outComplete;
@@ -69,19 +67,17 @@ public boolean getShowLabels() {
  * Returns a collection of strings that show the order of
  * a parse of the given assembly.
  *
- * @param   Assembly   the assembly to parse
+ * @param   inAssembly   the assembly to parse
  *
  * @return   a collection of strings that show the order of
  *           a parse of the given assembly
  */
-public Vector parseTrees(Assembly inAssembly) { 
-	Vector outAssemblies = completeMatches(inAssembly);
-	Vector outStrings = new Vector();
-	Enumeration e = outAssemblies.elements();
-	while (e.hasMoreElements()) {
-		Assembly a = (Assembly) e.nextElement();
+public List parseTrees(Assembly inAssembly) {
+	List<Assembly> outAssemblies = completeMatches(inAssembly);
+	List outStrings = new ArrayList();
+	for (Assembly a: outAssemblies) {
 		ComponentNode node = (ComponentNode) a.pop();
-		outStrings.addElement(treeString(node));
+		outStrings.add(treeString(node));
 	}
 	return outStrings;
 }
@@ -89,7 +85,7 @@ public Vector parseTrees(Assembly inAssembly) {
  * Sets the boolean that determines if this <code>PrettyParser
  * </code> object will show labels for composite nodes.
  *
- * @param   boolean   the boolean that determines if this 
+ * @param   showLabels   the boolean that determines if this
  *                    <code>PrettyParser</code> object will 
  *                    show labels for composite nodes.
  */

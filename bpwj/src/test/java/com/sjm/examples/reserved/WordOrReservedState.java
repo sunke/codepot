@@ -21,7 +21,7 @@ import com.sjm.parse.tokens.*;
  * @version 1.0 
  */
 public class WordOrReservedState extends WordState {
-	Vector reserved = new Vector();
+	List reserved = new ArrayList();
 
 	/**
 	 * A constant indicating that a token is a reserved word.
@@ -34,14 +34,14 @@ public class WordOrReservedState extends WordState {
  * @param   String   the word to add
  */
 public void addReservedWord(String word) {
-	reserved.addElement(word);
+	reserved.add(word);
 }
 /**
  * Return all the known reserved words.
  *
- * @return   Vector  all the known reserved words
+ * @return   List  all the known reserved words
  */
-public Vector getReservedWords() {
+public List getReservedWords() {
 	return reserved;
 }
 /**

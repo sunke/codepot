@@ -37,7 +37,7 @@ public Terminal() {
 /**
  * Constructs a terminal with the given name.
  *
- * @param    String    A name to be known by.
+ * @param    name    A name to be known by.
  */
 public Terminal(String name) {
 	super(name);
@@ -46,11 +46,11 @@ public Terminal(String name) {
  * Accept a "visitor" and a collection of previously visited
  * parsers.
  *
- * @param   ParserVisitor   the visitor to accept
+ * @param   pv   the visitor to accept
  *
- * @param   Vector   a collection of previously visited parsers
+ * @param   visited   a collection of previously visited parsers
  */
-public void accept(ParserVisitor pv, Vector visited) {
+public void accept(ParserVisitor pv, List visited) {
 	pv.visitTerminal(this, visited);
 }
 /**
@@ -67,20 +67,18 @@ public Terminal discard() {
  * collection of the assemblies that result from the 
  * matches.
  *
- * @return   a Vector of assemblies that result from 
+ * @return   a List of assemblies that result from
  *           matching against a beginning set of assemblies
  *
- * @param   Vector   a vector of assemblies to match against
+ * @param   in   a List of assemblies to match against
  *
  */
-public Vector match(Vector in) {
-	Vector out = new Vector();
-	Enumeration e = in.elements();
-	while (e.hasMoreElements()) {
-		Assembly a = (Assembly) e.nextElement();
+public List match(List in) {
+	List out = new ArrayList();
+	for (Assembly a : (List<Assembly>) in) {
 		Assembly b = matchOneAssembly(a);
 		if (b != null) {
-			out.addElement(b);
+			out.add(b);
 		}
 	}
 	return out;
@@ -93,7 +91,7 @@ public Vector match(Vector in) {
  * the assembly. If the match fails, this method returns
  * null.
  *
- * @param   Assembly  the assembly to match against
+ * @param   in  the assembly to match against
  *
  * @return a copy of the incoming assembly, advanced by this 
  *         terminal
@@ -118,7 +116,7 @@ protected Assembly matchOneAssembly(Assembly in) {
  * qualifies as the type of terminal this terminal looks for.
  * This method performs that check.
  *
- * @param   Object   an element from a assembly
+ * @param   o   an element from a assembly
  *
  * @return   true, if the object is the kind of terminal this 
  *           parser seeks
@@ -131,9 +129,9 @@ protected boolean qualifies(Object o) {
  * string representation of itself. (Most subclasses 
  * override this.)
  */
-public Vector randomExpansion(int maxDepth, int depth) {
-	Vector v = new Vector();
-	v.addElement(this.toString());
+public List randomExpansion(int maxDepth, int depth) {
+	List v = new ArrayList();
+	v.add(this.toString());
 	return v;
 }
 /**
@@ -141,7 +139,7 @@ public Vector randomExpansion(int maxDepth, int depth) {
  * stack, after a successful match. This routine will turn 
  * off (or turn back on) that behavior.
  * 
- * @param   boolean   true, if this terminal should push 
+ * @param   discard   true, if this terminal should push
  *                    itself on a assembly's stack
  *
  * @return   this
@@ -153,7 +151,7 @@ public Terminal setDiscard(boolean discard) {
 /*
  * Returns a textual description of this parser.
  */
-protected String unvisitedString(Vector visited) {
+protected String unvisitedString(List visited) {
 	return "any";
 }
 }

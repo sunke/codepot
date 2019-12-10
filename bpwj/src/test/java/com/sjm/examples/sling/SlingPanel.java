@@ -100,9 +100,9 @@ public void paintComponent(Graphics g) {
 	Extrema ex = renderables.getExtrema();
 	calculateCorners(ex.aspectRatio());
 	g.setColor(Color.black);
-	Enumeration e = renderables.elements();
-	while (e.hasMoreElements()) {
-		Renderable ren = (Renderable) e.nextElement();
+	Iterator e = renderables.elements();
+	while (e.hasNext()) {
+		Renderable ren = (Renderable) e.next();
 		SlingFunction f = ren.function;
 		Scale s = new Scale(
 			ex.min, f, ex.max, lowerLeft, upperRight);

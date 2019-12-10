@@ -90,7 +90,7 @@ public static Fact fact(Order o) {
 public static Program program() {
 	Program p = new Program();
 	Dictionary d;
-	Vector v;
+	List v;
 	Enumeration e;
 
 	// chips
@@ -112,10 +112,7 @@ public static Program program() {
 	// orders
 
 	v = ChipBase.order();
-	e = v.elements();
-	while (e.hasMoreElements()) {
-		p.addAxiom(fact((Order) e.nextElement()));
-	}
+	v.forEach(o -> p.addAxiom(fact((Order) o)));
 	return p;
 }
 /*

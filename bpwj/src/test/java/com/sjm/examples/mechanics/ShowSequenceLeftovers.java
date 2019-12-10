@@ -26,8 +26,8 @@ public class ShowSequenceLeftovers {
  */
 public static void main(String args[]) {
 	
-	Vector v = new Vector();
-	v.addElement(new TokenAssembly("3 * 4 + 5"));
+	List v = new ArrayList();
+	v.add(new TokenAssembly("3 * 4 + 5"));
 	
 	System.out.println(
 		ArithmeticParser.start().match(v));

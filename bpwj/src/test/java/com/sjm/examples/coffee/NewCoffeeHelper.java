@@ -11,7 +11,7 @@ import java.util.*;
 
 /**
  * This helper adds a new coffee object to the end of
- * a vector of coffees.
+ * a List of coffees.
  *
  * @author Steven J. Metsker
  *
@@ -19,10 +19,10 @@ import java.util.*;
  */
  public class NewCoffeeHelper extends Helper {
 /**
- * Add a new coffee object to the end of a vector of coffees.
+ * Add a new coffee object to the end of a List of coffees.
  */
 public void startElement(Object target) {
-	Vector v = (Vector) target;
-	v.addElement(new Coffee());
+	List v = (List) target;
+	v.add(new Coffee());
 }
 }

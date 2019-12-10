@@ -4,9 +4,10 @@ import org.apache.xerces.parsers.SAXParser;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Vector;
+import java.util.List;
 /*
  * Copyright (c) 2000 Steven J. Metsker. All Rights Reserved.
  *
@@ -33,7 +34,7 @@ import java.util.Vector;
  * the characters to the current helper.
  * <p>
  * Helpers expect a target object, and this class
- * consistently uses a <code>Vector</code> of <code>Coffee
+ * consistently uses a <code>List</code> of <code>Coffee
  * </code> objects as the target for helpers.
  *
  * @author Steven J. Metsker
@@ -42,7 +43,7 @@ import java.util.Vector;
 public class ShowCoffeeXML extends DefaultHandler {
     protected Hashtable helpers;
     protected Helper helper;
-    protected Vector coffees = new Vector();
+    protected List coffees = new ArrayList();
 
     /**
      * Receive notification of character data inside an element.
@@ -100,11 +101,7 @@ public class ShowCoffeeXML extends DefaultHandler {
         parser.setErrorHandler(x);
         parser.parse("coffee.xml");
 
-        Enumeration e = x.coffees.elements();
-        while (e.hasMoreElements()) {
-            Coffee c = (Coffee) e.nextElement();
-            System.out.println(c);
-        }
+        x.coffees.stream().forEach(c -> System.out.println(c));
     }
 
     /**
@@ -118,7 +115,7 @@ public class ShowCoffeeXML extends DefaultHandler {
      * @param local      the local name, ignored
      * @param raw        the raw XML 1.0 name, which is the helper
      *                   lookup key
-     * @param attributes the attributes attached to the
+     * @param atts the attributes attached to the
      *                   element, ignored
      */
     public void startElement(

@@ -22,17 +22,17 @@ import com.sjm.parse.tokens.*;
  */
 public class StructureWithTermsAssembler extends Assembler {
 /**
- * Reverse a vector into an array of terms.
+ * Reverse a List into an array of terms.
  * 
- * @param   Vector   the vector to reverse
+ * @param   v   the List to reverse
  *
- * @return   Term[]   the vector, reversed
+ * @return   Term[]   the List, reversed
  */
-public static Term[] vectorReversedIntoTerms(Vector v) {
+public static Term[] ListReversedIntoTerms(List v) {
 	int size = v.size();
 	Term[] terms = new Term[size];
 	for (int i = 0; i < size; i++) {
-		terms[size - 1 - i] = (Term) v.elementAt(i);
+		terms[size - 1 - i] = (Term) v.get(i);
 	}
 	return terms;
 }
@@ -48,11 +48,11 @@ public static Term[] vectorReversedIntoTerms(Vector v) {
  * Beneath the terms of the structure, this method expects to 
  * find a token whose value is the functor of the structure.
  *
- * @param  Assembly  the assembly to work on
+ * @param  a  the assembly to work on
  */
 public void workOn(Assembly a) {
-	Vector termVector = elementsAbove(a, new Token('('));
-	Term[] termArray = vectorReversedIntoTerms(termVector);
+	List termList = elementsAbove(a, new Token('('));
+	Term[] termArray = ListReversedIntoTerms(termList);
 	Token t = (Token) a.pop();
 	a.push(new Structure(t.value(), termArray));
 }

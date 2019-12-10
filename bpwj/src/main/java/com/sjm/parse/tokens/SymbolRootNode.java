@@ -49,7 +49,7 @@ public String ancestry() {
 }
 /*
  * A root node maintains its children in an array instead of
- * a Vector, to be faster.
+ * a List, to be faster.
  */
 protected SymbolNode findChildWithChar(char c) {
 	return children[c];

@@ -35,8 +35,8 @@ public static void main(String[] args) {
 		.add(world)
 		.add(bang);
 	
-	Vector v = new Vector();
-	v.addElement(new TokenAssembly("Hello world!"));
+	List v = new ArrayList();
+	v.add(new TokenAssembly("Hello world!"));
 	
 	System.out.println(
 		bang.match(world.match(hello.match(v))));

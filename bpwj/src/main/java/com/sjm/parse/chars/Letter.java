@@ -33,23 +33,23 @@ public boolean qualifies(Object o) {
 /**
  * Create a set with one random letter.
  */
-public Vector randomExpansion(int maxDepth, int depth) {
+public List randomExpansion(int maxDepth, int depth) {
 	char c = (char) (26.0 * Math.random() + 'a');
-	Vector v = new Vector();
-	v.addElement(new String(new char[]{c}));
+	List v = new ArrayList();
+	v.add(new String(new char[]{c}));
 	return v;
 }
 /**
  * Returns a textual description of this parser.
  *
- * @param   vector   a list of parsers already printed in
+ * @param   List   a list of parsers already printed in
  *                   this description
  * 
  * @return   string   a textual description of this parser
  *
  * @see Parser#toString()
  */
-public String unvisitedString(Vector visited) {
+public String unvisitedString(List visited) {
 	return "L";
 }
 }

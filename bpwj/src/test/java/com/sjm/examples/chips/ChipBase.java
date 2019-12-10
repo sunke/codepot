@@ -20,11 +20,11 @@ import java.util.*;
 public class ChipBase {
 	protected static Dictionary chip; 
 	protected static Dictionary customer;
-	protected static Vector order;
+	protected static List order;
 /**
  * Adds a chip to the database.
  *
- * @param Chip the chip to add
+ * @param c the chip to add
  */
 public static void add(Chip c) {
 	chip.put(c.getChipID(), c);
@@ -32,7 +32,7 @@ public static void add(Chip c) {
 /**
  * Adds a customer to the database.
  *
- * @param Customer the customer to add
+ * @param c the customer to add
  */
 public static void add(Customer c) {
 	customer.put(c.getCustomerID(), c);
@@ -40,10 +40,10 @@ public static void add(Customer c) {
 /**
  * Adds an order to the database.
  *
- * @param Order the order to add
+ * @param o the order to add
  */
 public static void add(Order o) {
-	order.addElement(o);
+	order.add(o);
 }
 /**
  * Returns a dictionary of chip types.
@@ -108,13 +108,13 @@ public static Customer customer(int ID) {
 	return (Customer) customer().get(new Integer(ID));
 }
 /**
- * Returns a vector of orders.
+ * Returns a List of orders.
  *
- * @returna a vector of orders
+ * @returna a List of orders
  */
-public static Vector order() {
+public static List order() {
 	if (order == null) {
-		order = new Vector();
+		order = new ArrayList();
 		add(new Order(customer(11156), chip(1001), 2));
 		add(new Order(customer(11156), chip(1004), 1));
 		add(new Order(customer(11158), chip(1007), 4));

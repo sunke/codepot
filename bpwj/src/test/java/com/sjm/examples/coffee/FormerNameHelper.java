@@ -21,10 +21,11 @@ public class FormerNameHelper extends Helper {
 /**
  * Sets a target coffee object's <code>formerName</code> 
  * attribute to the given string. The target coffee is
- * the last coffee in a Vector of coffees.
+ * the last coffee in a List of coffees.
  */
 public void characters(String s, Object target) {
-	Coffee c = (Coffee) ((Vector) target).lastElement();
+	List<Coffee> coffees = (List) target;
+	Coffee c = coffees.get(coffees.size() - 1);
 	c.setFormerName(s);
 }
 }

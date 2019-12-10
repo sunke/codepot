@@ -34,10 +34,10 @@ public class ListAssembler extends Assembler {
  */
 public void workOn(Assembly a) {
 	Token fence = new Token('[');
-	Vector termVector = elementsAbove(a, fence);
+	List termList = elementsAbove(a, fence);
 	Term[] termArray = 
-		StructureWithTermsAssembler.vectorReversedIntoTerms(
-			termVector);
+		StructureWithTermsAssembler.ListReversedIntoTerms(
+			termList);
 		
 	if (termArray.length == 0) {
 		a.push(Structure.emptyList);

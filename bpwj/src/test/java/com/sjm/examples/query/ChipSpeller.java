@@ -87,9 +87,9 @@ protected void loadVariableNames() {
 		/*
 		 * Add each variable from each query template
 		 */
-		Enumeration e2 = u.elements();
-		while (e2.hasMoreElements()) {
-			Variable v = (Variable) e2.nextElement();
+		Iterator e2 = u.elements();
+		while (e2.hasNext()) {
+			Variable v = (Variable) e2.next();
 			addVariableName(v.name);
 		}
 	}

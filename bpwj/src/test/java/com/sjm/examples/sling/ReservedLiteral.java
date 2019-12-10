@@ -54,12 +54,12 @@ protected boolean qualifies(Object o) {
 /**
  * Returns a textual description of this parser.
  *
- * @param   Vector   a list of parsers already printed in 
+ * @param   List   a list of parsers already printed in
  *                   this description
  * 
  * @return a textual description of this parser
  */
-public String unvisitedString(Vector visited) {
+public String unvisitedString(List visited) {
 	return literal.toString();
 }
 }

@@ -43,7 +43,7 @@ protected boolean qualifies (Object o) {
  * Create a set with one random uppercase word (with 3
  * to 7 characters).
  */
-public Vector randomExpansion(int maxDepth, int depth) {
+public List randomExpansion(int maxDepth, int depth) {
 	int n = (int) (5.0 * Math.random()) + 3;
 	
 	char[] letters = new char[n];
@@ -52,21 +52,21 @@ public Vector randomExpansion(int maxDepth, int depth) {
 		letters[i] = (char) c;
 	}
 	
-	Vector v = new Vector();
-	v.addElement(new String(letters));
+	List v = new ArrayList();
+	v.add(new String(letters));
 	return v;
 }
 /**
  * Returns a textual description of this production.
  *
- * @param   vector   a list of productions already printed 
+ * @param   List   a list of productions already printed
  *                   in this description
  * 
  * @return   string   a textual description of this production
  *
  * @see ProductionRule#toString()
  */
-public String unvisitedString(java.util.Vector visited) {
+public String unvisitedString(java.util.List visited) {
 	return "Word";
 }
 }

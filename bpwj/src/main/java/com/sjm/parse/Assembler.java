@@ -29,7 +29,7 @@ import java.util.*;
  */
 public abstract class Assembler {
 /**
- * Returns a vector of the elements on an assembly's stack 
+ * Returns a List of the elements on an assembly's stack
  * that appear before a specified fence.
  * <p>
  * Sometimes a parser will recognize a list from within 
@@ -37,24 +37,24 @@ public abstract class Assembler {
  * the beginning of the list with a fence, and then retrieve 
  * all the items that come after the fence with this method.
  *
- * @param   assembly   a assembly whose stack should contain 
+ * @param   a   a assembly whose stack should contain
  * some number of items above a fence marker
  * 
- * @param   object   the fence, a marker of where to stop 
+ * @param   fence   the fence, a marker of where to stop
  *                   popping the stack
  * 
- * @return   Vector   the elements above the specified fence
+ * @return   List   the elements above the specified fence
  * 
  */
-public static Vector elementsAbove(Assembly a, Object fence) {
-	Vector items = new Vector();
+public static List elementsAbove(Assembly a, Object fence) {
+	List items = new ArrayList();
 	 
 	while (!a.stackIsEmpty()) {
 		Object top = a.pop();
 		if (top.equals(fence)) {
 			break;
 		}
-		items.addElement(top);
+		items.add(top);
 	}
 	return items;
 }
@@ -63,7 +63,7 @@ public static Vector elementsAbove(Assembly a, Object fence) {
  * specifies what to do when a parser successfully 
  * matches against a assembly.
  *
- * @param   Assembly   the assembly to work on
+ * @param   a   the assembly to work on
  */
 public abstract void workOn(Assembly a);
 }

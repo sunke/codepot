@@ -29,8 +29,8 @@ public static void main(String[] args) {
 	Tokenizer t = VolumeQuery2.tokenizer(); 	
 	t.setString("How many cups are in a gallon?");
 	
-	Vector v = new Vector();
-	v.addElement(new TokenAssembly(t));
+	List v = new ArrayList();
+	v.add(new TokenAssembly(t));
 	
 	System.out.println(VolumeQuery2.query().match(v));
 }

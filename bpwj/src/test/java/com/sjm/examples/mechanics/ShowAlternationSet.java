@@ -40,8 +40,8 @@ public static void main(String args[]) throws Exception {
 	
 	String s = "i = j = k = l = m";
 
-	Vector v = new Vector();
-	v.addElement(new TokenAssembly(s));
+	List v = new ArrayList();
+	v.add(new TokenAssembly(s));
 
 	System.out.println(assignment.match(v));
 }

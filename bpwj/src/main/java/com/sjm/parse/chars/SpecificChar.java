@@ -62,14 +62,14 @@ public boolean qualifies(Object o) {
 /**
  * Returns a textual description of this parser.
  *
- * @param   vector   a list of parsers already printed in
+ * @param   List   a list of parsers already printed in
  *                   this description
  * 
  * @return   string   a textual description of this parser
  *
  * @see Parser#toString()
  */
-public String unvisitedString(Vector visited) {
+public String unvisitedString(List visited) {
 	return character.toString();
 }
 }

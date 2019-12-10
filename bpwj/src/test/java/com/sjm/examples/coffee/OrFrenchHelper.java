@@ -21,10 +21,11 @@ public class OrFrenchHelper extends Helper {
 /**
  * Sets a target coffee object's <code>alsoOfferFrench
  * </code> attribute to true. The target coffee is the last
- * coffee in a Vector of coffees.
+ * coffee in a List of coffees.
  */
 public void startElement(Object target) {
-	Coffee c = (Coffee) ((Vector) target).lastElement();
+	List<Coffee> coffees = (List) target;
+	Coffee c = coffees.get(coffees.size() - 1);
 	c.setAlsoOfferFrench(true);
 }
 }

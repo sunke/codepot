@@ -28,8 +28,8 @@ public static void main(String args[]) {
 	a.add(new Literal("steaming"));
 	a.add(new Literal("hot"));
 	
-	Vector v = new Vector();
-	v.addElement(
+	List v = new ArrayList();
+	v.add(
 		new TokenAssembly("hot hot steaming hot coffee"));
 
 	System.out.println(

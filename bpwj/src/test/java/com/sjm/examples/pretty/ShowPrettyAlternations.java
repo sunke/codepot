@@ -75,12 +75,13 @@ public static void main(String[] args) {
 	PrettyParser p = new PrettyParser(reptile());
 	p.setShowLabels(true);
 	TokenAssembly ta = new TokenAssembly("gecko");
-	Enumeration e = p.parseTrees(ta).elements();
-	while (e.hasMoreElements()) {
-		System.out.println("The input parses as:");
-		System.out.println("---------------------------");
-		System.out.println(e.nextElement());
-	}
+	p.parseTrees(ta).forEach(
+		e -> {
+			System.out.println("The input parses as:");
+			System.out.println("---------------------------");
+			System.out.println(e);
+		}
+	);
 }
 /**
  * Returns a parser that recognizes some reptiles.

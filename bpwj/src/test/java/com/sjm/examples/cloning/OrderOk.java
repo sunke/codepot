@@ -21,7 +21,7 @@ public class OrderOk implements Cloneable {
 	// order
 	// ...
 	// protected Date date;
-	// protected java.util.Vector items;
+	// protected java.util.List items;
 	// ... 
 	
 	protected Customer customer;

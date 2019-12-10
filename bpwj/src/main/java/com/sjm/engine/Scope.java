@@ -55,14 +55,14 @@ public Scope() {
  * Create a scope that uses the variables in the supplied
  * terms.
  *
- * @param Term[] the terms to seed this scope with
+ * @param terms the terms to seed this scope with
  */
 public Scope(Term terms[]) {
 	for (int i = 0; i < terms.length; i++) {
 		Unification u = terms[i].variables();
-		Enumeration e = u.elements();
-		while (e.hasMoreElements()) {
-			Variable v = (Variable) e.nextElement();
+		Iterator e = u.elements();
+		while (e.hasNext()) {
+			Variable v = (Variable) e.next();
 			dictionary.put(v.name, v);
 		}
 	}
@@ -92,7 +92,7 @@ public Object clone() {
  * Returns true if a variable of the given name appears
  * in this scope.
  * 
- * @param String the variable name
+ * @param name the variable name
  * 
  * @return true, if a variable of the given name appears
  *         in this scope.
@@ -106,7 +106,7 @@ public boolean isDefined(String name) {
  * If the so-named variable is not already in this scope,
  * the scope will create it and add the variable to itself.
  * 
- * @param String the variable name
+ * @param name the variable name
  * 
  * @return a variable of the given name from this scope
  */

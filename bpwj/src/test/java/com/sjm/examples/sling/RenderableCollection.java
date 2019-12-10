@@ -16,19 +16,19 @@ import java.util.*;
  * @version 1.0 
  */
 public class RenderableCollection {
-	protected Vector renderables = new Vector();
+	protected List renderables = new ArrayList();
 /**
  * Adds a renderable function to the collection.
  */
 public void add(Renderable r) {
-	renderables.addElement(r);
+	renderables.add(r);
 }
 /**
  * Returns an enumeration of the renderable functions in 
  * this collection.
  */
-public Enumeration elements() {
-	return renderables.elements();
+public Iterator elements() {
+	return renderables.iterator();
 }
 /**
  * Find the extreme points the functions will reach.
@@ -41,9 +41,9 @@ public Extrema getExtrema() {
 			new Extrema(new Point(-1, -1), new Point(1, 1));
 	}
 	Point min = null, max = null;
-	Enumeration e = elements();
-	while (e.hasMoreElements()) {
-		Renderable r = (Renderable) e.nextElement();
+	Iterator e = elements();
+	while (e.hasNext()) {
+		Renderable r = (Renderable) e.next();
 		Extrema ex = r.getExtrema();
 		if (min == null) {
 			min = ex.min;

@@ -37,12 +37,10 @@ public VerboseSequence(String name) {
 /**
  * Just a verbose version of <code>Sequence.match()</code>.
  */
-public Vector match(Vector inputState) {
-	Vector finalState = inputState;
+public List match(List inputState) {
+	List finalState = inputState;
 	System.out.println(finalState); // be verbose
-	Enumeration e = subparsers.elements();
-	while (e.hasMoreElements()) {
-		Parser p = (Parser) e.nextElement();
+	for (Parser p: subparsers) {
 		finalState = p.matchAndAssemble(finalState);
 		if (finalState.isEmpty()) {
 			return finalState;

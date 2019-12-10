@@ -49,9 +49,9 @@ public VerboseRepetition(Parser p, String name) {
  * Just a verbose version of <code>Repetition.match()
  * </code>.
  */
-public Vector match(Vector in) {	
+public List match(List in) {
 	System.out.println(" in: " + in);
-	Vector out = super.match(in);
+	List out = super.match(in);
 	System.out.println("out: " + out);
 	return out;
 }

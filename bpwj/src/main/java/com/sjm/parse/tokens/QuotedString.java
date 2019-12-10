@@ -23,7 +23,7 @@ public class QuotedString extends Terminal {
  * Returns true if an assembly's next element is a quoted 
  * string.
  *
- * @param   object   an element from a assembly
+ * @param   o   an element from a assembly
  *
  * @return   true, if a assembly's next element is a quoted 
  *           string, like "chubby cherubim".
@@ -36,7 +36,7 @@ protected boolean qualifies(Object o) {
  * Create a set with one random quoted string (with 2 to
  * 6 characters).
  */
-public Vector randomExpansion(int maxDepth, int depth) {
+public List randomExpansion(int maxDepth, int depth) {
 	int n = (int) (5.0 * Math.random());
 	
 	char[] letters = new char[n + 2];
@@ -48,21 +48,21 @@ public Vector randomExpansion(int maxDepth, int depth) {
 		letters[i + 1] = (char) c;
 	}
 	
-	Vector v = new Vector();
-	v.addElement(new String(letters));
+	List v = new ArrayList();
+	v.add(new String(letters));
 	return v;
 }
 /**
  * Returns a textual description of this parser.
  *
- * @param   vector   a list of parsers already printed in
+ * @param   visited   a list of parsers already printed in
  *                   this description
  * 
  * @return   string   a textual description of this parser
  *
  * @see Parser#toString()
  */
-public String unvisitedString(Vector visited) {
+public String unvisitedString(List visited) {
 	return "QuotedString";
 }
 }

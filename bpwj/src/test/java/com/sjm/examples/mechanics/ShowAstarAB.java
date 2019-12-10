@@ -36,9 +36,9 @@ public static void main(String[] args) {
 		.add(aStar)
 		.add(ab); // a*ab
 		
-	Vector v = new Vector();
+	List v = new ArrayList();
 	String s = "aaaab";
-	v.addElement(new CharacterAssembly(s));
+	v.add(new CharacterAssembly(s));
 	
 	System.out.println(aStar.match(v));
 	System.out.println(ab.match(aStar.match(v)));

@@ -30,7 +30,7 @@ class ParserTester(var parser: Parser, private val showLog: Boolean = true) {
             repeat(100) {
                 val s = parser.randomInput(depth, " ")
                 print("\tTesting string $s")
-                val out = completeMatches(parser.match(Vector(listOf(assembly(s)))) as Vector<Assembly>)
+                val out = completeMatches(parser.match(listOf(assembly(s))) as List<Assembly>)
                 if (out.isEmpty()) {
                     throw Exception("The parser cannot match this string: $s")
                 } else if (out.size > 1) {

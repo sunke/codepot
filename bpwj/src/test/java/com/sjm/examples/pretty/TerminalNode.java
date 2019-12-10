@@ -12,7 +12,7 @@ public TerminalNode(Object value) {
  * string based on the depth of the node.
  */
 protected String toString(
-	int depth, boolean label, java.util.Vector ignored) {
+	int depth, boolean label, java.util.List ignored) {
 		
 	return indent(depth) + value + "\n";
 }

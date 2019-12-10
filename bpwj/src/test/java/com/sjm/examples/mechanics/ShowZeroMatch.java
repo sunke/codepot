@@ -30,9 +30,9 @@ public class ShowZeroMatch {
 public static void main(String[] args) {
 	
 	Parser p = new Repetition(new Word());
-	Vector v = new Vector();
+	List v = new ArrayList();
 	String s = "41 42 43";
-	v.addElement(new TokenAssembly(s));
+	v.add(new TokenAssembly(s));
 	System.out.println(p.match(v));
 }
 }

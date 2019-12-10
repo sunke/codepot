@@ -1,6 +1,7 @@
 package com.sjm.parse;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /*
  * Copyright (c) 2000 Steven J. Metsker. All Rights Reserved.
@@ -43,9 +44,9 @@ public abstract class ParserTester {
         logTestString(s);
         Assembly a = assembly(s);
         a.setTarget(freshTarget());
-        Vector in = new Vector();
-        in.addElement(a);
-        Vector out = completeMatches(p.match(in));
+        List in = new ArrayList();
+        in.add(a);
+        List out = completeMatches(p.match(in));
         if (out.size() != 1) {
             logProblemFound(s, out.size());
             return true;
@@ -54,7 +55,7 @@ public abstract class ParserTester {
     }
 
     /**
-     * Return a subset of the supplied vector of assemblies,
+     * Return a subset of the supplied List of assemblies,
      * filtering for assemblies that have been completely
      * matched.
      *
@@ -62,16 +63,8 @@ public abstract class ParserTester {
      *               matched assemblies
      * @return a collection of completely matched assemblies
      */
-    public static Vector completeMatches(Vector in) {
-        Vector out = new Vector();
-        Enumeration e = in.elements();
-        while (e.hasMoreElements()) {
-            Assembly a = (Assembly) e.nextElement();
-            if (!a.hasMoreElements()) {
-                out.addElement(a);
-            }
-        }
-        return out;
+    public static List completeMatches(List in) {
+        return ((List<Assembly>) in).stream().filter(a -> !a.hasMoreElements()).collect(Collectors.toList());
     }
 
     /*

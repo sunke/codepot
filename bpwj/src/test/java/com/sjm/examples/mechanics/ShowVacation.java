@@ -40,8 +40,8 @@ public static void main(String args[]) {
 		.add(new VerboseRepetition(prepare))
 		.add(new VerboseRepetition(enjoy));
 
-	Vector v = new Vector();
-	v.addElement(new TokenAssembly("plan pack hike relax"));
+	List v = new ArrayList();
+	v.add(new TokenAssembly("plan pack hike relax"));
 
 	vacation.match(v);
 }

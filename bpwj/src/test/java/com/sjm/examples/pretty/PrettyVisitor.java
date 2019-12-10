@@ -28,25 +28,23 @@ public class PrettyVisitor extends ParserVisitor {
  * a <code>PrettyAlternationAssembler</code> object and visit
  * this parser's children.
  */
-public void visitAlternation(Alternation a, Vector visited) {
+public void visitAlternation(Alternation a, List visited) {
 	if (visited.contains(a)) {
 		return;
 	}
-	visited.addElement(a);
+	visited.add(a);
 	a.setAssembler(
 		new PrettyAlternationAssembler(a.getName()));
 
-	Enumeration e = a.getSubparsers().elements();
-	while (e.hasMoreElements()) {
-		Parser child = (Parser) e.nextElement();
- 		child.accept(this, visited);  
+	for (Parser child: (List<Parser>) a.getSubparsers()) {
+ 		child.accept(this, visited);
 	}
 }
 /**
  * Set an <code>Empty</code> parser's assembler to be
  * a <code>PrettyEmptyAssembler</code> object.
  */
-public void visitEmpty(Empty e, Vector visited) {
+public void visitEmpty(Empty e, List visited) {
 	e.setAssembler(new PrettyEmptyAssembler());
 }
 /**
@@ -56,11 +54,11 @@ public void visitEmpty(Empty e, Vector visited) {
  * latter assembler will pop results down to the fence. Also
  * visit the repetition parser's subparser.
  */
-public void visitRepetition(Repetition r, Vector visited) {
+public void visitRepetition(Repetition r, List visited) {
 	if (visited.contains(r)) {
 		return;
 	}
-	visited.addElement(r);
+	visited.add(r);
 	Object fence = new Object();
 	r.setPreAssembler(new FenceAssembler(fence));
 	r.setAssembler(
@@ -72,17 +70,13 @@ public void visitRepetition(Repetition r, Vector visited) {
  * a <code>PrettySequenceAssembler</code> object and visit
  * the parser's children.
  */
-public void visitSequence(Sequence s, Vector visited) {
+public void visitSequence(Sequence s, List visited) {
 	if (visited.contains(s)) {
 		return;
 	}
-	visited.addElement(s);
-	s.setAssembler(
-		new PrettySequenceAssembler(
-			s.getName(), s.getSubparsers().size()));
-	Enumeration e = s.getSubparsers().elements();
-	while (e.hasMoreElements()) {
-		Parser child = (Parser) e.nextElement();
+	visited.add(s);
+	s.setAssembler(new PrettySequenceAssembler(s.getName(), s.getSubparsers().size()));
+	for (Parser child: (List<Parser>) s.getSubparsers()) {
 		child.accept(this, visited);  
 	}
 }
@@ -90,7 +84,7 @@ public void visitSequence(Sequence s, Vector visited) {
  * Set a <code>Terminal</code> object's assembler to be
  * a <code>PrettyTerminalAssembler</code> object.
  */
-public void visitTerminal(Terminal t, Vector visited) {
+public void visitTerminal(Terminal t, List visited) {
 	t.setAssembler(new PrettyTerminalAssembler());
 }
 }

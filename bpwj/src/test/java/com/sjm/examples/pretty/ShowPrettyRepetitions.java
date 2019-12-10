@@ -31,11 +31,10 @@ public static void main(String[] args) {
 	p.setShowLabels(true);
 	TokenAssembly ta = new TokenAssembly(
 		"belfast cork dublin limerick");
-	Enumeration e = p.parseTrees(ta).elements();
-	while (e.hasMoreElements()) {
+	for (Object e: p.parseTrees(ta)) {
 		System.out.println("The input parses as:");
 		System.out.println("---------------------------");
-		System.out.println(e.nextElement());
+		System.out.println(e);
 	}
 }
 /**

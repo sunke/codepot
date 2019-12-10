@@ -8,6 +8,8 @@ package com.sjm.examples.pretty;
  * including the implied warranty of merchantability.
  */
 
+import java.util.ArrayList;
+
 /**
  * This class tops a hierarchy that implements the Composite
  * pattern. The two subclasses are <code>CompositeNode</code>
@@ -39,7 +41,7 @@ public static String indent(int n) {
  * @return a textual description of this node
  */
 public String toString() {
-	return toString(0, true, new java.util.Vector());
+	return toString(0, true, new ArrayList());
 }
 /*
  * Return a textual description of this node, noting whether
@@ -49,7 +51,7 @@ public String toString() {
  * @return a textual description of this node
  */
 protected abstract String toString(
-	int n, boolean label, java.util.Vector visited);
+	int n, boolean label, java.util.List visited);
 /**
  * Return a textual description of this node without showing
  * composite values. This is useful if the presence of a
@@ -60,6 +62,6 @@ protected abstract String toString(
  *         composite values
  */
 public String toStringWithoutLabels() {
-	return toString(0, false, new java.util.Vector());
+	return toString(0, false, new ArrayList());
 }
 }

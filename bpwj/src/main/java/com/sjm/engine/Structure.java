@@ -242,7 +242,7 @@ public static Structure list(Object[] objects) {
  * Constructs a list from the given terms.
  * <p>
  * This constructor creates a list of two terms, regardless of 
- * the number of terms supplied here. The new list's first 
+ * the number of terms supplied here. The new ArrayList's first
  * term is the first term of the supplied array. Its second 
  * term is a list of the remaining terms.
  *

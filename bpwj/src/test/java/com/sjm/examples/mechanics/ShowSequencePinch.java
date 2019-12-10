@@ -30,8 +30,8 @@ public static void main(String[] args) {
 		.add(new Repetition(new Word()))
 		.add(new Symbol('!'));
 	
-	Vector v = new Vector();
-	v.addElement(new TokenAssembly("Hello world!"));
+	List v = new ArrayList();
+	v.add(new TokenAssembly("Hello world!"));
 	s.match(v);
 }
 }

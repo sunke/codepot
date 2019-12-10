@@ -78,9 +78,9 @@ public abstract class Parser {
         this.name = name;
     }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
     /**
      * Accepts a "visitor" which will perform some operation on a parser structure.
@@ -88,7 +88,7 @@ public abstract class Parser {
      * @param pv the visitor to accept
      */
     public void accept(ParserVisitor pv) {
-        accept(pv, new Vector());
+        accept(pv, new ArrayList());
     }
 
     /**
@@ -98,32 +98,27 @@ public abstract class Parser {
      * @param visited a collection of previously visited
      *                parsers.
      */
-    public abstract void accept(ParserVisitor pv, Vector visited);
+    public abstract void accept(ParserVisitor pv, List visited);
 
     /**
-     * Adds the elements of one vector to another.
+     * Adds the elements of one List to another.
      *
-     * @param v1 the vector to add to
-     * @param v2 the vector with elements to add
+     * @param v1 the List to add to
+     * @param v2 the List with elements to add
      */
-    public static void add(Vector v1, Vector v2) {
-        Enumeration e = v2.elements();
-        while (e.hasMoreElements()) {
-            v1.addElement(e.nextElement());
-        }
+    public static void add(List v1, List v2) {
+        v1.addAll(v2);
     }
 
     /**
      * Returns the most-matched assembly in a collection.
      *
-     * @param Vector the collection to look through
+     * @param v the collection to look through
      * @return the most-matched assembly in a collection.
      */
-    public Assembly best(Vector v) {
+    public Assembly best(List v) {
         Assembly best = null;
-        Enumeration e = v.elements();
-        while (e.hasMoreElements()) {
-            Assembly a = (Assembly) e.nextElement();
+        for (Assembly a : (List<Assembly>) v) {
             if (!a.hasMoreElements()) {
                 return a;
             }
@@ -142,14 +137,14 @@ public abstract class Parser {
      * Returns an assembly with the greatest possible number of
      * elements consumed by matches of this parser.
      *
-     * @param Assembly an assembly to match against
+     * @param a an assembly to match against
      * @return an assembly with the greatest possible number of
      * elements consumed by this parser
      */
     public Assembly bestMatch(Assembly a) {
-        Vector in = new Vector();
-        in.addElement(a);
-        Vector out = matchAndAssemble(in);
+        List in = new ArrayList();
+        in.add(a);
+        List out = matchAndAssemble(in);
         return best(out);
     }
 
@@ -157,7 +152,7 @@ public abstract class Parser {
      * Returns either null, or a completely matched version of
      * the supplied assembly.
      *
-     * @param Assembly an assembly to match against
+     * @param a an assembly to match against
      * @return either null, or a completely matched version of the
      * supplied assembly
      */
@@ -170,28 +165,26 @@ public abstract class Parser {
     }
 
     /**
-     * Create a copy of a vector, cloning each element of
-     * the vector.
+     * Create a copy of a List, cloning each element of
+     * the List.
      *
-     * @param in the vector to copy
-     * @return a copy of the input vector, cloning each
-     * element of the vector
+     * @param v the List to copy
+     * @return a copy of the input List, cloning each
+     * element of the List
      */
-    public static Vector elementClone(Vector v) {
-        Vector copy = new Vector();
-        Enumeration e = v.elements();
-        while (e.hasMoreElements()) {
-            Assembly a = (Assembly) e.nextElement();
-            copy.addElement(a.clone());
+    public static List elementClone(List v) {
+        List copy = new ArrayList();
+        for(Assembly a: (List<Assembly>) v) {
+            copy.add(a.clone());
         }
         return copy;
     }
 
     /**
-     * Given a set (well, a <code>Vector</code>, really) of
+     * Given a set (well, a <code>List</code>, really) of
      * assemblies, this method matches this parser against
      * all of them, and returns a new set (also really a
-     * <code>Vector</code>) of the assemblies that result from
+     * <code>List</code>) of the assemblies that result from
      * the matches.
      * <p>
      * For example, consider matching the regular expression
@@ -202,27 +195,26 @@ public abstract class Parser {
      * creates a new set <code>{^aaab, a^aab, aa^ab,
      * aaa^b}</code>.
      *
-     * @param Vector a vector of assemblies to match against
-     * @return a Vector of assemblies that result from
+     * @param in a List of assemblies to match against
+     * @return a List of assemblies that result from
      * matching against a beginning set of assemblies
      */
-    public abstract Vector match(Vector in);
+    public abstract List match(List in);
 
     /**
      * Match this parser against an input state, and then
      * apply this parser's assembler against the resulting
      * state.
      *
-     * @param Vector a vector of assemblies to match against
-     * @return a Vector of assemblies that result from matching
+     * @param in a List of assemblies to match against
+     * @return a List of assemblies that result from matching
      * against a beginning set of assemblies
      */
-    public Vector matchAndAssemble(Vector in) {
-        Vector out = match(in);
+    public List matchAndAssemble(List in) {
+        List out = match(in);
         if (assembler != null) {
-            Enumeration e = out.elements();
-            while (e.hasMoreElements()) {
-                assembler.workOn((Assembly) e.nextElement());
+            for (Assembly a: (List<Assembly>) out) {
+                assembler.workOn(a);
             }
         }
         return out;
@@ -233,7 +225,7 @@ public abstract class Parser {
      * concatenation of the returned collection will be a
      * language element.
      */
-    protected abstract Vector randomExpansion(int maxDepth, int depth);
+    protected abstract List randomExpansion(int maxDepth, int depth);
 
     /**
      * Return a random element of this parser's language.
@@ -241,17 +233,7 @@ public abstract class Parser {
      * @return a random element of this parser's language
      */
     public String randomInput(int maxDepth, String separator) {
-        StringBuffer buf = new StringBuffer();
-        Enumeration e = randomExpansion(maxDepth, 0).elements();
-        boolean first = true;
-        while (e.hasMoreElements()) {
-            if (!first) {
-                buf.append(separator);
-            }
-            buf.append(e.nextElement());
-            first = false;
-        }
-        return buf.toString();
+        return String.join(separator, (List<String>) randomExpansion(maxDepth, 0));
     }
 
     /**
@@ -259,7 +241,7 @@ public abstract class Parser {
      * this parser successfully matches against the
      * assembly.
      *
-     * @param Assembler the assembler to apply
+     * @param assembler the assembler to apply
      * @return Parser   this
      */
     public Parser setAssembler(Assembler assembler) {
@@ -275,7 +257,7 @@ public abstract class Parser {
      * infinite recursion
      */
     public String toString() {
-        return toString(new Vector());
+        return toString(new ArrayList());
     }
 
     /**
@@ -287,17 +269,17 @@ public abstract class Parser {
      * twice, and uses <code>unvisitedString</code> which
      * subclasses must implement.
      *
-     * @param Vector a list of objects already printed
+     * @param visited a list of objects already printed
      * @return a textual version of this parser,
      * avoiding recursion
      */
-    protected String toString(Vector visited) {
+    protected String toString(List visited) {
         if (name != null) {
             return name;
         } else if (visited.contains(this)) {
             return "...";
         } else {
-            visited.addElement(this);
+            visited.add(this);
             return unvisitedString(visited);
         }
     }
@@ -305,5 +287,5 @@ public abstract class Parser {
     /*
      * Returns a textual description of this string.
      */
-    protected abstract String unvisitedString(Vector visited);
+    protected abstract String unvisitedString(List visited);
 }

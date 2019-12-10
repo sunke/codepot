@@ -38,11 +38,11 @@ protected static CommandSequence popCommandSequence(
 	Assembly a) {
 		
 	Token fence = new Token('{');
-	Vector statementVector = elementsAbove(a, fence);
+	List statementList = elementsAbove(a, fence);
 	CommandSequence cs = new CommandSequence();
-	int n = statementVector.size();
+	int n = statementList.size();
 	for (int i = n - 1; i >= 0; i--) {
-		Command c = (Command) statementVector.elementAt(i);
+		Command c = (Command) statementList.get(i);
 		cs.addCommand(c);
 	}
 	return cs;
@@ -51,7 +51,7 @@ protected static CommandSequence popCommandSequence(
  * Pop the elements of a "for" loop, construct a <code>
  * ForCommand</code>, and push it.
  *
- * @param  Assembly  the assembly to work on
+ * @param  a  the assembly to work on
  */
 public void workOn(Assembly a) {
 	// pop the elements of a "for" loop

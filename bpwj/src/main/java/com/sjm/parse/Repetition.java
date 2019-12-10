@@ -36,7 +36,7 @@ public class Repetition extends Parser {
 /**
  * Constructs a repetition of the given parser. 
  * 
- * @param   parser   the parser to repeat
+ * @param   p  the parser to repeat
  *
  * @return   a repetiton that will match the given 
  *           parser repeatedly in successive matches
@@ -48,9 +48,9 @@ public Repetition (Parser p) {
  * Constructs a repetition of the given parser with the
  * given name.
  * 
- * @param   Parser   the parser to repeat
+ * @param   subparser   the parser to repeat
  *
- * @param   String   a name to be known by
+ * @param   name name to be known by
  *
  * @return   a repetiton that will match the given 
  *           parser repeatedly in successive matches
@@ -63,11 +63,11 @@ public Repetition(Parser subparser, String name) {
  * Accept a "visitor" and a collection of previously visited
  * parsers.
  *
- * @param   ParserVisitor   the visitor to accept
+ * @param   pv   the visitor to accept
  *
- * @param   Vector   a collection of previously visited parsers
+ * @param   visited   a collection of previously visited parsers
  */
-public void accept(ParserVisitor pv, Vector visited) {
+public void accept(ParserVisitor pv, List visited) {
 	pv.visitRepetition(this, visited);
 }
 /**
@@ -88,21 +88,18 @@ public Parser getSubparser() {
  * </code> against <code>{^aaab}</code> results in <code>
  * {^aaab, a^aab, aa^ab, aaa^b}</code>.
  *
- * @return   a Vector of assemblies that result from 
+ * @return   a List of assemblies that result from
  *           matching against a beginning set of assemblies
  *
- * @param   Vector   a vector of assemblies to match against
+ * @param   in   a List of assemblies to match against
  *
  */
-public Vector match(Vector in) {
+public List match(List in) {
 	if (preAssembler != null) {
-		Enumeration e = in.elements();
-		while (e.hasMoreElements()) {
-			preAssembler.workOn((Assembly) e.nextElement());
-		}
+		in.stream().forEach(a -> preAssembler.workOn((Assembly) a));
 	}
-	Vector out = elementClone(in);
-	Vector s = in; // a working state
+	List out = elementClone(in);
+	List s = in; // a working state
 	while (!s.isEmpty()) {
 		s = subparser.matchAndAssemble(s);
 		add(out, s);
@@ -113,19 +110,15 @@ public Vector match(Vector in) {
  * Create a collection of random elements that correspond to
  * this repetition.
  */
-protected Vector randomExpansion(int maxDepth, int depth) {
-	Vector v = new Vector();
+protected List randomExpansion(int maxDepth, int depth) {
+	List v = new ArrayList();
 	if (depth >= maxDepth) {
 		return v;
 	}
 
 	int n = (int) (EXPWIDTH * Math.random());
 	for (int j = 0; j < n; j++) {
-		Vector w = subparser.randomExpansion(maxDepth, depth++);
-		Enumeration e = w.elements();
-		while (e.hasMoreElements()) {
-			v.addElement(e.nextElement());
-		}
+		v.addAll(subparser.randomExpansion(maxDepth, depth++));
 	}
 	return v;
 }
@@ -133,7 +126,7 @@ protected Vector randomExpansion(int maxDepth, int depth) {
  * Sets the object that will work on every assembly before 
  * matching against it.
  *
- * @param   Assembler   the assembler to apply
+ * @param   preAssembler   the assembler to apply
  *
  * @return   Parser   this
  */
@@ -144,7 +137,7 @@ public Parser setPreAssembler(Assembler preAssembler) {
 /*
  * Returns a textual description of this parser.
  */
- protected String unvisitedString(Vector visited) {
+ protected String unvisitedString(List visited) {
 	return subparser.toString(visited) + "*";
 }
 }
