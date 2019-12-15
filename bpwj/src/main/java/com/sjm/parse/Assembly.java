@@ -25,7 +25,7 @@ import com.sjm.utensil.*;
 public abstract class Assembly implements Enumeration, PubliclyCloneable {
 
     /*
-     * a place to keep track of consumption progress
+     * a place to keep track of consumption progress FASHION10
      */
     protected Stack stack = new Stack();
 

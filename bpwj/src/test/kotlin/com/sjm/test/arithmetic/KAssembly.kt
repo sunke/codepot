@@ -1,11 +1,14 @@
 package com.sjm.test.arithmetic
 
+/**
+ * An assembly provides a parser with a work area.
+ */
 abstract class KAssembly<T>(val delimiter: String = "") {
 
     var stack = mutableListOf<T>()
 
     // which element is next
-    private var index = 0
+    protected var index = 0
 
     fun push(t: T) {
         stack.add(t)
@@ -45,6 +48,9 @@ abstract class KAssembly<T>(val delimiter: String = "") {
      * @return the next object
      */
     abstract fun peek(): T?
+
+
+    abstract fun nextElement(): T?
 
     /**
      * @return the number of elements that have been consumed.

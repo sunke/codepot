@@ -1,5 +1,7 @@
 package com.sjm.test.arithmetic
 
+import com.sjm.parse.tokens.Token
+
 class KCharacterAssembly() : KAssembly<Char>() {
     private var string: String = ""
 
@@ -20,5 +22,7 @@ class KCharacterAssembly() : KAssembly<Char>() {
 
     override fun length() = string.length
 
-    override fun peek(): Char? = if (elementsConsumed() >= length() - 1) null else string[elementsConsumed() + 1]
+    override fun peek(): Char? = if (elementsConsumed() >= length() - 1) null else string[index + 1]
+
+    override fun nextElement(): Char? = if (elementsConsumed() >= length() - 1) null else string[index++]
 }

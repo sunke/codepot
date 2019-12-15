@@ -1,6 +1,6 @@
 package com.sjm.test.arithmetic
 
-class KRepetition<T>(val subparser: KParser<T>) : KParser<T>() {
+class KRepetition<T>(private val subparser: KParser<T>) : KParser<T>() {
 
     override fun match(assemblies: List<KAssembly<T>>): List<KAssembly<T>> {
         var out = assemblies.toMutableList()

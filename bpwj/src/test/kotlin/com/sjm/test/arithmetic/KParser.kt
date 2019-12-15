@@ -1,7 +1,9 @@
 package com.sjm.test.arithmetic
 
 
-
+/**
+ * A parser is an object that recognizes a language.
+ */
 abstract class KParser<T> {
     private var assembler: KAssembler<T>? = null
 

@@ -25,5 +25,7 @@ class KTokenAssembly() : KAssembly<Token>() {
 
     override fun length() = tokens.size
 
-    override fun peek(): Token? = if (elementsConsumed() >= length() - 1) null else tokens[elementsConsumed() + 1]
+    override fun peek(): Token? = if (elementsConsumed() >= length() - 1) null else tokens[index + 1]
+
+    override fun nextElement(): Token? = if (elementsConsumed() >= length() - 1) null else tokens[index++]
 }
