@@ -9,16 +9,15 @@ import com.sjm.parse.tokens.Symbol
 import com.sjm.parse.tokens.TokenAssembly
 
 /**
- * This class provides a parser that recognizes arithmetic expressions. This class includes the method
- * `value`, which is a "facade" that provides an example and makes the parser easy to use. For example,
+ * This class provides a parser that recognizes arithmetic expressions. It includes the method `value`,
+ * which is a "facade" that makes the parser easy to use. For example,
  *
  * ```
  * System.out.println(ArithmeticParser.value("(5 + 4) * 3 ^ 2 - 81"));
  * ```
  * This prints out `0.0`.
  *
- * This class exists to show how a simple arithmetic parser works. It recognizes expressions according to
- * the following rules:
+ * This parser recognizes expressions according to the following rules:
  *
  * ```
  * expression    = term (plusTerm | minusTerm)*;
@@ -37,6 +36,7 @@ import com.sjm.parse.tokens.TokenAssembly
  * the rules. In other words, the rules may look simple, but their structure is subtle.
  *
  * @author Steven J. Metsker, Alan K. Sun
+ *
  * @version 2.0
  */
 class ArithmeticParser {
@@ -45,22 +45,17 @@ class ArithmeticParser {
 
     companion object {
         const val ERR_IMPROPERLY_FORMED = "Improperly formed arithmetic expression"
-        private const val ERR_INTERNAL = "Internal error in ArithmeticParser"
+        const val ERR_INTERNAL_ERROR = "Internal error in ArithmeticParser"
 
         fun start(): Parser = ArithmeticParser().expression()
 
         /**
-         * Return the value of an arithmetic expression given in a string. This method is a facade, which provides an
-         * example of how to use the parser.
-         *
-         * @param s the string to evaluate.
-         *
-         * @return the value of an arithmetic expression given in a string
+         * Return the value of an arithmetic expression given in a string.
          */
         fun value(s: String): Double {
             val x = start().completeMatch(TokenAssembly(s))
                     ?: throw RuntimeException(ERR_IMPROPERLY_FORMED)
-            return x.pop() as? Double ?: throw RuntimeException(ERR_INTERNAL)
+            return x.pop() as? Double ?: throw RuntimeException(ERR_INTERNAL_ERROR)
         }
     }
 
