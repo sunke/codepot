@@ -1,76 +1,56 @@
 package com.sjm.test.arithmetic
 
+import com.sjm.parse.tokens.Token
+
 /**
  * An assembly provides a parser with a work area.
  */
-abstract class KAssembly<T>(val delimiter: String = "") {
+open class KAssembly<T>(private val delimiter: String = ",") {
 
-    var stack = mutableListOf<T>()
+    // store the intermediate or final parsing result
+    private var resultStack = mutableListOf<Any>()
 
-    // which element is next
-    protected var index = 0
+    fun push(t: Any) = apply { resultStack.add(t) }
 
-    fun push(t: T) {
-        stack.add(t)
+    fun pop(): Any? = if (resultStack.isNotEmpty()) resultStack.removeAt(resultStack.size - 1) else null
+
+
+    // store the input items. The items can be tokens or characters
+    private var itemList = mutableListOf<T>()
+
+    private var consumedItemPos = 0
+
+    fun peekItem(): T? = if (consumedItemPos < itemList.size) itemList[consumedItemPos] else null
+
+    fun nextItem(): T? = if (consumedItemPos < itemList.size) itemList[consumedItemPos++] else null
+
+    // return true if this assembly has more items to consume.
+    fun hasMoreItem() = peekItem() != null
+
+    // return the number of items in this assembly
+    fun itemNr() = itemList.size
+
+    // return the number of items that have been consumed.
+    fun consumedItemNr() = consumedItemPos
+
+    // return the number of items that have not been consumed.
+    fun remainItemNr() = itemNr() - consumedItemNr()
+
+    fun clone(): KAssembly<T> {
+        val clone = KAssembly<T>()
+        clone.resultStack = this.resultStack.toMutableList()
+        clone.itemList = this.itemList.toMutableList()
+        clone.consumedItemPos = this.consumedItemPos
+        return clone
     }
 
-    fun pop(): T? {
-        val item: T? = stack.lastOrNull()
-        if (stack.isNotEmpty()) {
-            stack.removeAt(stack.size - 1)
-        }
-        return item
-    }
+    override fun toString() = resultStack.toString() + "|" + consumedItems() + "^" + remainItems()
 
-    /**
-     * @return a string presentation of the elements of the assembly that have been consumed.
-     *
-     * @param delimiter the mark to show between consumed elements
-     */
-    abstract fun consumed(delimiter: String): String
+    private fun consumedItems(): String = itemList.subList(0, consumedItemNr()).joinToString(separator = delimiter)
 
-    /**
-     * @return the elements of the assembly that remain to be
-     * consumed, separated by the specified delimiter.
-     *
-     * @param delimiter the mark to show between unconsumed elements
-     */
-    abstract fun remainder(delimiter: String): String
-
-    /**
-     * @return the number of elements in this assembly
-     */
-    abstract fun length(): Int
-
-    /**
-     * Shows the next object in the assembly, without removing it
-     *
-     * @return the next object
-     */
-    abstract fun peek(): T?
-
-
-    abstract fun nextElement(): T?
-
-    /**
-     * @return the number of elements that have been consumed.
-     */
-    fun elementsConsumed() = index
-
-    /**
-     * @return the number of elements that have not been consumed.
-     */
-    fun elementsRemaining() = length() - elementsConsumed()
-
-    /**
-     * @return true if this assembly has more elements to consume.
-     */
-    fun hasMoreElements() = elementsConsumed() < length()
-
-    /**
-     * @return true, if this assembly's stack is empty
-     */
-    fun isStackEmpty() = stack.isEmpty()
-
-    override fun toString()= stack.toString() + consumed(delimiter) + "^" + remainder(delimiter)
+    private fun remainItems(): String = itemList.subList(consumedItemNr(), itemNr()).joinToString(separator = delimiter)
 }
+
+class KTokenAssembly: KAssembly<Token>()
+
+class KCharAsseembly: KAssembly<Char>()

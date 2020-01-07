@@ -2,26 +2,10 @@ package com.sjm.test.arithmetic
 
 import com.sjm.parse.tokens.Token
 
-class KSymbol(val symbol: Token) : KParser<Token>() {
+class KSymbol(var symbol: Token): KTerminal("Symbol") {
 
-    private var discard = false
+    constructor(ch: Char): this(ch.toString())
+    constructor(str: String): this(Token(Token.TT_SYMBOL, str, 0.0))
 
-    override fun match(assemblies: List<KAssembly<Token>>): List<KAssembly<Token>> {
-        var out = mutableListOf<KAssembly<Token>>()
-        assemblies.forEach {
-            if (it.hasMoreElements() && qualifies(it.peek())) {
-                var out = it // clone
-                val t = out.nextElement()
-                if (!discard) {
-                    out.push(t!!)
-                }
-            }
-        }
-        return out;
-    }
-
-    fun discard() = apply { discard = true }
-
-    private fun qualifies(token: Token?) = symbol == token
-
+    override fun qualify(token: Token) = symbol == token
 }
