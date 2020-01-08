@@ -50,7 +50,7 @@ class KArithmeticParser {
          * Return the value of an arithmetic expression given in a string.
          */
         fun value(s: String): Double {
-            val x = start().completeMatch(KAssembly<Token>(s))
+            val x = start().completeMatch(KTokenAssembly(s))
                     ?: throw RuntimeException(ERR_IMPROPERLY_FORMED)
             return x.pop() as? Double ?: throw RuntimeException(ERR_INTERNAL_ERROR)
         }

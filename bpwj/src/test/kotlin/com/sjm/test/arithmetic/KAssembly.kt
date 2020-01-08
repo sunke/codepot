@@ -1,6 +1,7 @@
 package com.sjm.test.arithmetic
 
 import com.sjm.parse.tokens.Token
+import com.sjm.parse.tokens.Tokenizer
 
 /**
  * An assembly provides a parser with a work area.
@@ -8,7 +9,7 @@ import com.sjm.parse.tokens.Token
 open class KAssembly<T>(private val delimiter: String = ",") {
 
     // store the intermediate or final parsing result
-    private var resultStack = mutableListOf<Any>()
+    var resultStack = mutableListOf<Any>()
 
     fun push(t: Any) = apply { resultStack.add(t) }
 
@@ -16,7 +17,7 @@ open class KAssembly<T>(private val delimiter: String = ",") {
 
 
     // store the input items. The items can be tokens or characters
-    private var itemList = mutableListOf<T>()
+    var itemList = mutableListOf<T>()
 
     private var consumedItemPos = 0
 
@@ -51,6 +52,15 @@ open class KAssembly<T>(private val delimiter: String = ",") {
     private fun remainItems(): String = itemList.subList(consumedItemNr(), itemNr()).joinToString(separator = delimiter)
 }
 
-class KTokenAssembly(): KAssembly<Token>()
+class KTokenAssembly(str: String): KAssembly<Token>() {
+    init {
+        val tokenizer = Tokenizer(str)
+        var next = tokenizer.nextToken()
+        while (next != Token.EOF) {
+            itemList.add(next)
+            next = tokenizer.nextToken()
+        }
+    }
+}
 
 class KCharAsseembly: KAssembly<Char>()
