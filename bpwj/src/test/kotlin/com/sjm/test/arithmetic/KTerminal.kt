@@ -2,7 +2,7 @@ package com.sjm.test.arithmetic
 
 import com.sjm.parse.tokens.Token
 
-abstract class KTerminal(name: String = "Terminal"): KParser<Token>() {
+abstract class KTerminal(name: String): KParser<Token>(name) {
 
     private var discard = false
 
@@ -12,15 +12,15 @@ abstract class KTerminal(name: String = "Terminal"): KParser<Token>() {
     }
 
     override fun match(assemblies: List<KAssembly<Token>>): List<KAssembly<Token>> {
-        var out = mutableListOf<KAssembly<Token>>()
-        assemblies.forEach {
-              if (it.hasMoreItem() && qualify(it.peekItem()!!)) {
-                  val ay = it.clone()
-                  if (!discard) ay.push(it.nextItem()!!)
-                  out.add(ay)
-             }
-        }
-        return out;
+        var result = mutableListOf<KAssembly<Token>>()
+        assemblies.filter{ it -> it.hasMoreItem() && qualify(it.peekItem()!!)}
+                .forEach {
+                    val next = it.nextItem()!!
+                    val clone = it.clone()
+                    if (!discard) clone.push(next)
+                    result.add(clone)
+                }
+        return result;
     }
 
     abstract fun qualify(token: Token): Boolean
