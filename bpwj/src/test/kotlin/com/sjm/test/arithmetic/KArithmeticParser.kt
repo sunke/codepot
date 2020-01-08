@@ -1,10 +1,7 @@
 package com.sjm.test.arithmetic
 
-import com.sjm.parse.Alternation
-import com.sjm.parse.Repetition
-import com.sjm.parse.Sequence
-import com.sjm.parse.tokens.Num
-import com.sjm.parse.tokens.Symbol
+import com.sjm.examples.arithmetic.ArithmeticParser
+import com.sjm.parse.Parser
 import com.sjm.parse.tokens.Token
 
 /**
@@ -41,24 +38,23 @@ import com.sjm.parse.tokens.Token
 class KArithmeticParser {
 
     private lateinit var exp: KSequence<Token>
-    private lateinit var factor: KAlternation<Token>
+    private lateinit var fac: KAlternation<Token>
 
-//    companion object {
-//        const val ERR_IMPROPERLY_FORMED = "Improperly formed arithmetic expression"
-//        const val ERR_INTERNAL_ERROR = "Internal error in ArithmeticParser"
-//
-//        //fun start(): KParser<Token> = KArithmeticParser().expression()
-//
-//        /**
-//         * Return the value of an arithmetic expression given in a string.
-//         */
-//        fun value(s: String): Double {
-//            val x = start().completeMatch(KAssembly<Token>(s))
-//                    ?: throw RuntimeException(ERR_IMPROPERLY_FORMED)
-//            return x.pop() as? Double ?: throw RuntimeException(ERR_INTERNAL_ERROR)
-//        }
-//    }
+    companion object {
+        const val ERR_IMPROPERLY_FORMED = "Improperly formed arithmetic expression"
+        const val ERR_INTERNAL_ERROR = "Internal error in ArithmeticParser"
 
+        fun start(): KParser<Token> = KArithmeticParser().expression()
+
+        /**
+         * Return the value of an arithmetic expression given in a string.
+         */
+        fun value(s: String): Double {
+            val x = start().completeMatch(KAssembly<Token>(s))
+                    ?: throw RuntimeException(ERR_IMPROPERLY_FORMED)
+            return x.pop() as? Double ?: throw RuntimeException(ERR_INTERNAL_ERROR)
+        }
+    }
 
     /**
      * Returns a parser that will recognize an arithmetic expression.
@@ -129,15 +125,15 @@ class KArithmeticParser {
          * This use of a static variable avoids the infinite recursion inherent in the grammar; factor depends
          * on expFactor, and expFactor depends on factor.
          */
-        if (factor == null) {
-            factor = KAlternation<Token>()
+        if(!this::fac.isInitialized) {
+            fac = KAlternation<Token>()
             val s = KSequence<Token>()
             s.add(phrase())
             s.add(expFactor())
-            factor.add(s)
-            factor.add(phrase())
+            fac.add(s)
+            fac.add(phrase())
         }
-        return factor
+        return fac
     }
 
     /**

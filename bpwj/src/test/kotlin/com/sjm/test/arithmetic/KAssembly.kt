@@ -51,6 +51,6 @@ open class KAssembly<T>(private val delimiter: String = ",") {
     private fun remainItems(): String = itemList.subList(consumedItemNr(), itemNr()).joinToString(separator = delimiter)
 }
 
-class KTokenAssembly: KAssembly<Token>()
+class KTokenAssembly(): KAssembly<Token>()
 
 class KCharAsseembly: KAssembly<Char>()

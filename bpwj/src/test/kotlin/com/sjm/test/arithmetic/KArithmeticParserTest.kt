@@ -2,11 +2,17 @@ package com.sjm.test.arithmetic
 
 import com.sjm.parse.tokens.TokenAssembly
 import com.sjm.test.ParserTester
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
-import org.junit.jupiter.api.Test
+import io.kotlintest.matchers.shouldBe
 
-internal class KArithmeticParserTest {
+import io.kotlintest.specs.FunSpec
+
+class KArithmeticParserTest: FunSpec() {
+
+    init {
+        test("Test operator associativity") {
+            KArithmeticParser.Companion.value("7 - 3 - 1") shouldBe 3.0
+        }
+    }
 
 //    @Test
 //    fun testAssociativity() {
@@ -45,7 +51,7 @@ internal class KArithmeticParserTest {
 //    fun testRandomExpressions() {
 //        ParserTester(KArithmeticParser.start(), false).test(::TokenAssembly)
 //    }
-
+//
 //    companion object {
 //        private fun assertResult(s: String, d: Double) {
 //            assertEquals(d, KArithmeticParser.Companion.value(s))
