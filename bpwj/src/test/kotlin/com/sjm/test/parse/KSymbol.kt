@@ -1,8 +1,8 @@
-package com.sjm.test.arithmetic
+package com.sjm.test.parse
 
 import com.sjm.parse.tokens.Token
 
-class KSymbol(var symbol: Token): KTerminal("Symbol") {
+class KSymbol(var symbol: Token, name: String = "Symbol"): KTerminal(name) {
 
     constructor(ch: Char): this(ch.toString())
     constructor(str: String): this(Token(Token.TT_SYMBOL, str, 0.0))

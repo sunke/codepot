@@ -1,8 +1,7 @@
 package com.sjm.test.arithmetic
 
-import com.sjm.examples.arithmetic.ArithmeticParser
-import com.sjm.parse.Parser
 import com.sjm.parse.tokens.Token
+import com.sjm.test.parse.*
 
 /**
  * This class provides a parser that recognizes arithmetic expressions. It includes the method `value`,
@@ -35,26 +34,20 @@ import com.sjm.parse.tokens.Token
  *
  * @version 2.0
  */
+
+const val ERR_IMPROPERLY_FORMED = "Improperly formed arithmetic expression"
+const val ERR_INTERNAL_ERROR = "Internal error in ArithmeticParser"
+
+fun calculate(exp: String): Double {
+    val parser = KArithmeticParser().expression()
+    val value = parser.completeMatch(KTokenAssembly(exp)) ?: throw RuntimeException(ERR_IMPROPERLY_FORMED)
+    return value.pop() as? Double ?: throw RuntimeException(ERR_INTERNAL_ERROR)
+}
+
 class KArithmeticParser {
 
-    private lateinit var exp: KSequence<Token>
-    private lateinit var fac: KAlternation<Token>
-
-    companion object {
-        const val ERR_IMPROPERLY_FORMED = "Improperly formed arithmetic expression"
-        const val ERR_INTERNAL_ERROR = "Internal error in ArithmeticParser"
-
-        fun start(): KParser<Token> = KArithmeticParser().expression()
-
-        /**
-         * Return the value of an arithmetic expression given in a string.
-         */
-        fun value(s: String): Double {
-            val x = start().completeMatch(KTokenAssembly(s))
-                    ?: throw RuntimeException(ERR_IMPROPERLY_FORMED)
-            return x.pop() as? Double ?: throw RuntimeException(ERR_INTERNAL_ERROR)
-        }
-    }
+    private lateinit var expr: KSequence<Token>
+    private lateinit var fact: KAlternation<Token>
 
     /**
      * Returns a parser that will recognize an arithmetic expression.
@@ -66,15 +59,15 @@ class KArithmeticParser {
      * @return a parser that will recognize an arithmetic expression
      */
     fun expression(): KParser<Token> {
-        if (!this::exp.isInitialized) {
-            exp = KSequence<Token>("expression")
-            exp.add(term())
-            val a = KAlternation<Token>()
-            a.add(plusTerm())
-            a.add(minusTerm())
-            exp.add(KRepetition<Token>(a))
+        if (!this::expr.isInitialized) {
+            expr = KSequence("Expression")
+            expr.add(term())
+            val alt = KAlternation<Token>()
+            alt.add(plusTerm())
+            alt.add(minusTerm())
+            expr.add(KRepetition(alt))
         }
-        return exp
+        return expr
     }
 
     /**
@@ -87,11 +80,11 @@ class KArithmeticParser {
      * This parser has an assembler that will pop two numbers from the stack and push their quotient.
      */
     private fun divideFactor(): KParser<Token> {
-        val s = KSequence<Token>()
-        s.add(KSymbol('/').discard())
-        s.add(factor())
-        s.setAssembler(KDivideAssembler())
-        return s
+        val div = KSequence<Token>("Division")
+        div.add(KSymbol('/').discard())
+        div.add(factor())
+        div.setAssembler(KDivideAssembler())
+        return div
     }
 
     /**
@@ -105,11 +98,11 @@ class KArithmeticParser {
      * exponentiation the lower number to the upper one.
      */
     private fun expFactor(): KParser<Token> {
-        val s = KSequence<Token>()
-        s.add(KSymbol('^').discard())
-        s.add(factor())
-        s.setAssembler(KExpAssembler())
-        return s
+        val exp = KSequence<Token>("Exponential")
+        exp.add(KSymbol('^').discard())
+        exp.add(factor())
+        exp.setAssembler(KExpAssembler())
+        return exp
     }
 
 
@@ -125,15 +118,15 @@ class KArithmeticParser {
          * This use of a static variable avoids the infinite recursion inherent in the grammar; factor depends
          * on expFactor, and expFactor depends on factor.
          */
-        if(!this::fac.isInitialized) {
-            fac = KAlternation<Token>()
-            val s = KSequence<Token>()
-            s.add(phrase())
-            s.add(expFactor())
-            fac.add(s)
-            fac.add(phrase())
+        if(!this::fact.isInitialized) {
+            fact = KAlternation("Factor")
+            val seq = KSequence<Token>()
+            seq.add(phrase())
+            seq.add(expFactor())
+            fact.add(seq)
+            fact.add(phrase())
         }
-        return fac
+        return fact
     }
 
     /**
@@ -146,11 +139,11 @@ class KArithmeticParser {
      * This parser has an assembler that will pop two numbers from the stack and push their difference.
      */
     private fun minusTerm(): KParser<Token> {
-        val s = KSequence<Token>()
-        s.add(KSymbol('-').discard())
-        s.add(term())
-        s.setAssembler(KMinusAssembler())
-        return s
+        val minus = KSequence<Token>("Minus")
+        minus.add(KSymbol('-').discard())
+        minus.add(term())
+        minus.setAssembler(KMinusAssembler())
+        return minus
     }
 
     /**
@@ -165,12 +158,12 @@ class KArithmeticParser {
      * Double value.
      */
     private fun phrase(): KParser<Token> {
-        val phrase = KAlternation<Token>()
-        val s = KSequence<Token>()
-        s.add(KSymbol('(').discard())
-        s.add(expression())
-        s.add(KSymbol(')').discard())
-        phrase.add(s)
+        val phrase = KAlternation<Token>("Phrase")
+        val seq = KSequence<Token>()
+        seq.add(KSymbol('(').discard())
+        seq.add(expression())
+        seq.add(KSymbol(')').discard())
+        phrase.add(seq)
         phrase.add(KNum().setAssembler(KNumAssembler()))
         return phrase
     }
@@ -185,11 +178,11 @@ class KArithmeticParser {
      * This parser has an assembler that will pop two numbers from the stack and push their sum.
      */
     private fun plusTerm(): KParser<Token> {
-        val s = KSequence<Token>()
-        s.add(KSymbol('+').discard())
-        s.add(term())
-        s.setAssembler(KPlusAssembler())
-        return s
+        val plus = KSequence<Token>("Plus")
+        plus.add(KSymbol('+').discard())
+        plus.add(term())
+        plus.setAssembler(KPlusAssembler())
+        return plus
     }
 
     /**
@@ -200,13 +193,13 @@ class KArithmeticParser {
      * ```
      */
     private fun term(): KParser<Token> {
-        val s = KSequence<Token>()
-        s.add(factor())
-        val a = KAlternation<Token>()
-        a.add(timesFactor())
-        a.add(divideFactor())
-        s.add(KRepetition<Token>(a))
-        return s
+        val term = KSequence<Token>("Term")
+        term.add(factor())
+        val alt = KAlternation<Token>()
+        alt.add(timesFactor())
+        alt.add(divideFactor())
+        term.add(KRepetition(alt))
+        return term
     }
 
     /**
@@ -219,10 +212,10 @@ class KArithmeticParser {
      * This parser has an assembler that will pop two numbers from the stack and push their product.
      */
     private fun timesFactor(): KParser<Token> {
-        val s = KSequence<Token>()
-        s.add(KSymbol('*').discard())
-        s.add(factor())
-        s.assembler = KTimesAssembler()
-        return s
+        val time = KSequence<Token>("Times")
+        time.add(KSymbol('*').discard())
+        time.add(factor())
+        time.setAssembler(KTimesAssembler())
+        return time
     }
 }

@@ -1,6 +1,8 @@
 package com.sjm.test.arithmetic
 
 import com.sjm.parse.tokens.Token
+import com.sjm.test.parse.KAssembly
+import com.sjm.test.parse.KTokenAssembler
 import kotlin.math.pow
 
 class KDivideAssembler : KTokenAssembler() {

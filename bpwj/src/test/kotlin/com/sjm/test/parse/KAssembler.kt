@@ -1,4 +1,4 @@
-package com.sjm.test.arithmetic
+package com.sjm.test.parse
 
 import com.sjm.parse.tokens.Token
 

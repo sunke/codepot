@@ -10,7 +10,7 @@ class KArithmeticParserTest: FunSpec() {
 
     init {
         test("Test operator associativity") {
-            KArithmeticParser.Companion.value("7 - 3 - 1") shouldBe 3.0
+            calculate("7 - 3 - 1") shouldBe 3.0
         }
     }
 

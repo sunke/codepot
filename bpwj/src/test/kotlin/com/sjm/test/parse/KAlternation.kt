@@ -1,6 +1,6 @@
-package com.sjm.test.arithmetic
+package com.sjm.test.parse
 
-class KAlternation<T>(name: String = "Alternation") : KParser<T>() {
+class KAlternation<T>(name: String = "Alternation") : KParser<T>(name) {
 
     private var subParsers = mutableListOf<KParser<T>>()
 

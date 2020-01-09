@@ -1,4 +1,4 @@
-package com.sjm.test.arithmetic
+package com.sjm.test.parse
 
 class KRepetition<T>(private val subParser: KParser<T>) : KParser<T>(name = "Repetition") {
 

@@ -1,4 +1,4 @@
-package com.sjm.test.arithmetic
+package com.sjm.test.parse
 
 class KSequence<T>(name: String = "Sequence"): KParser<T>(name) {
 
