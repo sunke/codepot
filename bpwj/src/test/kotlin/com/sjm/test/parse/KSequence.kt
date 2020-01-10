@@ -8,13 +8,13 @@ class KSequence<T>(name: String = "Sequence"): KParser<T>(name) {
 
     override fun match(assemblies: List<KAssembly<T>>): List<KAssembly<T>> {
         //subParsers.fold(assemblies) { ays, p -> p.matchAndAssemble(ays) }
-        var ays = assemblies
+        var out = assemblies
         for (p in subParsers) {
-            ays = p.matchAndAssemble(ays)
-            if (ays.isEmpty()) {
-                return ays
+            out = p.matchAndAssemble(out)
+            if (out.isEmpty()) {
+                return out
             }
         }
-        return ays
+        return out
     }
 }

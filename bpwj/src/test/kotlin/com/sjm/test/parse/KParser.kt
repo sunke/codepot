@@ -18,7 +18,7 @@ abstract class KParser<T>(val name: String = "") {
     }
 
     fun bestMatch(assembly: KAssembly<T>): KAssembly<T>? {
-        return matchAndAssemble(listOf(assembly)).minBy { it.consumedItemNr() }
+        return matchAndAssemble(listOf(assembly)).minBy { it.remainItemNr() }
     }
 
     fun matchAndAssemble(assemblies: List<KAssembly<T>>): List<KAssembly<T>> {

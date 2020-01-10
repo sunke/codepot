@@ -62,10 +62,10 @@ class KArithmeticParser {
         if (!this::expr.isInitialized) {
             expr = KSequence("Expression")
             expr.add(term())
-            val alt = KAlternation<Token>()
+            val alt = KAlternation<Token>("Expression-Alternation")
             alt.add(plusTerm())
             alt.add(minusTerm())
-            expr.add(KRepetition(alt))
+            expr.add(KRepetition(alt, "Expression-Repetition"))
         }
         return expr
     }
@@ -120,7 +120,7 @@ class KArithmeticParser {
          */
         if(!this::fact.isInitialized) {
             fact = KAlternation("Factor")
-            val seq = KSequence<Token>()
+            val seq = KSequence<Token>("Factor-Sequence")
             seq.add(phrase())
             seq.add(expFactor())
             fact.add(seq)

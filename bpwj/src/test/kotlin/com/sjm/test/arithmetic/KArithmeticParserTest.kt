@@ -9,8 +9,16 @@ import io.kotlintest.specs.FunSpec
 class KArithmeticParserTest: FunSpec() {
 
     init {
-        test("Test operator associativity") {
+        test("Test operator minus associativity") {
             calculate("7 - 3 - 1") shouldBe 3.0
+        }
+
+        test("Test operator exp associativity") {
+            calculate("2 ^ 1 ^ 4") shouldBe 2.0
+        }
+
+        test("Test parentheses") {
+            calculate("((3 * 7) + (11 * 3)) / 3") shouldBe 18.0
         }
     }
 

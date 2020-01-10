@@ -13,8 +13,8 @@ abstract class KTerminal(name: String, private var discard: Boolean = false) : K
         val out = mutableListOf<KAssembly<Token>>()
         assemblies.filter { it.hasMoreItem() && qualify(it.peekItem()!!) }
                 .forEach {
-                    val next = it.nextItem()!!
                     val clone = it.clone()
+                    val next = clone.nextItem()!!
                     if (!discard) clone.push(next)
                     out.add(clone)
                 }
