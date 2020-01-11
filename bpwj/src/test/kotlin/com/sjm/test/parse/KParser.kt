@@ -22,6 +22,7 @@ abstract class KParser<T>(val name: String = "") {
     }
 
     fun matchAndAssemble(assemblies: List<KAssembly<T>>): List<KAssembly<T>> {
+        println(name)
         return match(assemblies).apply { forEach { assembler?.workOn(it) } }
     }
 

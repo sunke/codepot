@@ -62,10 +62,10 @@ class KArithmeticParser {
         if (!this::expr.isInitialized) {
             expr = KSequence("Expression")
             expr.add(term())
-            val alt = KAlternation<Token>("Expression-Alternation")
+            val alt = KAlternation<Token>()
             alt.add(plusTerm())
             alt.add(minusTerm())
-            expr.add(KRepetition(alt, "Expression-Repetition"))
+            expr.add(KRepetition(alt))
         }
         return expr
     }
@@ -98,7 +98,7 @@ class KArithmeticParser {
      * exponentiation the lower number to the upper one.
      */
     private fun expFactor(): KParser<Token> {
-        val exp = KSequence<Token>("Exponential")
+        val exp = KSequence<Token>("ExpFactor")
         exp.add(KSymbol('^').discard())
         exp.add(factor())
         exp.setAssembler(KExpAssembler())
@@ -120,7 +120,7 @@ class KArithmeticParser {
          */
         if(!this::fact.isInitialized) {
             fact = KAlternation("Factor")
-            val seq = KSequence<Token>("Factor-Sequence")
+            val seq = KSequence<Token>()
             seq.add(phrase())
             seq.add(expFactor())
             fact.add(seq)
@@ -139,7 +139,7 @@ class KArithmeticParser {
      * This parser has an assembler that will pop two numbers from the stack and push their difference.
      */
     private fun minusTerm(): KParser<Token> {
-        val minus = KSequence<Token>("Minus")
+        val minus = KSequence<Token>("MinusTerm")
         minus.add(KSymbol('-').discard())
         minus.add(term())
         minus.setAssembler(KMinusAssembler())
@@ -178,7 +178,7 @@ class KArithmeticParser {
      * This parser has an assembler that will pop two numbers from the stack and push their sum.
      */
     private fun plusTerm(): KParser<Token> {
-        val plus = KSequence<Token>("Plus")
+        val plus = KSequence<Token>("PlusTerm")
         plus.add(KSymbol('+').discard())
         plus.add(term())
         plus.setAssembler(KPlusAssembler())
@@ -212,7 +212,7 @@ class KArithmeticParser {
      * This parser has an assembler that will pop two numbers from the stack and push their product.
      */
     private fun timesFactor(): KParser<Token> {
-        val time = KSequence<Token>("Times")
+        val time = KSequence<Token>("TimesFactor")
         time.add(KSymbol('*').discard())
         time.add(factor())
         time.setAssembler(KTimesAssembler())
