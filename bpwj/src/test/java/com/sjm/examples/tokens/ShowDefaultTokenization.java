@@ -21,10 +21,10 @@ public class ShowDefaultTokenization {
 /**
  * Show some aspects of default tokenization.
  */
-public static void main(String args[]) throws IOException {
+public static void main(String[] args) throws IOException {
 	Tokenizer t = new Tokenizer(">give 2receive");
 
-	Token manual[] = new Token[] {
+	Token[] manual = new Token[] {
 		new Token(Token.TT_SYMBOL, ">",        0),
 		new Token(Token.TT_WORD,   "give",     0),
 		new Token(Token.TT_NUMBER, "",       2.0),

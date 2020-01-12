@@ -24,7 +24,7 @@ public class ShowVacation {
  * Using a <code>VerboseRepetition</code>, show the progress 
  * a repetition makes during matching.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 
 	Parser prepare = new Alternation()
 		.add(new Literal("plan").discard())

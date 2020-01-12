@@ -357,7 +357,7 @@ public Unification unify(Structure s) {
 		return null;
 	}
 	Unification u = new Unification(); 
-	Term others[] = s.terms();
+	Term[] others = s.terms();
 	for (int i = 0; i < terms().length; i++) {
 		Unification subUnification = terms()[i].unify(others[i]);
 		if (subUnification == null) {

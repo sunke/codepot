@@ -20,7 +20,7 @@ public class ShowStructureEvaluation {
 /**
  * Show the evaluation of a structure.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	Atom a = new Atom("maine");
 	Object o = a.eval();
 	System.out.println("" + a + o);

@@ -92,10 +92,7 @@ public boolean equals(Object o) {
 	if (!equal(country, c.country)) {
 		return false;
 	}
-	if (price != c.price) {
-		return false;
-	}
-	return true;
+    return price == c.price;
 }
 /**
  * Return true, if we offer a french roast version of this

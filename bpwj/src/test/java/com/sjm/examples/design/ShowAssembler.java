@@ -24,7 +24,7 @@ public class ShowAssembler {
  * Show how to use an assembler to calculate the average 
  * length of words in a string.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 
 	// As Polonius says, in "Hamlet"...
 	String quote = "Brevity is the soul of wit";

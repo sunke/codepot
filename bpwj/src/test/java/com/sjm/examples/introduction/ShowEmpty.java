@@ -28,7 +28,7 @@ public class ShowEmpty {
  * commas. That is, an actual list is a word followed by
  * zero or more sequences of (comma, word).
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	
 	Parser empty, commaTerm, actualList, contents, list;
 
@@ -51,7 +51,7 @@ public static void main(String args[]) {
 		.add(contents)
 		.add(new Symbol(']').discard());
 
-	String test[] = new String[]{ 
+	String[] test = new String[]{
 		"[die_bonder_2, oven_7, wire_bonder_3, mold_1]",
 		"[]",
 		"[mold_1]"};

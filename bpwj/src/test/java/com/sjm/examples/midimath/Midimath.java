@@ -50,7 +50,7 @@ public Parser expression() {
 /**
  * Demonstrate a parser for Midimath.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	Assembly out = new Midimath().expression().bestMatch(
 		new TokenAssembly("2 + 3 * 7 + 19"));
 	System.out.println(out.pop());

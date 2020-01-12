@@ -23,5 +23,5 @@ public interface PubliclyCloneable extends Cloneable {
  * 
  * @return   a copy of the receiving object
  */
-public Object clone();
+Object clone();
 }

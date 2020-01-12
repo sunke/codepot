@@ -23,7 +23,7 @@ public class ShowCycle {
  * Show that a parser that contains a cycle prints 
  * itself without looping.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 
 	// ticks = "tick" | "tick" ticks;
 	

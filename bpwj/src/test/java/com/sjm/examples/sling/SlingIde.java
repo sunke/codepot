@@ -124,7 +124,7 @@ protected JPanel lowerPanel() {
 /**
  * Launch a Sling interactive development environment.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	com.sjm.utensil.SwingUtensil.launch(
 		new SlingIde().mainPane(), "Sling");}
 /*

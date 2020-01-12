@@ -55,11 +55,11 @@ public static Parser list() {
 /**
  * Show some examples of using a <code>Track</code>.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	
 	Parser list = list();
 	
-	String test[] = new String[] {
+	String[] test = new String[] {
 		"()", 
 		"(pilfer)", 
 		"(pilfer, pinch)", 

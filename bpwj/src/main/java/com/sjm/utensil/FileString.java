@@ -34,7 +34,7 @@ public static String stringFromFileNamed(String fileName)
 	throws java.io.IOException {
 		
 	final int BUFLEN = 1024;
-	char buf[] = new char[BUFLEN];
+	char[] buf = new char[BUFLEN];
 	
 	FileReader in = new FileReader(fileName);
 	StringWriter out = new StringWriter();

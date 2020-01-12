@@ -55,7 +55,7 @@ public class ShowCoffeeXML extends DefaultHandler {
      * @param len   The number of characters to use from
      *              the character array
      */
-    public void characters(char ch[], int start, int len) {
+    public void characters(char[] ch, int start, int len) {
         if (helper != null) {
             helper.characters(
                     new String(ch, start, len), coffees);
@@ -94,7 +94,7 @@ public class ShowCoffeeXML extends DefaultHandler {
     /**
      * Show how to recognize coffees in an XML file.
      */
-    public static void main(String argv[]) throws Exception {
+    public static void main(String[] argv) throws Exception {
         SAXParser parser = new SAXParser();
         ShowCoffeeXML x = new ShowCoffeeXML();
         parser.setContentHandler(x);

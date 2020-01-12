@@ -22,7 +22,7 @@ public class ShowAlternationBasic {
 /**
  * Just show the basics of alternation.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	
 	Alternation a = new Alternation();
 	a.add(new Literal("steaming"));

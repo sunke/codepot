@@ -19,7 +19,7 @@ import java.io.*;
  * @version 1.0 
  */
 public class WhitespaceState extends TokenizerState {
-	protected boolean whitespaceChar[] = new boolean[256];
+	protected boolean[] whitespaceChar = new boolean[256];
 /**
  * Constructs a whitespace state with a default idea of what
  * characters are, in fact, whitespace.

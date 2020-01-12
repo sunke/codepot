@@ -21,7 +21,7 @@ public class ShowTokenizer {
 /**
  * Show a default Tokenizer at work.
  */
-public static void main(String args[]) throws IOException {
+public static void main(String[] args) throws IOException {
 	
 	String s =
 	

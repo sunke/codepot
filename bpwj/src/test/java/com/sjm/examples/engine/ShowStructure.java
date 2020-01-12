@@ -20,7 +20,7 @@ public class ShowStructure {
 /**
  * Show a simple structure.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	Structure denver = new Structure("denver");
 	Structure altitude = new Structure(new Integer(5280));
 	Structure city = new Structure(

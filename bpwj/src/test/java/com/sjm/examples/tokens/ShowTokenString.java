@@ -25,7 +25,7 @@ public class ShowTokenString {
 /**
  * Show a collaboration of token-related objects.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 
 	// a parser that counts words
 	

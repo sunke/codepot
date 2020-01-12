@@ -64,7 +64,7 @@ public Symbol(String s) {
  *           token from an assembly
  */
 protected boolean qualifies(Object o) {
-	return symbol.equals((Token) o);
+	return symbol.equals(o);
 }
 /**
  * Returns a textual description of this parser.

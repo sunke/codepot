@@ -24,7 +24,7 @@ public class ShowCoffee {
 /**
  * Show how to recognize coffees in a file.
  */
-public static void main(String args[]) throws Exception {
+public static void main(String[] args) throws Exception {
 	
 	InputStream is = 
 		ClassLoader.getSystemResourceAsStream("coffee.txt");

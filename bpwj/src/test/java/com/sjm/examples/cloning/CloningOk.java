@@ -21,7 +21,7 @@ public class CloningOk implements Cloneable {
 /**
  * Just a demo, this will compile and run fine.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	
 	CloningOk co = new CloningOk();
 	try {

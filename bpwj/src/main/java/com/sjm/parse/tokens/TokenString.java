@@ -25,7 +25,7 @@ public class TokenString {
     /**
      * the tokens in this tokenString
      */
-    protected Token tokens[];
+    protected Token[] tokens;
 
     /**
      * Constructs a tokenString from the supplied tokens.
@@ -68,7 +68,6 @@ public class TokenString {
                 }
                 v.add(tok);
             }
-            ;
         } catch (IOException e) {
             throw new InternalError(
                     "Problem tokenizing string: " + e);

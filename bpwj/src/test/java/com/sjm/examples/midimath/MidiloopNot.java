@@ -77,7 +77,7 @@ protected Parser factor() {
 /**
  * Demonstrate that this utility class does not loop.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	Parser e = new MidiloopNot().expression();
 	Assembly out = e.bestMatch(
 		new TokenAssembly("(7 + 13) * 5"));

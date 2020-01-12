@@ -22,7 +22,7 @@ public class ShowQuoteState {
 /**
  * Demonstrate the operation of the quote state.
  */
-public static void main(String args[]) throws IOException {
+public static void main(String[] args) throws IOException {
 	Tokenizer t = new Tokenizer(
 	    "Hamlet says #Alas, poor Yorick!# and " +
 	    "#To be, or not...");

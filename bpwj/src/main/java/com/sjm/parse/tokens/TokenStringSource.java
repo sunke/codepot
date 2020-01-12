@@ -97,7 +97,7 @@ public class TokenStringSource {
         if (tokenList.isEmpty()) {
             cachedTokenString = null;
         } else {
-            Token tokens[] = new Token[tokenList.size()];
+            Token[] tokens = new Token[tokenList.size()];
             tokens = tokenList.toArray(tokens);
             cachedTokenString = new TokenString(tokens);
         }
@@ -108,7 +108,7 @@ public class TokenStringSource {
      *
      * @param args ignored
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
 
         String s = "I came; I saw; I left in peace;";
 

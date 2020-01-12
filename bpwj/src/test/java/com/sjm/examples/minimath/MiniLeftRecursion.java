@@ -30,7 +30,7 @@ public class MiniLeftRecursion {
 /**
  * Demonstrates an infinite loop.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	Alternation e = new Alternation();
 	Num n = new Num();
 	

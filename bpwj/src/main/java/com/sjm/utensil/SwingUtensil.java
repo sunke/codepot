@@ -99,8 +99,8 @@ public static void listen(Frame f) {
 	f.addWindowListener(new WindowAdapter() {
 		public void windowClosing(WindowEvent e) {
 			System.exit(0);
-		};
-	});
+		}
+    });
 }
 /**
  * Returns a standard text panel, with a scroll pane around 

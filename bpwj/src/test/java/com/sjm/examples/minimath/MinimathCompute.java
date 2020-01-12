@@ -32,7 +32,7 @@ public class MinimathCompute {
 /**
  * Just a little demo.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	Sequence e = new Sequence();
 
 	Num n = new Num();

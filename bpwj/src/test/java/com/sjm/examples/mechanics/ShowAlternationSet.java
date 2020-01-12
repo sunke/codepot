@@ -24,7 +24,7 @@ public class ShowAlternationSet {
  * Show that an alternation can, by itself, create a 
  * collection of possible matches.
  */
-public static void main(String args[]) throws Exception {
+public static void main(String[] args) throws Exception {
 
 	// assignment = Word '=' assignment | Word;
 	

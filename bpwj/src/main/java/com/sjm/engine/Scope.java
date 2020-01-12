@@ -57,7 +57,7 @@ public Scope() {
  *
  * @param terms the terms to seed this scope with
  */
-public Scope(Term terms[]) {
+public Scope(Term[] terms) {
 	for (int i = 0; i < terms.length; i++) {
 		Unification u = terms[i].variables();
 		Iterator e = u.elements();

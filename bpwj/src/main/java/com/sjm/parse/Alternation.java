@@ -57,7 +57,7 @@ public class Alternation extends CollectionParser {
      */
     public List match(List in) {
         List out = new ArrayList();
-        for (Parser p : (List<Parser>) subparsers) {
+        for (Parser p : subparsers) {
             add(out, p.matchAndAssemble(in));
         }
         return out;
@@ -71,9 +71,9 @@ public class Alternation extends CollectionParser {
         if (depth >= maxDepth) {
             return randomSettle(maxDepth, depth);
         }
-        double n = (double) subparsers.size();
+        double n = subparsers.size();
         int i = (int) (n * Math.random());
-        Parser j = (Parser) subparsers.get(i);
+        Parser j = subparsers.get(i);
         return j.randomExpansion(maxDepth, depth++);
     }
 
@@ -100,7 +100,7 @@ public class Alternation extends CollectionParser {
             which = subparsers;
         }
 
-        double n = (double) which.size();
+        double n = which.size();
         int i = (int) (n * Math.random());
         Parser p = (Parser) which.get(i);
         return p.randomExpansion(maxDepth, depth++);

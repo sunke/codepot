@@ -19,7 +19,7 @@ public class ShowCustomer {
 /**
  * Just a little demo.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	Customer al = new Customer("Albert", 180);
 	Customer al2 = (Customer) al.clone();
 }

@@ -22,7 +22,7 @@ public class ShowNoComment {
 /**
  * Demonstrate how to not ignore comments
  */
-public static void main(String args[]) throws IOException {
+public static void main(String[] args) throws IOException {
 	Tokenizer t = new Tokenizer("Show /* all */ // this");
 	
 	t.setCharacterState('/', '/', t.symbolState());

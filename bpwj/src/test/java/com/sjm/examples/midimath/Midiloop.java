@@ -74,7 +74,7 @@ protected Parser factor() {
 /**
  * Demonstrate an infinite loop!
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	
 	Parser e = new Midiloop().expression(); // hang or crash!
 	

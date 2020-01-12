@@ -22,7 +22,7 @@ public class ShowRegularParser {
 /**
  * Show some examples of matching regular expressions.
  */
-public static void main(String args[])
+public static void main(String[] args)
 	throws RegularExpressionException {
 
 	// a*

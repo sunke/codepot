@@ -44,7 +44,7 @@ public Literal(String s) {
  *           token from an assembly
  */
 protected boolean qualifies(Object o) {
-	return literal.equals((Token) o);
+	return literal.equals(o);
 }
 /**
  * Returns a textual description of this parser.

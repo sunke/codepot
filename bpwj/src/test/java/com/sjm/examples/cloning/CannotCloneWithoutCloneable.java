@@ -21,7 +21,7 @@ public class CannotCloneWithoutCloneable {
 /**
  * Just a demo, this will compile but not run.
  */
-public static void main(String args[]) throws Exception {
+public static void main(String[] args) throws Exception {
 	CannotCloneWithoutCloneable ccwc = 
 	    new CannotCloneWithoutCloneable();
 	    

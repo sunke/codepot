@@ -20,7 +20,7 @@ public class ShowOrderOk {
  * Show an OrderOk, which makes a proper copy of an order,
  * including copying an order's customer.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	Customer al = new Customer("Albert", 180);
 
 	OrderOk orig = new OrderOk(al);

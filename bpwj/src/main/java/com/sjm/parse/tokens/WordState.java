@@ -40,8 +40,8 @@ import java.io.*;
  * @version 1.0 
  */
 public class WordState extends TokenizerState {
-	protected char charbuf[] = new char[16];
-	protected boolean wordChar[] = new boolean[256];
+	protected char[] charbuf = new char[16];
+	protected boolean[] wordChar = new boolean[256];
 /**
  * Constructs a word state with a default idea of what 
  * characters are admissible inside a word (as described in 
@@ -63,7 +63,7 @@ public WordState() {
  */
 protected void checkBufLength(int i) {
 	if (i >= charbuf.length) {
-		char nb[] = new char[charbuf.length * 2];
+		char[] nb = new char[charbuf.length * 2];
 		System.arraycopy(charbuf, 0, nb, 0, charbuf.length);
 		charbuf = nb;
 	}

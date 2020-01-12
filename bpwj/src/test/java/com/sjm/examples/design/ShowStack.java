@@ -21,7 +21,7 @@ public class ShowStack {
 /**
  * Show how to use an assembly's stack.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 
 	Parser p = new Repetition(new Num());
 	Assembly a = p.completeMatch(

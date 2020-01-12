@@ -20,7 +20,7 @@ public class ShowArithmeticEvaluation {
 /**
  * Show the evaluation of an arithmetic operator.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 
 	NumberFact a = new NumberFact(231);
 	NumberFact b = new NumberFact(3367);

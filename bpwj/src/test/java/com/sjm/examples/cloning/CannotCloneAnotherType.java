@@ -21,7 +21,7 @@ public class CannotCloneAnotherType {
 /**
  * Just a demo, this will not compile.
  */
-public static void main(String args[]) throws CloneNotSupportedException {
+public static void main(String[] args) throws CloneNotSupportedException {
 	CannotCloneAnotherType ccat = 
 		new CannotCloneAnotherType();
 		

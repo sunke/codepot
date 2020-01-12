@@ -22,7 +22,7 @@ public class ShowVariableUnification3 {
  * Show a variable unifying with a structure and then another 
  * variable.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	
 	// city(denver, 5280)
 	

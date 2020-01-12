@@ -33,7 +33,7 @@ public class MiniWrongAssociativity {
 /**
  * Demonstrates incorrect associativity.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	Alternation e = new Alternation();
 	Num n = new Num();
 	n.setAssembler(new NumAssembler());

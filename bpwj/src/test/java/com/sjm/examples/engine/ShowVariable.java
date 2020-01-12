@@ -20,7 +20,7 @@ public class ShowVariable {
 /**
  * Show some variables.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 
 	Variable name = new Variable("Name");
 	Variable alt = new Variable("Altitude");

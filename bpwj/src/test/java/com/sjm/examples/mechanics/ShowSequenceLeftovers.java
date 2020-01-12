@@ -24,7 +24,7 @@ public class ShowSequenceLeftovers {
  * Show the complete results of matching an arithmetic 
  * expression parser against an expression.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	
 	List v = new ArrayList();
 	v.add(new TokenAssembly("3 * 4 + 5"));

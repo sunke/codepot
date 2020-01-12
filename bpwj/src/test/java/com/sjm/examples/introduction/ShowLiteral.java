@@ -21,7 +21,7 @@ public class ShowLiteral {
 /**
  * Just a little demo.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	Sequence s = new Sequence();
 	s.add(new Literal("int"));
 	s.add(new Word());

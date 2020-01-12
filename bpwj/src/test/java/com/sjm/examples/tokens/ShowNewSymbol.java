@@ -21,7 +21,7 @@ public class ShowNewSymbol {
 /**
  * Demonstrate how to add a multi-character symbol.
  */
-public static void main(String args[]) throws IOException {
+public static void main(String[] args) throws IOException {
 	Tokenizer t = new Tokenizer("42.001 =~= 42");
 
 	t.symbolState().add("=~=");

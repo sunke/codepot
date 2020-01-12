@@ -22,7 +22,7 @@ public class ShowVariableUnification2 {
  * Show a variable unifying with a structure and then another 
  * variable.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 
 	Variable x = new Variable("X");
 	Variable y = new Variable("Y");

@@ -79,7 +79,7 @@ public double calculateYforGivenX(double x) {
  * 
  * @param  args  ignored.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	LinearCalculator lc = new LinearCalculator(32, 212, 0, 100);
 	System.out.println(lc.calculateYforGivenX(68));
 }

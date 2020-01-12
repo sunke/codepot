@@ -21,7 +21,7 @@ public class ShowElementsAbove {
 /**
  * Show how to use <code>Assembler.elementsAbove()</code>.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	
 	Parser list = new Sequence()
 		.add(new Symbol('{'))

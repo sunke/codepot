@@ -65,10 +65,7 @@ public Comparison(String operator, ComparisonTerm term0,
 public boolean canProveOnce() {
 	Object p0 = term0.eval();
 	Object p1 = term1.eval();
-	if (!compare(p0, p1)) {
-		return false;
-	}
-	return true;
+	return compare(p0, p1);
 }
 /**
  * Returns the result of comparing two objects, using the 

@@ -20,7 +20,7 @@ public class ShowFailedUnification {
 /**
  * Show two structures that fail to unify.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	Structure city1 = new Structure("city", new Term[]{
 		new Structure("denver"), 
 		new Structure(new Integer(5280))});

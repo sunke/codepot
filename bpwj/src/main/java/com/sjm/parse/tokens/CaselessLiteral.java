@@ -39,6 +39,6 @@ public CaselessLiteral(String literal) {
  *           token from an assembly, disregarding case
  */
 protected boolean qualifies(Object o) {
-	return literal.equalsIgnoreCase((Token) o);
+	return literal.equalsIgnoreCase(o);
 }
 }

@@ -141,9 +141,9 @@ protected JTextArea metadataArea() {
 	if (metadataArea == null) {
 		metadataArea = SwingUtensil.ideTextArea();
 		ChipSource cs = new ChipSource();
-		metadataArea.append(cs.queryChip() + "\n");
-		metadataArea.append(cs.queryCustomer() + "\n");
-		metadataArea.append(cs.queryOrder() + "\n");
+		metadataArea.append(ChipSource.queryChip() + "\n");
+		metadataArea.append(ChipSource.queryCustomer() + "\n");
+		metadataArea.append(ChipSource.queryOrder() + "\n");
 	}
 	return metadataArea;
 }

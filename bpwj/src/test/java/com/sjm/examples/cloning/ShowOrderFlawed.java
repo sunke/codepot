@@ -22,7 +22,7 @@ public class ShowOrderFlawed {
  * same fields. Adjusting either an original or a cloned
  * OrderFlaw object will affect both objects. 
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	Customer al = new Customer("Albert", 180);
 
 	OrderFlawed orig = new OrderFlawed(al);

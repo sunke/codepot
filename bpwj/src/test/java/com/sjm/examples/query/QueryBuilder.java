@@ -114,7 +114,7 @@ public Query build(AxiomSource as) {
 	comparisons.forEach(cmp -> structures.add(cmp));
 
 	// create and return a query
-	Structure sarray[] = new Structure[structures.size()];
+	Structure[] sarray = new Structure[structures.size()];
 	sarray = structures.toArray(sarray);
 	return new Query(as, sarray);
 }

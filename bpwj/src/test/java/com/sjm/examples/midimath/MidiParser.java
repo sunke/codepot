@@ -51,7 +51,7 @@ public Parser expression() {
 /**
  * Demonstrate that this utility class does not loop.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 	Parser e = new MidiParser().expression();
 	Assembly out = e.bestMatch(
 		new TokenAssembly("111 - (11 - 1)"));

@@ -20,7 +20,7 @@ public class ShowStructureUnification {
 /**
  * Show two structures unifying.
  */
-public static void main(String args[]) {
+public static void main(String[] args) {
 
 	// city(denver, 5280)
 	Structure denver = new Structure("denver");
