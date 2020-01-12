@@ -1,10 +1,13 @@
 package com.sjm.test.parse
 
+import org.apache.log4j.Logger;
 
 /**
  * A parser is an object that recognizes a language.
  */
-abstract class KParser<T>(val name: String = "") {
+abstract class KParser<T>(val name: String = "", val level: Int = 0) {
+    var log: Logger = Logger.getLogger(KParser::class.java.getName())
+
     var assembler: KAssembler<T>? = null
 
     fun setAssembler(assembler: KAssembler<T>): KParser<T> {
@@ -22,7 +25,8 @@ abstract class KParser<T>(val name: String = "") {
     }
 
     fun matchAndAssemble(assemblies: List<KAssembly<T>>): List<KAssembly<T>> {
-        println(name)
+        //log.debug("""${"\t".repeat(level)}$name	$assemblies""")
+        log.debug("${"\t".repeat(level)}$name    $assemblies")
         return match(assemblies).apply { forEach { assembler?.workOn(it) } }
     }
 

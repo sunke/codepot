@@ -1,6 +1,6 @@
 package com.sjm.test.parse
 
-class KSequence<T>(name: String = "Sequence"): KParser<T>(name) {
+class KSequence<T>(name: String = "", level: Int = 0): KParser<T>("Sequence $name", level) {
 
     private val subParsers = mutableListOf<KParser<T>>()
 

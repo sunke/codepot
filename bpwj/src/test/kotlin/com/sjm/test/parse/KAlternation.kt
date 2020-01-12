@@ -1,6 +1,6 @@
 package com.sjm.test.parse
 
-class KAlternation<T>(name: String = "Alternation") : KParser<T>(name) {
+class KAlternation<T>(name: String = "", level: Int = 0) : KParser<T>("Alternation $name", level) {
 
     private var subParsers = mutableListOf<KParser<T>>()
 

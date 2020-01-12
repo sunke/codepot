@@ -1,9 +1,9 @@
 package com.sjm.test.parse
 
-class KRepetition<T>(private val subParser: KParser<T>, name: String = "Repetition") : KParser<T>(name) {
+class KRepetition<T>(name: String = "", level: Int = 0, private val subParser: KParser<T>) : KParser<T>("Repetition $name", level) {
 
     override fun match(assemblies: List<KAssembly<T>>): List<KAssembly<T>> {
-        var out = assemblies.toMutableList()
+        val out = assemblies.toMutableList()
 
         var ays = assemblies
         while (ays.isNotEmpty()) {

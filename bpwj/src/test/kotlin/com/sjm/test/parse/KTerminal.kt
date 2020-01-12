@@ -2,7 +2,7 @@ package com.sjm.test.parse
 
 import com.sjm.parse.tokens.Token
 
-abstract class KTerminal(name: String, private var discard: Boolean = false) : KParser<Token>(name) {
+abstract class KTerminal(name: String, level: Int = 0, private var discard: Boolean = false) : KParser<Token>(name, level) {
 
     fun discard(): KTerminal {
         discard = true
