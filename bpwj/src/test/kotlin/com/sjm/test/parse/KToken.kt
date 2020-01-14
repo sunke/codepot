@@ -15,50 +15,32 @@ class KToken (var ttype: KTokenType, var sval: String?, var nval: Double) {
 
     constructor(sval: String) : this(KTokenType.TT_WORD, sval, 0.0) {}
 
-    val isNumber: Boolean
-        get() = ttype === KTokenType.TT_NUMBER
+    fun isNumber() = ttype === KTokenType.TT_NUMBER
 
-    val isQuotedString: Boolean
-        get() = ttype === KTokenType.TT_QUOTED
+    fun isQuotedString() = ttype === KTokenType.TT_QUOTED
 
-    val isSymbol: Boolean
-        get() = ttype === KTokenType.TT_SYMBOL
+    fun isSymbol() = ttype === KTokenType.TT_SYMBOL
 
-    val isWord: Boolean
-        get() = ttype === KTokenType.TT_WORD
+    fun isWord() = ttype === KTokenType.TT_WORD
 
-    override fun equals(o: Any?): Boolean {
-        if (o !is KToken) return false
-        if (ttype !== o.ttype) {
-            return false
-        }
-        if (ttype === KTokenType.TT_NUMBER) {
-            return nval == o.nval
-        }
-        return if (sval == null || o.sval == null) {
-            false
-        } else sval == o.sval
-    }
-
-    fun equalsIgnoreCase(o: Any?): Boolean {
-        if (o !is KToken) return false
-        if (ttype !== o.ttype) {
-            return false
-        }
-        if (ttype === KTokenType.TT_NUMBER) {
-            return nval == o.nval
-        }
-        return if (sval == null || o.sval == null) {
-            false
-        } else sval.equals(o.sval, ignoreCase = true)
-    }
-
-    fun value() = when(ttype) {
+    fun value(): Any = when(ttype) {
         KTokenType.TT_NUMBER -> nval
         KTokenType.TT_EOF -> EOF
         else -> sval?.toString() ?: ttype
     }
 
+    fun equals(other: Any?, ignoreCase: Boolean = false): Boolean {
+        if (other !is KToken) return false
+
+        if (ttype !== other.ttype) return false
+
+        return when(ttype) {
+            KTokenType.TT_NUMBER -> nval == other.nval
+            else -> sval?.equals(other.sval, ignoreCase) ?: (other.sval === null)
+        }
+    }
+
+    override fun equals(other: Any?) = equals(other, false)
 
     override fun toString() = if (ttype === KTokenType.TT_EOF) "EOF" else value().toString()
 }
