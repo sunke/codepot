@@ -79,10 +79,10 @@ class KTokenizer() {
         reader = PushbackReader(StringReader(s), DEFAULT_SYMBOL_MAX)
     }
 
-    fun nextToken(): Token {
+    fun nextToken(): KToken {
         val c = reader.read()
         return if (0 <= c && c < states.size) {
             states[c].nextToken(reader, c, this)
-        } else Token.EOF
+        } else KToken.EOF
     }
 }

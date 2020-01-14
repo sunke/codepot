@@ -17,42 +17,42 @@ import java.io.PushbackReader
  * @author Steven J. Metsker, Alan K. Sun
  */
 abstract class KTokenizerState {
-    abstract fun nextToken(r: PushbackReader, c: Int, t: KTokenizer): Token
+    abstract fun nextToken(r: PushbackReader, c: Int, t: KTokenizer): KToken
 }
 
 class KNumberState: KTokenizerState() {
-    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): Token {
-        return Token(Token.TT_NUMBER, "", 0.0)
+    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): KToken {
+        return KToken(KTokenType.TT_NUMBER, "", 0.0)
     }
 }
 
 class KQuoteState: KTokenizerState() {
-    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): Token {
-        return Token(Token.TT_NUMBER, "", 0.0)
+    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): KToken {
+        return KToken(KTokenType.TT_NUMBER, "", 0.0)
     }
 }
 
 class KSymbolState: KTokenizerState() {
-    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): Token {
-        return Token(Token.TT_NUMBER, "", 0.0)
+    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): KToken {
+        return KToken(KTokenType.TT_NUMBER, "", 0.0)
     }
 }
 
 class KWhitespaceState: KTokenizerState() {
-    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): Token {
-        return Token(Token.TT_NUMBER, "", 0.0)
+    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): KToken {
+        return KToken(KTokenType.TT_NUMBER, "", 0.0)
     }
 }
 
 class KSlashState: KTokenizerState() {
-    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): Token {
-        return Token(Token.TT_NUMBER, "", 0.0)
+    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): KToken {
+        return KToken(KTokenType.TT_NUMBER, "", 0.0)
     }
 }
 
 class KWordState: KTokenizerState() {
-    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): Token {
-        return Token(Token.TT_NUMBER, "", 0.0)
+    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): KToken {
+        return KToken(KTokenType.TT_NUMBER, "", 0.0)
     }
 }
 
@@ -64,7 +64,7 @@ class KNumberState2: KTokenizerState() {
     private var absorbedDot = false
     private var gotAdigit = false
 
-    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): Token {
+    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): KToken {
         c = cin
         value = 0.0
         absorbedLeadingMinus = false
@@ -87,7 +87,7 @@ class KNumberState2: KTokenizerState() {
         return value(r, t)
     }
 
-    private fun value(r: PushbackReader, t: KTokenizer): Token {
+    private fun value(r: PushbackReader, t: KTokenizer): KToken {
         if (!gotAdigit) {
             if (absorbedLeadingMinus && absorbedDot) {
                 r.unread('.'.toInt())
@@ -103,7 +103,7 @@ class KNumberState2: KTokenizerState() {
         if (absorbedLeadingMinus) {
             value = - value
         }
-        return Token(Token.TT_NUMBER, "", value)
+        return KToken(KTokenType.TT_NUMBER, "", value)
     }
 
 

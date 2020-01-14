@@ -1,6 +1,6 @@
 package com.sjm.test.parse
 
-val EOF = KToken(KTokenType.TT_EOF, "", 0.0)
+
 
 /**
   * A token represents a logical chunk of a string. For example, a typical tokenizer would break the string
@@ -8,6 +8,10 @@ val EOF = KToken(KTokenType.TT_EOF, "", 0.0)
   * A token is a receptacle, and relies on a tokenizer to decide precisely how to divide a string into tokens.
   */
 class KToken (var ttype: KTokenType, var sval: String?, var nval: Double) {
+
+    companion object {
+        val EOF = KToken(KTokenType.TT_EOF, "", 0.0)
+    }
 
     constructor(c: Char) : this(KTokenType.TT_SYMBOL, c.toString(), 0.0) {}
 
