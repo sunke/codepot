@@ -1,9 +1,5 @@
 package com.sjm.test.parse
 
-import com.sjm.parse.tokens.Token
-import com.sjm.parse.tokens.Tokenizer
-import com.sjm.parse.tokens.TokenizerState
-import java.io.IOException
 import java.io.PushbackReader
 
 /**
@@ -17,114 +13,109 @@ import java.io.PushbackReader
  * @author Steven J. Metsker, Alan K. Sun
  */
 abstract class KTokenizerState {
-    abstract fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): KToken
+    abstract fun nextToken(currentChar: Int, reader: PushbackReader): KToken
 }
 
-class KNumberState: KTokenizerState() {
-    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): KToken {
-        return KToken(KTokenType.TT_NUMBER, "", 0.0)
-    }
-}
+class KNumberState : KTokenizerState() {
+    class State(var isNumber: Boolean = false, var isNegative: Boolean = false, var hasFraction: Boolean = false)
 
-class KQuoteState: KTokenizerState() {
-    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): KToken {
-        return KToken(KTokenType.TT_NUMBER, "", 0.0)
-    }
-}
+    override fun nextToken(currentChar: Int, reader: PushbackReader): KToken {
+        val state = State()
+        var cin = currentChar
+        var value = 0.0
 
-class KSymbolState: KTokenizerState() {
-    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): KToken {
-        return KToken(KTokenType.TT_NUMBER, "", 0.0)
-    }
-}
-
-class KWhitespaceState: KTokenizerState() {
-    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): KToken {
-        return KToken(KTokenType.TT_NUMBER, "", 0.0)
-    }
-}
-
-class KSlashState: KTokenizerState() {
-    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): KToken {
-        return KToken(KTokenType.TT_NUMBER, "", 0.0)
-    }
-}
-
-class KWordState: KTokenizerState() {
-    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): KToken {
-        return KToken(KTokenType.TT_NUMBER, "", 0.0)
-    }
-}
-
-
-class KNumberState2: KTokenizerState() {
-    private var c = 0
-    private var value = 0.0
-    private var absorbedLeadingMinus = false
-    private var absorbedDot = false
-    private var gotAdigit = false
-
-    override fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): KToken {
-        c = cin
-        value = 0.0
-        absorbedLeadingMinus = false
-        absorbedDot = false
-        gotAdigit = false
-
-        if (c == '-'.toInt()) {
-            c = r.read()
-            absorbedLeadingMinus = true
+        if (cin == '-'.toInt()) {
+            cin = reader.read()
+            state.isNegative = true
         }
-        value = absorbDigits(r, false)
+        value += readInteger(cin, reader, state)
 
-        if (c == '.'.toInt()) {
-            c = r.read()
-            absorbedDot = true
-            value += absorbDigits(r, true)
+        if (cin == '.'.toInt()) {
+            cin = reader.read()
+            state.hasFraction = true
+            value += readFraction(cin, reader, state)
         }
 
-        r.unread(c)
-        return value(r, t)
+        reader.unread(cin)
+
+        return value(value, reader, state)
     }
 
-    private fun value(r: PushbackReader, t: KTokenizer): KToken {
-        if (!gotAdigit) {
-            if (absorbedLeadingMinus && absorbedDot) {
-                r.unread('.'.toInt())
-                return t.symbolState.nextToken(r, '-'.toInt(), t)
+    private fun value(value: Double, reader: PushbackReader, state: State): KToken {
+        var v = value
+        val symbolState = KSymbolState()
+        if (!state.isNumber) {
+            if (state.isNegative && state.hasFraction) {
+                reader.unread('.'.toInt())
+                return symbolState.nextToken('-'.toInt(), reader)
             }
-            if (absorbedLeadingMinus) {
-                return t.symbolState.nextToken(r, '-'.toInt(), t)
+            if (state.isNegative) {
+                return symbolState.nextToken('-'.toInt(), reader)
             }
-            if (absorbedDot) {
-                return t.symbolState.nextToken(r, '.'.toInt(), t)
+            if (state.hasFraction) {
+                return symbolState.nextToken('-'.toInt(), reader)
             }
         }
-        if (absorbedLeadingMinus) {
-            value = - value
+        if (state.isNegative) {
+            v = -v
         }
-        return KToken(KTokenType.TT_NUMBER, "", value)
+        return KToken(KTokenType.TT_NUMBER, "", v)
     }
 
+    private fun readInteger(currentChar: Int, reader: PushbackReader, state: State): Int {
+        var cin = currentChar
+        var value = 0
+        while (isDigit(cin)) {
+            state.isNumber = true
+            value = value * 10 + (cin - '0'.toInt())
+            cin = reader.read()
+        }
+        return value
+    }
 
-
-    // Convert a stream of digits into a number, making this number a fraction if the boolean parameter is true.
-    private fun absorbDigits(r: PushbackReader, fraction: Boolean): Double {
+    private fun readFraction(currentChar: Int, reader: PushbackReader, state: State): Double {
+        var cin = currentChar
+        var value = 0.0
         var divideBy = 1
-        var v = 0.0
-        while (isDigit()) {
-            gotAdigit = true
-            v = v * 10 + (c - '0'.toInt())
-            c = r.read()
-            if (fraction) {
-                divideBy *= 10
-            }
+        while (isDigit(cin)) {
+            state.isNumber = true
+            value = value * 10 + (cin - '0'.toInt())
+            cin = reader.read()
+            divideBy *= 10
         }
-        if (fraction) {
-            v = v / divideBy
-        }
-        return v
+        value /= divideBy
+        return value
     }
 
-    private fun isDigit() = '0'.toInt() <= c && c <= '9'.toInt()
+    private fun isDigit(c: Int) = '0'.toInt() <= c && c <= '9'.toInt()
+}
+
+class KQuoteState : KTokenizerState() {
+    override fun nextToken(currentChar: Int, reader: PushbackReader): KToken {
+        return KToken(KTokenType.TT_NUMBER, "", 0.0)
+    }
+}
+
+class KSymbolState : KTokenizerState() {
+    override fun nextToken(currentChar: Int, reader: PushbackReader): KToken {
+        return KToken(KTokenType.TT_NUMBER, "", 0.0)
+    }
+}
+
+class KWhitespaceState : KTokenizerState() {
+    override fun nextToken(currentChar: Int, reader: PushbackReader): KToken {
+        return KToken(KTokenType.TT_NUMBER, "", 0.0)
+    }
+}
+
+class KSlashState : KTokenizerState() {
+    override fun nextToken(currentChar: Int, reader: PushbackReader): KToken {
+        return KToken(KTokenType.TT_NUMBER, "", 0.0)
+    }
+}
+
+class KWordState : KTokenizerState() {
+    override fun nextToken(currentChar: Int, reader: PushbackReader): KToken {
+        return KToken(KTokenType.TT_NUMBER, "", 0.0)
+    }
 }
