@@ -1,7 +1,6 @@
 package com.sjm.test.parse
 
 
-
 /**
   * A token represents a logical chunk of a string. For example, a typical tokenizer would break the string
   * `"1.23 <= 12.3"` into three tokens: the number 1.23, a less-than-or-equal symbol, and the number 12.3.

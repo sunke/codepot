@@ -17,7 +17,7 @@ import java.io.PushbackReader
  * @author Steven J. Metsker, Alan K. Sun
  */
 abstract class KTokenizerState {
-    abstract fun nextToken(r: PushbackReader, c: Int, t: KTokenizer): KToken
+    abstract fun nextToken(r: PushbackReader, cin: Int, t: KTokenizer): KToken
 }
 
 class KNumberState: KTokenizerState() {
@@ -127,42 +127,4 @@ class KNumberState2: KTokenizerState() {
     }
 
     private fun isDigit() = '0'.toInt() <= c && c <= '9'.toInt()
-
-
-    /*
- * Parse up to a decimal point.
- */
-    @Throws(IOException::class)
-    protected fun parseLeft(r: PushbackReader) {
-        if (c == '-'.toInt()) {
-            c = r.read()
-            absorbedLeadingMinus = true
-        }
-        value = absorbDigits(r, false)
-    }
-
-    /*
- * Parse from a decimal point to the end of the number.
- */
-    @Throws(IOException::class)
-    protected fun parseRight(r: PushbackReader) {
-        if (c == '.'.toInt()) {
-            c = r.read()
-            absorbedDot = true
-            value += absorbDigits(r, true)
-        }
-    }
-
-    /*
- * Prepare to assemble a new number.
- */
-    protected fun reset(cin: Int) {
-        c = cin
-        value = 0.0
-        absorbedLeadingMinus = false
-        absorbedDot = false
-        gotAdigit = false
-    }
-
-
 }

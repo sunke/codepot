@@ -1,6 +1,6 @@
 package com.sjm.test.parse
 
-import com.sjm.parse.tokens.*
+
 import java.io.PushbackReader
 import java.io.StringReader
 
@@ -51,6 +51,7 @@ class KTokenizer() {
     public val whitespaceState = KWhitespaceState()
     public val wordState = KWordState()
 
+    // default symbolState for all characters
     private var states = Array<KTokenizerState>(256) { symbolState }
 
     private lateinit var reader: PushbackReader
