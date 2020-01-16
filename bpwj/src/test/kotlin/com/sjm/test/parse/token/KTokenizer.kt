@@ -1,4 +1,4 @@
-package com.sjm.test.parse
+package com.sjm.test.parse.token
 
 
 import java.io.PushbackReader
@@ -41,7 +41,7 @@ import java.io.StringReader
  */
 class KTokenizer() {
     companion object {
-        private const val DEFAULT_SYMBOL_MAX = 4
+        public const val DEFAULT_SYMBOL_MAX = 4
     }
 
     public val numberState = KNumberState()
@@ -83,7 +83,7 @@ class KTokenizer() {
     fun nextToken(): KToken {
         val c = reader.read()
         return if (0 <= c && c < states.size) {
-            states[c].nextToken(reader, c, this)
+            states[c].nextToken(c, reader)
         } else KToken.EOF
     }
 }

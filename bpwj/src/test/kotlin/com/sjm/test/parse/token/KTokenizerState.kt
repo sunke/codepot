@@ -1,4 +1,4 @@
-package com.sjm.test.parse
+package com.sjm.test.parse.token
 
 import java.io.PushbackReader
 
@@ -17,32 +17,33 @@ abstract class KTokenizerState {
 }
 
 class KNumberState : KTokenizerState() {
-    class State(var isNumber: Boolean = false, var isNegative: Boolean = false, var hasFraction: Boolean = false)
+    class State(var currentChar: Int,
+                var isNumber: Boolean = false,
+                var isNegative: Boolean = false,
+                var hasFraction: Boolean = false)
 
     override fun nextToken(currentChar: Int, reader: PushbackReader): KToken {
-        val state = State()
-        var cin = currentChar
+        val state = State(currentChar)
         var value = 0.0
 
-        if (cin == '-'.toInt()) {
-            cin = reader.read()
+        if (state.currentChar == '-'.toInt()) {
+            state.currentChar = reader.read()
             state.isNegative = true
         }
-        value += readInteger(cin, reader, state)
+        value += readInteger(state, reader)
 
-        if (cin == '.'.toInt()) {
-            cin = reader.read()
+        if (state.currentChar == '.'.toInt()) {
+            state.currentChar = reader.read()
             state.hasFraction = true
-            value += readFraction(cin, reader, state)
+            value += readFraction(state, reader)
         }
 
-        reader.unread(cin)
+        reader.unread(state.currentChar)
 
-        return value(value, reader, state)
+        return createToken(value, state, reader)
     }
 
-    private fun value(value: Double, reader: PushbackReader, state: State): KToken {
-        var v = value
+    private fun createToken(value: Double, state: State, reader: PushbackReader): KToken {
         val symbolState = KSymbolState()
         if (!state.isNumber) {
             if (state.isNegative && state.hasFraction) {
@@ -56,34 +57,28 @@ class KNumberState : KTokenizerState() {
                 return symbolState.nextToken('-'.toInt(), reader)
             }
         }
-        if (state.isNegative) {
-            v = -v
-        }
-        return KToken(KTokenType.TT_NUMBER, "", v)
+        return KToken(KTokenType.TT_NUMBER, "", if (state.isNegative) -value else value)
     }
 
-    private fun readInteger(currentChar: Int, reader: PushbackReader, state: State): Int {
-        var cin = currentChar
+    private fun readInteger(state: State, reader: PushbackReader): Int {
         var value = 0
-        while (isDigit(cin)) {
+        while (isDigit(state.currentChar)) {
             state.isNumber = true
-            value = value * 10 + (cin - '0'.toInt())
-            cin = reader.read()
+            value = value * 10 + (state.currentChar - '0'.toInt())
+            state.currentChar = reader.read()
         }
         return value
     }
 
-    private fun readFraction(currentChar: Int, reader: PushbackReader, state: State): Double {
-        var cin = currentChar
+    private fun readFraction(state: State, reader: PushbackReader): Double {
         var value = 0.0
-        var divideBy = 1
-        while (isDigit(cin)) {
+        var place = 0.1
+        while (isDigit(state.currentChar)) {
             state.isNumber = true
-            value = value * 10 + (cin - '0'.toInt())
-            cin = reader.read()
-            divideBy *= 10
+            value += (state.currentChar - '0'.toInt()) * place
+            place *= 0.1
+            state.currentChar = reader.read()
         }
-        value /= divideBy
         return value
     }
 
