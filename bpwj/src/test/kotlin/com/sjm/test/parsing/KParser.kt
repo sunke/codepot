@@ -1,4 +1,4 @@
-package com.sjm.test.parse
+package com.sjm.test.parsing
 
 import org.apache.log4j.Logger
 

@@ -1,7 +1,7 @@
 package com.sjm.test.arithmetic
 
 import com.sjm.parse.tokens.Token
-import com.sjm.test.parse.*
+import com.sjm.test.parsing.*
 
 /**
  * This class provides a parser that recognizes arithmetic expressions. It includes the method `value`,

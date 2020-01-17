@@ -1,4 +1,4 @@
-package com.sjm.test.parse.token
+package com.sjm.test.lexing
 
 
 /**

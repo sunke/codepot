@@ -1,4 +1,4 @@
-package com.sjm.test.parse
+package com.sjm.test.parsing
 
 class KRepetition<T>(name: String = "", level: Int = 0, private val subParser: KParser<T>) : KParser<T>("Repetition $name", level) {
 

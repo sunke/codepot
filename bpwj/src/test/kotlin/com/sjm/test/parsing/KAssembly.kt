@@ -1,4 +1,4 @@
-package com.sjm.test.parse
+package com.sjm.test.parsing
 
 import com.sjm.parse.tokens.Token
 import com.sjm.parse.tokens.Tokenizer

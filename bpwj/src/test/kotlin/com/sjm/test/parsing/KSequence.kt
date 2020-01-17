@@ -1,4 +1,4 @@
-package com.sjm.test.parse
+package com.sjm.test.parsing
 
 class KSequence<T>(name: String = "", level: Int = 0): KParser<T>("Sequence $name", level) {
 
