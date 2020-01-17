@@ -2,6 +2,7 @@ package com.sjm.test.lexing
 
 
 import java.io.PushbackReader
+import java.io.Reader
 import java.io.StringReader
 
 /**
@@ -44,17 +45,26 @@ class KTokenizer() {
         public const val DEFAULT_SYMBOL_MAX = 4
     }
 
-    public val numberState = KNumberState()
-    public val quoteState = KQuoteState()
-    public val slashState = KSlashState()
-    public val symbolState = KSymbolState()
-    public val whitespaceState = KWhitespaceState()
-    public val wordState = KWordState()
+    val numberState = KNumberState()
+    val quoteState = KQuoteState()
+    val slashState = KSlashState()
+    val symbolState = KSymbolState()
+    val whitespaceState = KWhitespaceState()
+    val wordState = KWordState()
 
     // default symbolState for all characters
     private var states = Array<KTokenizerState>(256) { symbolState }
 
-    private lateinit var reader: PushbackReader
+    fun getState(ch: Int): KTokenizerState {
+        if (0 <= ch && ch <= states.size) {
+            return states[ch]
+        } else {
+            throw RuntimeException("Unsupported character: $ch")
+        }
+    }
+
+    lateinit var reader: PushbackReader
+
 
     /**
      * Constructs a tokenizer with a default state table (as described in the class comment).
@@ -83,17 +93,11 @@ class KTokenizer() {
     fun nextToken(): KToken {
         val c = reader.read()
         return if (0 <= c && c < states.size) {
-            getState(c).nextToken(c, reader, this)
+            getState(c).nextToken(c, this)
         } else KToken.EOF
     }
 
-    fun getState(ch: Int): KTokenizerState {
-        if (0 <= ch && ch <= states.size) {
-            return states[ch]
-        } else {
-            throw RuntimeException("Unsupported character: $ch")
-        }
-    }
+
 }
 
 /**
@@ -107,5 +111,5 @@ class KTokenizer() {
  * @author Steven J. Metsker, Alan K. Sun
  */
 interface KTokenizerState {
-    fun nextToken(currentChar: Int, reader: PushbackReader, tokenizer: KTokenizer): KToken
+    fun nextToken(currentChar: Int, tokenizer: KTokenizer): KToken
 }

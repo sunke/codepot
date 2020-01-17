@@ -1,6 +1,5 @@
 package com.sjm.test.lexing
 
-import java.io.PushbackReader
 
 /**
  * ```
@@ -19,7 +18,7 @@ import java.io.PushbackReader
  * ```
  */
 class KSymbolState : KTokenizerState {
-    override fun nextToken(currentChar: Int, reader: PushbackReader, tokenizer: KTokenizer): KToken {
+    override fun nextToken(currentChar: Int, tokenizer: KTokenizer): KToken {
         return KToken(KTokenType.TT_NUMBER, "", 0.0)
     }
 }

@@ -12,7 +12,10 @@ class KNumberState: KTokenizerState {
                  var isNegative: Boolean = false,
                  var hasFraction: Boolean = false)
 
-    override fun nextToken(currentChar: Int, reader: PushbackReader, tokenizer: KTokenizer): KToken {
+    override fun nextToken(currentChar: Int, tokenizer: KTokenizer): KToken {
+        require(tokenizer.getState(currentChar) is KNumberState)
+
+        val reader = tokenizer.reader
         val state = Status(currentChar)
         var value = 0.0
 
@@ -30,20 +33,22 @@ class KNumberState: KTokenizerState {
 
         reader.unread(state.currentChar)
 
-        return createToken(value, state, reader, tokenizer)
+        return createToken(value, state, tokenizer)
     }
 
-    private fun createToken(value: Double, status: Status, reader: PushbackReader, tokenizer: KTokenizer): KToken {
+    private fun createToken(value: Double, status: Status, tokenizer: KTokenizer): KToken {
+        val reader = tokenizer.reader
+
         if (!status.isNumber) {
             if (status.isNegative && status.hasFraction) {
                 reader.unread('.'.toInt())
-                return tokenizer.symbolState.nextToken('-'.toInt(), reader, tokenizer)
+                return tokenizer.symbolState.nextToken('-'.toInt(), tokenizer)
             }
             if (status.isNegative) {
-                return tokenizer.symbolState.nextToken('-'.toInt(), reader, tokenizer)
+                return tokenizer.symbolState.nextToken('-'.toInt(), tokenizer)
             }
             if (status.hasFraction) {
-                return tokenizer.symbolState.nextToken('-'.toInt(), reader, tokenizer)
+                return tokenizer.symbolState.nextToken('-'.toInt(), tokenizer)
             }
         }
         return KToken(KTokenType.TT_NUMBER, "", if (status.isNegative) -value else value)
