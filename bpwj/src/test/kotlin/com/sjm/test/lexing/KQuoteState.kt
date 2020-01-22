@@ -6,10 +6,10 @@ package com.sjm.test.lexing
  * to the character that the tokenizer used to switch to this state.
  */
 class KQuoteState : KTokenizerState {
-    override fun nextToken(currentChar: Int, tokenizer: KTokenizer): KToken {
+    override fun nextToken(ch: Int, tokenizer: KTokenizer): KToken {
         val reader = tokenizer.reader
 
-        val quoteChar = currentChar
+        val quoteChar = ch
         val str = StringBuilder(quoteChar.toChar().toString())
         var cin: Int?
         do {

@@ -111,5 +111,5 @@ class KTokenizer() {
  * @author Steven J. Metsker, Alan K. Sun
  */
 interface KTokenizerState {
-    fun nextToken(currentChar: Int, tokenizer: KTokenizer): KToken
+    fun nextToken(ch: Int, tokenizer: KTokenizer): KToken
 }

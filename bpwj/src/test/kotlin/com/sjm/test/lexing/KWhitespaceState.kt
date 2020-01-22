@@ -2,8 +2,8 @@ package com.sjm.test.lexing
 
 
 class KWhitespaceState : KTokenizerState {
-    override fun nextToken(currentChar: Int, tokenizer: KTokenizer): KToken {
-        require(tokenizer.getState(currentChar) is KWhitespaceState)
+    override fun nextToken(ch: Int, tokenizer: KTokenizer): KToken {
+        require(tokenizer.getState(ch) is KWhitespaceState)
 
         val reader = tokenizer.reader
         var ch = reader.read()

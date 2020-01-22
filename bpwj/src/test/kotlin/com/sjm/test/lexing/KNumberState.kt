@@ -12,11 +12,11 @@ class KNumberState: KTokenizerState {
                  var isNegative: Boolean = false,
                  var hasFraction: Boolean = false)
 
-    override fun nextToken(currentChar: Int, tokenizer: KTokenizer): KToken {
-        require(tokenizer.getState(currentChar) is KNumberState)
+    override fun nextToken(ch: Int, tokenizer: KTokenizer): KToken {
+        require(tokenizer.getState(ch) is KNumberState)
 
         val reader = tokenizer.reader
-        val state = Status(currentChar)
+        val state = Status(ch)
         var value = 0.0
 
         if (state.currentChar == '-'.toInt()) {

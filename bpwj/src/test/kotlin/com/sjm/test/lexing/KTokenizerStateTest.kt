@@ -75,4 +75,21 @@ class KTokenizerStateTest {
                 Arguments.of("\t", "", "Match a tab")
         )
     }
+
+    @ParameterizedTest
+    @MethodSource("symbolStateTestSource")
+    fun testSymbolState(str: String, value: String, msg: String = "") {
+        val tokenizer = KTokenizer(str)
+        val token = tokenizer.nextToken()
+        assertEquals(KToken(KTokenType.TT_SYMBOL, value, 0.0), token, msg)
+    }
+
+    private fun symbolStateTestSource(): Stream<Arguments> {
+        return Stream.of(
+                Arguments.of("!=2", "!=", "Match unequal symbol"),
+                Arguments.of(">=4", ">=", "Match big or equal symbol"),
+                Arguments.of("<=9", "<=", "Match samll or equal symbol"),
+                Arguments.of("#abc", "#", "Match a single character symbol")
+        )
+    }
 }

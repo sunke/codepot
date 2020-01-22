@@ -18,7 +18,51 @@ package com.sjm.test.lexing
  * ```
  */
 class KSymbolState : KTokenizerState {
-    override fun nextToken(currentChar: Int, tokenizer: KTokenizer): KToken {
-        return KToken(KTokenType.TT_NUMBER, "", 0.0)
+    private var root = KSymbolNode(0.toChar())
+
+    init {
+        root.addSymbol("!=")
+        root.addSymbol(">=")
+        root.addSymbol("<=")
+    }
+
+    override fun nextToken(ch: Int, tokenizer: KTokenizer): KToken {
+        var symbol = root.findSymbol(ch.toChar(), tokenizer)
+        if (symbol.isEmpty()) {
+            symbol = ch.toChar().toString()
+        }
+        return KToken(KTokenType.TT_SYMBOL, symbol, 0.0)
+    }
+
+    class KSymbolNode(private val schar: Char) {
+        private val children = mutableSetOf<KSymbolNode>()
+
+        fun findSymbol(c: Char, tokenizer: KTokenizer): String {
+            if (c.toInt() < 0) return ""
+            val child = findChild(c)
+
+            return if (child == null) {
+                tokenizer.reader.unread(c.toInt())
+                ""
+            } else {
+                c + child.findSymbol(tokenizer.reader.read().toChar(), tokenizer)
+            }
+        }
+
+        fun addSymbol(s: String) {
+            if (s.isNotEmpty()) {
+                addChild(s[0]).addSymbol(s.substring(1))
+            }
+        }
+
+        private fun addChild(c: Char): KSymbolNode {
+            val child = findChild(c) ?: KSymbolNode(c)
+            children.add(child)
+            return child
+        }
+
+        private fun findChild(c: Char): KSymbolNode? {
+            return children.firstOrNull { it.schar == c }
+        }
     }
 }

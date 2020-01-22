@@ -2,11 +2,11 @@ package com.sjm.test.lexing
 
 
 class KWordState : KTokenizerState {
-    override fun nextToken(currentChar: Int, tokenizer: KTokenizer): KToken {
-        require(tokenizer.getState(currentChar) is KWordState)
+    override fun nextToken(ch: Int, tokenizer: KTokenizer): KToken {
+        require(tokenizer.getState(ch) is KWordState)
 
         val reader = tokenizer.reader
-        val str = StringBuilder(currentChar.toChar().toString())
+        val str = StringBuilder(ch.toChar().toString())
         var ch = reader.read()
         while (ch != -1 && isWordCharacter(ch, tokenizer)) {
             str.append(ch.toChar())

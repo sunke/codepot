@@ -2,8 +2,8 @@ package com.sjm.test.lexing
 
 
 class KSlashState : KTokenizerState {
-    override fun nextToken(currentChar: Int, tokenizer: KTokenizer): KToken {
-        require(tokenizer.getState(currentChar) is KSlashState)
+    override fun nextToken(ch: Int, tokenizer: KTokenizer): KToken {
+        require(tokenizer.getState(ch) is KSlashState)
 
         val reader = tokenizer.reader
         var cin = reader.read()
