@@ -7,13 +7,13 @@ class KWordState : KTokenizerState {
 
         val reader = tokenizer.reader
         val str = StringBuilder(ch.toChar().toString())
-        var ch = reader.read()
-        while (ch != -1 && isWordCharacter(ch, tokenizer)) {
-            str.append(ch.toChar())
-            ch = reader.read()
+        var c = reader.read()
+        while (c != -1 && isWordCharacter(c, tokenizer)) {
+            str.append(c.toChar())
+            c = reader.read()
         }
-        if (ch != -1) {
-            reader.unread(ch)
+        if (c != -1) {
+            reader.unread(c)
         }
 
         return KToken(KTokenType.TT_WORD, str.toString(), 0.0);

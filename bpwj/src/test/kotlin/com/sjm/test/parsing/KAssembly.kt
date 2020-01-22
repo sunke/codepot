@@ -1,7 +1,7 @@
 package com.sjm.test.parsing
 
-import com.sjm.parse.tokens.Token
-import com.sjm.parse.tokens.Tokenizer
+import com.sjm.test.lexing.KToken
+import com.sjm.test.lexing.KTokenizer
 
 /**
  * An assembly provides a parser with a work area.
@@ -52,11 +52,11 @@ open class KAssembly<T>(private val delimiter: String = ",") {
     private fun remainItems(): String = itemList.subList(consumedItemNr(), itemNr()).joinToString(separator = delimiter)
 }
 
-class KTokenAssembly(str: String): KAssembly<Token>() {
+class KTokenAssembly(str: String): KAssembly<KToken>() {
     init {
-        val tokenizer = Tokenizer(str)
+        val tokenizer = KTokenizer(str)
         var next = tokenizer.nextToken()
-        while (next != Token.EOF) {
+        while (next != KToken.EOF) {
             itemList.add(next)
             next = tokenizer.nextToken()
         }

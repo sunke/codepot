@@ -1,16 +1,17 @@
 package com.sjm.test.parsing
 
-import com.sjm.parse.tokens.Token
+import com.sjm.test.lexing.KToken
 
-abstract class KTerminal(name: String, level: Int = 0, private var discard: Boolean = false) : KParser<Token>(name, level) {
+
+abstract class KTerminal(name: String, level: Int = 0, private var discard: Boolean = false) : KParser<KToken>(name, level) {
 
     fun discard(): KTerminal {
         discard = true
         return this
     }
 
-    override fun match(assemblies: List<KAssembly<Token>>): List<KAssembly<Token>> {
-        val out = mutableListOf<KAssembly<Token>>()
+    override fun match(assemblies: List<KAssembly<KToken>>): List<KAssembly<KToken>> {
+        val out = mutableListOf<KAssembly<KToken>>()
         assemblies.filter { it.hasMoreItem() && qualify(it.peekItem()!!) }
                 .forEach {
                     val clone = it.clone()
@@ -21,5 +22,5 @@ abstract class KTerminal(name: String, level: Int = 0, private var discard: Bool
         return out
     }
 
-    abstract fun qualify(token: Token): Boolean
+    abstract fun qualify(token: KToken): Boolean
 }
