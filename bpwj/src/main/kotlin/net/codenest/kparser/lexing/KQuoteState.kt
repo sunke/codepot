@@ -1,4 +1,4 @@
-package com.sjm.test.lexing
+package net.codenest.kparser.lexing
 
 
 /**
@@ -6,7 +6,7 @@ package com.sjm.test.lexing
  * to the character that the tokenizer used to switch to this state.
  */
 class KQuoteState : KTokenizerState {
-    override fun nextToken(ch: Int, tokenizer: KTokenizer): KToken {
+    override fun nextToken(ch: Char, tokenizer: KTokenizer): KToken {
         val reader = tokenizer.reader
 
         val quoteChar = ch
@@ -15,12 +15,12 @@ class KQuoteState : KTokenizerState {
         do {
             cin = reader.read()
             if (cin != -1) { str.append(cin.toChar()) }
-        } while(cin != quoteChar && cin != -1)
+        } while(cin != quoteChar.toInt() && cin != -1)
 
         // not matched quote until the end.
         if (cin == -1) {
             reader.unread(str.toString().toCharArray())
-            return tokenizer.symbolState.nextToken(reader.read(), tokenizer)
+            return tokenizer.symbolState.nextToken(reader.read().toChar(), tokenizer)
         }
 
         return KToken(KTokenType.TT_QUOTED, str.toString(), 0.0)

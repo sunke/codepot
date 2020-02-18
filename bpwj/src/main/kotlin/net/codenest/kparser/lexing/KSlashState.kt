@@ -1,9 +1,9 @@
-package com.sjm.test.lexing
+package net.codenest.kparser.lexing
 
 
 class KSlashState : KTokenizerState {
-    override fun nextToken(ch: Int, tokenizer: KTokenizer): KToken {
-        require(tokenizer.getState(ch) is KSlashState)
+    override fun nextToken(ch: Char, tokenizer: KTokenizer): KToken {
+        require(tokenizer.getState(ch.toInt()) is KSlashState)
 
         val reader = tokenizer.reader
         var cin = reader.read()
@@ -12,7 +12,7 @@ class KSlashState : KTokenizerState {
         if (cin == '*'.toInt()) {
             var c = reader.read()
             var prev = 0
-            while (c.toInt() >= 0) {
+            while (c >= 0) {
                 if (prev == '*'.toInt() && c == '/'.toInt()) {
                     break;
                 }

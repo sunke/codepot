@@ -1,8 +1,8 @@
-package com.sjm.test.arithmetic
+package net.codenest.kparser.example.arithmetic
 
-import com.sjm.test.lexing.KToken
-import com.sjm.test.parsing.KAssembly
-import com.sjm.test.parsing.KTokenAssembler
+import net.codenest.kparser.lexing.KToken
+import net.codenest.kparser.parsing.KAssembly
+import net.codenest.kparser.parsing.KTokenAssembler
 import kotlin.math.pow
 
 class KDivideAssembler : KTokenAssembler() {

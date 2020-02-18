@@ -1,6 +1,6 @@
-package com.sjm.test.parsing
+package net.codenest.kparser.parsing
 
-import com.sjm.test.lexing.KToken
+import net.codenest.kparser.lexing.KToken
 
 class KNum(level: Int = 0) : KTerminal("Num", level) {
 

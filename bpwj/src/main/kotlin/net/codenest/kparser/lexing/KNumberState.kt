@@ -1,6 +1,4 @@
-package com.sjm.test.lexing
-
-import java.io.PushbackReader
+package net.codenest.kparser.lexing
 
 /**
  * A NumberState object returns a number from a reader. This state's idea of a number allows an optional, initial
@@ -12,11 +10,11 @@ class KNumberState: KTokenizerState {
                  var isNegative: Boolean = false,
                  var hasFraction: Boolean = false)
 
-    override fun nextToken(ch: Int, tokenizer: KTokenizer): KToken {
-        require(tokenizer.getState(ch) is KNumberState)
+    override fun nextToken(ch: Char, tokenizer: KTokenizer): KToken {
+        require(tokenizer.getState(ch.toInt()) is KNumberState)
 
         val reader = tokenizer.reader
-        val state = Status(ch)
+        val state = Status(ch.toInt())
         var value = 0.0
 
         if (state.currentChar == '-'.toInt()) {
@@ -31,7 +29,9 @@ class KNumberState: KTokenizerState {
             value += readFraction(state, reader)
         }
 
-        reader.unread(state.currentChar)
+        if (state.isNumber) {
+            reader.unread(state.currentChar.toChar())
+        }
 
         return createToken(value, state, tokenizer)
     }
@@ -41,20 +41,20 @@ class KNumberState: KTokenizerState {
 
         if (!status.isNumber) {
             if (status.isNegative && status.hasFraction) {
-                reader.unread('.'.toInt())
-                return tokenizer.symbolState.nextToken('-'.toInt(), tokenizer)
+                reader.unread('.')
+                return tokenizer.symbolState.nextToken('-', tokenizer)
             }
             if (status.isNegative) {
-                return tokenizer.symbolState.nextToken('-'.toInt(), tokenizer)
+                return tokenizer.symbolState.nextToken('-', tokenizer)
             }
             if (status.hasFraction) {
-                return tokenizer.symbolState.nextToken('-'.toInt(), tokenizer)
+                return tokenizer.symbolState.nextToken('-', tokenizer)
             }
         }
         return KToken(KTokenType.TT_NUMBER, "", if (status.isNegative) -value else value)
     }
 
-    private fun readInteger(state: Status, reader: PushbackReader): Int {
+    private fun readInteger(state: Status, reader: CharReader): Int {
         var value = 0
         while (isDigit(state.currentChar)) {
             state.isNumber = true
@@ -64,7 +64,7 @@ class KNumberState: KTokenizerState {
         return value
     }
 
-    private fun readFraction(state: Status, reader: PushbackReader): Double {
+    private fun readFraction(state: Status, reader: CharReader): Double {
         var value = 0.0
         var place = 0.1
         while (isDigit(state.currentChar)) {
@@ -76,5 +76,5 @@ class KNumberState: KTokenizerState {
         return value
     }
 
-    private fun isDigit(c: Int) = '0'.toInt() <= c && c <= '9'.toInt()
+    private fun isDigit(c: Int) = c.toChar() in '0'..'9'
 }

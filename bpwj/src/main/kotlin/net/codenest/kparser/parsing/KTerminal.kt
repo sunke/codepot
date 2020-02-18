@@ -1,6 +1,6 @@
-package com.sjm.test.parsing
+package net.codenest.kparser.parsing
 
-import com.sjm.test.lexing.KToken
+import net.codenest.kparser.lexing.KToken
 
 
 abstract class KTerminal(name: String, level: Int = 0, private var discard: Boolean = false) : KParser<KToken>(name, level) {

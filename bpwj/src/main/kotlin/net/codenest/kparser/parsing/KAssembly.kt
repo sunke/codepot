@@ -1,7 +1,8 @@
-package com.sjm.test.parsing
+package net.codenest.kparser.parsing
 
-import com.sjm.test.lexing.KToken
-import com.sjm.test.lexing.KTokenizer
+import net.codenest.kparser.lexing.KToken
+import net.codenest.kparser.lexing.KTokenizer
+import org.apache.log4j.Logger
 
 /**
  * An assembly provides a parser with a work area.
@@ -53,13 +54,17 @@ open class KAssembly<T>(private val delimiter: String = ",") {
 }
 
 class KTokenAssembly(str: String): KAssembly<KToken>() {
+    private var log: Logger = Logger.getLogger(KTokenAssembly::class.java.name)
+
     init {
         val tokenizer = KTokenizer(str)
         var next = tokenizer.nextToken()
         while (next != KToken.EOF) {
             itemList.add(next)
+            log.debug("add token: $next")
             next = tokenizer.nextToken()
         }
+        log.debug("$this")
     }
 }
 

@@ -1,4 +1,4 @@
-package com.sjm.test.parsing
+package net.codenest.kparser.parsing
 
 import org.apache.log4j.Logger
 

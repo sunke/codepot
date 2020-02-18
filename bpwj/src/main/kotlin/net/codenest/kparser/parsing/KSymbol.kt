@@ -1,7 +1,7 @@
-package com.sjm.test.parsing
+package net.codenest.kparser.parsing
 
-import com.sjm.test.lexing.KToken
-import com.sjm.test.lexing.KTokenType
+import net.codenest.kparser.lexing.KToken
+import net.codenest.kparser.lexing.KTokenType
 
 class KSymbol(name: String = "Symbol", level: Int = 0, var symbol: KToken): KTerminal(name, level) {
 

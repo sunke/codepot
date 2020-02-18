@@ -1,4 +1,4 @@
-package com.sjm.test.parsing
+package net.codenest.kparser.parsing
 
 class KAlternation<T>(name: String = "", level: Int = 0) : KParser<T>("Alternation $name", level) {
 

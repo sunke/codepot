@@ -1,4 +1,4 @@
-package com.sjm.test.lexing
+package net.codenest.kparser.lexing
 
 
 /**
@@ -26,10 +26,10 @@ class KSymbolState : KTokenizerState {
         root.addSymbol("<=")
     }
 
-    override fun nextToken(ch: Int, tokenizer: KTokenizer): KToken {
+    override fun nextToken(ch: Char, tokenizer: KTokenizer): KToken {
         var symbol = root.findSymbol(ch.toChar(), tokenizer)
         if (symbol.isEmpty()) {
-            symbol = ch.toChar().toString()
+            symbol = ch.toString()
         }
         return KToken(KTokenType.TT_SYMBOL, symbol, 0.0)
     }
@@ -37,15 +37,16 @@ class KSymbolState : KTokenizerState {
     class KSymbolNode(private val schar: Char) {
         private val children = mutableSetOf<KSymbolNode>()
 
-        fun findSymbol(c: Char, tokenizer: KTokenizer): String {
-            if (c.toInt() < 0) return ""
-            val child = findChild(c)
+        fun findSymbol(ch: Char, tokenizer: KTokenizer): String {
+            if (ch.toInt() < 0) return ""
+            val child = findChild(ch)
 
             return if (child == null) {
-                tokenizer.reader.unread(c.toInt())
+                //TODO ??
+                //tokenizer.reader.unread(ch)
                 ""
             } else {
-                c + child.findSymbol(tokenizer.reader.read().toChar(), tokenizer)
+                  ch + child.findSymbol(tokenizer.reader.read().toChar(), tokenizer)
             }
         }
 

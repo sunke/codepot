@@ -1,4 +1,4 @@
-package com.sjm.test.lexing
+package net.codenest.kparser.lexing
 
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest

@@ -1,7 +1,7 @@
-package com.sjm.test.arithmetic
+package net.codenest.kparser.example.arithmetic
 
-import com.sjm.test.lexing.KToken
-import com.sjm.test.parsing.*
+import net.codenest.kparser.lexing.KToken
+import net.codenest.kparser.parsing.*
 
 /**
  * This class provides a parser that recognizes arithmetic expressions. It includes the method `value`,

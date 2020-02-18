@@ -1,8 +1,6 @@
-package com.sjm.test.lexing
+package net.codenest.kparser.lexing
 
 
-import java.io.PushbackReader
-import java.io.Reader
 import java.io.StringReader
 
 /**
@@ -38,12 +36,11 @@ import java.io.StringReader
  * be part of a word, after the first character.
  *
  * @author Steven J. Metsker， Alan K. Sun
+
  * ```
  */
 class KTokenizer() {
-    companion object {
-        public const val DEFAULT_SYMBOL_MAX = 4
-    }
+    val DEFAULT_SYMBOL_MAX = 4
 
     val numberState = KNumberState()
     val quoteState = KQuoteState()
@@ -55,16 +52,9 @@ class KTokenizer() {
     // default symbolState for all characters
     private var states = Array<KTokenizerState>(256) { symbolState }
 
-    fun getState(ch: Int): KTokenizerState {
-        if (0 <= ch && ch <= states.size) {
-            return states[ch]
-        } else {
-            throw RuntimeException("Unsupported character: $ch")
-        }
-    }
+    lateinit var reader: CharReader
 
-    lateinit var reader: PushbackReader
-
+    lateinit var previousToken: KToken
 
     /**
      * Constructs a tokenizer with a default state table (as described in the class comment).
@@ -82,22 +72,32 @@ class KTokenizer() {
         states['/'.toInt()] = slashState
     }
 
-    constructor(s: String) : this() {
-        readString(s)
-    }
-
-    fun readString(s: String) {
-        reader = PushbackReader(StringReader(s), DEFAULT_SYMBOL_MAX)
+    constructor(str: String) : this() {
+        reader = CharReader(StringReader(str), DEFAULT_SYMBOL_MAX)
     }
 
     fun nextToken(): KToken {
         val c = reader.read()
-        return if (0 <= c && c < states.size) {
-            getState(c).nextToken(c, this)
-        } else KToken.EOF
+        if (c in states.indices) {
+            val next = getState(c).nextToken(c.toChar(), this)
+            previousToken = next
+            return next
+        } else {
+            return KToken.EOF
+        }
     }
 
-
+    fun getState(c: Int): KTokenizerState {
+        return if (c in states.indices) {
+            if (c == '-'.toInt() && ::previousToken.isInitialized && previousToken.isNumber()) {
+                symbolState
+            } else {
+                states[c]
+            }
+        } else {
+            throw Exception("Unsupported character: $c")
+        }
+    }
 }
 
 /**
@@ -111,5 +111,5 @@ class KTokenizer() {
  * @author Steven J. Metsker, Alan K. Sun
  */
 interface KTokenizerState {
-    fun nextToken(ch: Int, tokenizer: KTokenizer): KToken
+    fun nextToken(ch: Char, tokenizer: KTokenizer): KToken
 }
