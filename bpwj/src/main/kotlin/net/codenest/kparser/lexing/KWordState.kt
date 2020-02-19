@@ -1,14 +1,11 @@
 package net.codenest.kparser.lexing
 
 
-class KWordState : KTokenizerState {
-    override fun nextToken(ch: Char, tokenizer: KTokenizer): KToken {
-        require(tokenizer.getState(ch.toInt()) is KWordState)
-
-        val reader = tokenizer.reader
+object KWordState : KTokenizerState {
+    override fun nextToken(ch: Char, reader: CharReader): KToken {
         val str = StringBuilder(ch.toChar().toString())
         var c = reader.read()
-        while (c != -1 && isWordCharacter(c.toChar(), tokenizer)) {
+        while (c != -1 && isWordCharacter(c.toChar())) {
             str.append(c.toChar())
             c = reader.read()
         }
@@ -19,8 +16,8 @@ class KWordState : KTokenizerState {
         return KToken(KTokenType.TT_WORD, str.toString(), 0.0);
     }
 
-    private fun isWordCharacter(ch: Char, tokenizer: KTokenizer): Boolean {
-        if (tokenizer.getState(ch.toInt()) is KWordState)
+    private fun isWordCharacter(ch: Char): Boolean {
+        if (KTokenizerStateTable.getState(ch, null) is KWordState)
             return true
 
         if (ch == '\'' || ch == '-' || ch == '_')

@@ -9,7 +9,9 @@ package net.codenest.kparser.lexing
 class KToken (var ttype: KTokenType, var sval: String?, var nval: Double) {
 
     companion object {
-        val EOF = KToken(KTokenType.TT_EOF, "", 0.0)
+        val START = KToken(KTokenType.TT_START, "", 0.0)
+        val END = KToken(KTokenType.TT_END, "", 0.0)
+        val SKIP = KToken(KTokenType.TT_SKIP, "", 0.0)
     }
 
     constructor(c: Char) : this(KTokenType.TT_SYMBOL, c.toString(), 0.0) {}
@@ -28,7 +30,7 @@ class KToken (var ttype: KTokenType, var sval: String?, var nval: Double) {
 
     fun value(): Any = when(ttype) {
         KTokenType.TT_NUMBER -> nval
-        KTokenType.TT_EOF -> EOF
+        KTokenType.TT_END -> END
         else -> sval?.toString() ?: ttype
     }
 
@@ -45,11 +47,18 @@ class KToken (var ttype: KTokenType, var sval: String?, var nval: Double) {
 
     override fun equals(other: Any?) = equals(other, false)
 
-    override fun toString() = if (ttype === KTokenType.TT_EOF) "EOF" else value().toString()
+    override fun toString() = when {
+        ttype === KTokenType.TT_START -> "START"
+        ttype === KTokenType.TT_END -> "EOF"
+        ttype === KTokenType.TT_SKIP -> "SKIP"
+        else -> value().toString()
+    }
 }
 
 enum class KTokenType {
-    TT_EOF,
+    TT_SKIP,
+    TT_START,
+    TT_END,
     TT_NUMBER,
     TT_WORD,
     TT_SYMBOL,

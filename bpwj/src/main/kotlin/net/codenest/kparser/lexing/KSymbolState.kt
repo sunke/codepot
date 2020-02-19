@@ -17,7 +17,7 @@ package net.codenest.kparser.lexing
  * By default, this state recognizes the following multi-character symbols: !=, :-, <=, >=
  * ```
  */
-class KSymbolState : KTokenizerState {
+object KSymbolState : KTokenizerState {
     private var root = KSymbolNode(0.toChar())
 
     init {
@@ -26,8 +26,8 @@ class KSymbolState : KTokenizerState {
         root.addSymbol("<=")
     }
 
-    override fun nextToken(ch: Char, tokenizer: KTokenizer): KToken {
-        var symbol = root.findSymbol(ch.toChar(), tokenizer)
+    override fun nextToken(ch: Char, reader: CharReader): KToken {
+        var symbol = root.findSymbol(ch.toChar(), reader)
         if (symbol.isEmpty()) {
             symbol = ch.toString()
         }
@@ -37,7 +37,7 @@ class KSymbolState : KTokenizerState {
     class KSymbolNode(private val schar: Char) {
         private val children = mutableSetOf<KSymbolNode>()
 
-        fun findSymbol(ch: Char, tokenizer: KTokenizer): String {
+        fun findSymbol(ch: Char, reader: CharReader): String {
             if (ch.toInt() < 0) return ""
             val child = findChild(ch)
 
@@ -46,7 +46,7 @@ class KSymbolState : KTokenizerState {
                 //tokenizer.reader.unread(ch)
                 ""
             } else {
-                  ch + child.findSymbol(tokenizer.reader.read().toChar(), tokenizer)
+                  ch + child.findSymbol(reader.read().toChar(), reader)
             }
         }
 

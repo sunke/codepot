@@ -1,11 +1,8 @@
 package net.codenest.kparser.lexing
 
 
-class KSlashState : KTokenizerState {
-    override fun nextToken(ch: Char, tokenizer: KTokenizer): KToken {
-        require(tokenizer.getState(ch.toInt()) is KSlashState)
-
-        val reader = tokenizer.reader
+object KSlashState : KTokenizerState {
+    override fun nextToken(ch: Char, reader: CharReader): KToken {
         var cin = reader.read()
 
         // '/*' state ignores everything up to a closing '*/', and then returns the tokenizer's next token.
@@ -29,7 +26,6 @@ class KSlashState : KTokenizerState {
             }
         }
 
-
-        return tokenizer.nextToken()
+        return KToken.SKIP
     }
 }

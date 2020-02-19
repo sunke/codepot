@@ -1,21 +1,18 @@
 package net.codenest.kparser.lexing
 
 
-class KWhitespaceState : KTokenizerState {
-    override fun nextToken(ch: Char, tokenizer: KTokenizer): KToken {
-        require(tokenizer.getState(ch.toInt()) is KWhitespaceState)
-
-        val reader = tokenizer.reader
+object KWhitespaceState : KTokenizerState {
+    override fun nextToken(ch: Char, reader: CharReader): KToken {
         var ch = reader.read()
-        while (ch != -1 && isWhitespace(ch.toChar(), tokenizer)) {
+        while (ch != -1 && isWhitespace(ch.toChar())) {
             ch = reader.read()
         }
         if (ch != -1) {
             reader.unread(ch.toChar())
         }
 
-        return tokenizer.nextToken()
+        return KToken.SKIP
     }
 
-    private fun isWhitespace(ch: Char, tokenizer: KTokenizer) = tokenizer.getState(ch.toInt()) is KWhitespaceState
+    private fun isWhitespace(ch: Char) = KTokenizerStateTable.getState(ch, null) is KWhitespaceState
 }

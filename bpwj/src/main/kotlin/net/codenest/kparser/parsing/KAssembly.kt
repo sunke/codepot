@@ -59,9 +59,11 @@ class KTokenAssembly(str: String): KAssembly<KToken>() {
     init {
         val tokenizer = KTokenizer(str)
         var next = tokenizer.nextToken()
-        while (next != KToken.EOF) {
-            itemList.add(next)
-            log.debug("add token: $next")
+        while (next != KToken.END) {
+            if (next != KToken.START && next != KToken.SKIP) {
+                itemList.add(next)
+                log.debug("add token: $next")
+            }
             next = tokenizer.nextToken()
         }
         log.debug("$this")

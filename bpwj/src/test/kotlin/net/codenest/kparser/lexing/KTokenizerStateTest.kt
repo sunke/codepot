@@ -65,7 +65,7 @@ class KTokenizerStateTest {
     fun testWhitespaceState(str: String, value: String, msg: String = "") {
         val tokenizer = KTokenizer(str)
         val token = tokenizer.nextToken()
-        assertEquals(KToken(KTokenType.TT_EOF, "", 0.0), token, msg)
+        assertEquals(KToken(KTokenType.TT_END, "", 0.0), token, msg)
     }
 
     private fun whitespaceStateTestSource(): Stream<Arguments> {

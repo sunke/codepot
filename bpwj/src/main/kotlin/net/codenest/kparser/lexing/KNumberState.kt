@@ -4,16 +4,13 @@ package net.codenest.kparser.lexing
  * A NumberState object returns a number from a reader. This state's idea of a number allows an optional, initial
  * minus sign, followed by one or more digits. A decimal point and another string of digits may follow these digits.
  */
-class KNumberState: KTokenizerState {
+object KNumberState: KTokenizerState {
     class Status(var currentChar: Int,
                  var isNumber: Boolean = false,
                  var isNegative: Boolean = false,
                  var hasFraction: Boolean = false)
 
-    override fun nextToken(ch: Char, tokenizer: KTokenizer): KToken {
-        require(tokenizer.getState(ch.toInt()) is KNumberState)
-
-        val reader = tokenizer.reader
+    override fun nextToken(ch: Char, reader: CharReader): KToken {
         val state = Status(ch.toInt())
         var value = 0.0
 
@@ -33,22 +30,20 @@ class KNumberState: KTokenizerState {
             reader.unread(state.currentChar.toChar())
         }
 
-        return createToken(value, state, tokenizer)
+        return createToken(value, state, reader)
     }
 
-    private fun createToken(value: Double, status: Status, tokenizer: KTokenizer): KToken {
-        val reader = tokenizer.reader
-
+    private fun createToken(value: Double, status: Status, reader: CharReader): KToken {
         if (!status.isNumber) {
             if (status.isNegative && status.hasFraction) {
                 reader.unread('.')
-                return tokenizer.symbolState.nextToken('-', tokenizer)
+                return KSymbolState.nextToken('-', reader)
             }
             if (status.isNegative) {
-                return tokenizer.symbolState.nextToken('-', tokenizer)
+                return KSymbolState.nextToken('-', reader)
             }
             if (status.hasFraction) {
-                return tokenizer.symbolState.nextToken('-', tokenizer)
+                return KSymbolState.nextToken('-', reader)
             }
         }
         return KToken(KTokenType.TT_NUMBER, "", if (status.isNegative) -value else value)
