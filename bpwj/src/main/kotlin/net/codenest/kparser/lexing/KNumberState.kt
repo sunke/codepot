@@ -5,71 +5,57 @@ package net.codenest.kparser.lexing
  * minus sign, followed by one or more digits. A decimal point and another string of digits may follow these digits.
  */
 object KNumberState: KTokenizerState {
-    class Status(var currentChar: Int,
-                 var isNumber: Boolean = false,
-                 var isNegative: Boolean = false,
-                 var hasFraction: Boolean = false)
 
     override fun nextToken(ch: Char, reader: CharReader): KToken {
-        val state = Status(ch.toInt())
+        var isNumber = false
+        var isNegative = false
+        var hasFraction = false
+        var next = ch.toInt()
         var value = 0.0
 
-        if (state.currentChar == '-'.toInt()) {
-            state.currentChar = reader.read()
-            state.isNegative = true
-        }
-        value += readInteger(state, reader)
-
-        if (state.currentChar == '.'.toInt()) {
-            state.currentChar = reader.read()
-            state.hasFraction = true
-            value += readFraction(state, reader)
+        // get negative sign
+        if (ch == '-') {
+            isNegative = true
+            next = reader.read()
         }
 
-        if (state.isNumber) {
-            reader.unread(state.currentChar.toChar())
+        // get integer part
+        while (isDigit(next)) {
+            isNumber = true
+            value = value * 10 + (next - '0'.toInt())
+            next = reader.read()
         }
 
-        return createToken(value, state, reader)
-    }
+        // get fraction part
+        if (next == '.'.toInt()) {
+            hasFraction = true
+            next = reader.read()
+            var place = 0.1
+            while (isDigit(next)) {
+                isNumber = true
+                value += (next - '0'.toInt()) * place
+                place *= 0.1
+                next = reader.read()
+            }
+        }
 
-    private fun createToken(value: Double, status: Status, reader: CharReader): KToken {
-        if (!status.isNumber) {
-            if (status.isNegative && status.hasFraction) {
+        if (!isNumber) {
+            if (isNegative && hasFraction) {
                 reader.unread('.')
                 return KSymbolState.nextToken('-', reader)
             }
-            if (status.isNegative) {
+            if (isNegative) {
                 return KSymbolState.nextToken('-', reader)
             }
-            if (status.hasFraction) {
-                return KSymbolState.nextToken('-', reader)
+            if (hasFraction) {
+                return KSymbolState.nextToken('.', reader)
             }
+        } else {
+            reader.unread(next.toChar())
         }
-        return KToken(KTokenType.TT_NUMBER, "", if (status.isNegative) -value else value)
+
+        return KToken(KTokenType.TT_NUMBER, "", if (isNegative) -value else value)
     }
 
-    private fun readInteger(state: Status, reader: CharReader): Int {
-        var value = 0
-        while (isDigit(state.currentChar)) {
-            state.isNumber = true
-            value = value * 10 + (state.currentChar - '0'.toInt())
-            state.currentChar = reader.read()
-        }
-        return value
-    }
-
-    private fun readFraction(state: Status, reader: CharReader): Double {
-        var value = 0.0
-        var place = 0.1
-        while (isDigit(state.currentChar)) {
-            state.isNumber = true
-            value += (state.currentChar - '0'.toInt()) * place
-            place *= 0.1
-            state.currentChar = reader.read()
-        }
-        return value
-    }
-
-    private fun isDigit(c: Int) = c.toChar() in '0'..'9'
+    private fun isDigit(c: Int) = c in '0'.toInt()..'9'.toInt()
 }

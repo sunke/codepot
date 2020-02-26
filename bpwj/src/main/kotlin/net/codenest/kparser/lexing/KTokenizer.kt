@@ -44,7 +44,7 @@ class KTokenizer(str: String) {
 
     private var previousState: KTokenizerState? = null
 
-    private var reader = CharReader(StringReader(str), 4)
+    private val reader = CharReader(StringReader(str), 4)
 
     fun nextToken(): KToken {
         val c = reader.read()
