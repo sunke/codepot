@@ -10,8 +10,8 @@ class KArithmeticParserTest {
     fun testAssociativity() {
         assertEquals(4.0, calculate("7 - 3"))
         assertEquals(4.0, calculate("7-3"))
-        //assertEquals(3.0, calculate("7 - 3 - 1"))
-        //assertEquals(2.0, calculate("2 ^ 1 ^ 4"))
+        assertEquals(3.0, calculate("7 - 3 - 1"))
+        assertEquals(2.0, calculate("2 ^ 1 ^ 4"))
     }
 
     @Test
