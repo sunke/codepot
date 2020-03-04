@@ -7,55 +7,68 @@ package net.codenest.kparser.lexing
 object KNumberState: KTokenizerState {
 
     override fun nextToken(ch: Char, reader: CharReader): KToken {
-        var isNumber = false
+        require(isDigit(ch.toInt()) || ch == '-')
+
         var isNegative = false
-        var hasFraction = false
+        var isComma = false
         var next = ch.toInt()
         var value = 0.0
 
         // get negative sign
-        if (ch == '-') {
+        if (next == '-'.toInt()) {
             isNegative = true
             next = reader.read()
+            if (next == -1) return KSymbolState.nextToken('-', reader)
+        }
+        if (!isDigit(next)) {
+            return if (isNegative) {
+                reader.unread(next.toChar())
+                KSymbolState.nextToken('-', reader)
+            } else {
+                KSymbolState.nextToken(next.toChar(), reader)
+            }
         }
 
         // get integer part
-        while (isDigit(next)) {
-            isNumber = true
-            value = value * 10 + (next - '0'.toInt())
+        while (isDigit(next) || next == ','.toInt()) {
+            isComma = next == ','.toInt()
+            if (isDigit(next)) value = value * 10 + (next - '0'.toInt())
             next = reader.read()
+            if (next == -1) return getTokenNumber(isNegative, value)
+        }
+        if (isComma) {
+            reader.unread(next.toChar())
+            reader.unread(',')
+            return getTokenNumber(isNegative, value)
         }
 
         // get fraction part
         if (next == '.'.toInt()) {
-            hasFraction = true
             next = reader.read()
+            if (next == -1) {
+                reader.unread('.')
+                return getTokenNumber(isNegative, value)
+            }
+            if (!isDigit(next)) {
+                reader.unread(next.toChar())
+                reader.unread('.')
+                return getTokenNumber(isNegative, value)
+            }
+
             var place = 0.1
             while (isDigit(next)) {
-                isNumber = true
                 value += (next - '0'.toInt()) * place
                 place *= 0.1
                 next = reader.read()
             }
+            if (next == -1) return getTokenNumber(isNegative, value)
         }
-
-        if (!isNumber) {
-            if (isNegative && hasFraction) {
-                reader.unread('.')
-                return KSymbolState.nextToken('-', reader)
-            }
-            if (isNegative) {
-                return KSymbolState.nextToken('-', reader)
-            }
-            if (hasFraction) {
-                return KSymbolState.nextToken('.', reader)
-            }
-        } else {
-            reader.unread(next.toChar())
-        }
-
-        return KToken(KTokenType.TT_NUMBER, "", if (isNegative) -value else value)
+        reader.unread(next.toChar())
+        return getTokenNumber(isNegative, value)
     }
+
+    private fun getTokenNumber(isNegative: Boolean, value: Double) =
+            KToken(KTokenType.TT_NUMBER, "", if (isNegative) -value else value)
 
     private fun isDigit(c: Int) = c in '0'.toInt()..'9'.toInt()
 }

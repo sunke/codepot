@@ -12,6 +12,8 @@ class KToken (var ttype: KTokenType, var sval: String?, var nval: Double) {
         val START = KToken(KTokenType.TT_START, "", 0.0)
         val END = KToken(KTokenType.TT_END, "", 0.0)
         val SKIP = KToken(KTokenType.TT_SKIP, "", 0.0)
+
+        val NUMERIC_TOLERANCE = 1e-6;
     }
 
     constructor(c: Char) : this(KTokenType.TT_SYMBOL, c.toString(), 0.0) {}
@@ -40,7 +42,7 @@ class KToken (var ttype: KTokenType, var sval: String?, var nval: Double) {
         if (ttype !== other.ttype) return false
 
         return when(ttype) {
-            KTokenType.TT_NUMBER -> nval == other.nval
+            KTokenType.TT_NUMBER -> Math.abs(nval - other.nval) < NUMERIC_TOLERANCE
             else -> sval?.equals(other.sval, ignoreCase) ?: (other.sval === null)
         }
     }

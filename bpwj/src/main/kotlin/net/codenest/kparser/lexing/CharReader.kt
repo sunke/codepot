@@ -2,6 +2,7 @@ package net.codenest.kparser.lexing
 
 import org.apache.log4j.Logger
 import java.io.FilterReader
+import java.io.PushbackReader
 import java.io.Reader
 import java.lang.System.arraycopy
 
