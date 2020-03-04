@@ -5,9 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import java.io.StringReader
 
-internal class KNumberStateTest {
-
-    private val numberState = KNumberState
+internal class KNumberStateTest: KTokenStateTest(state = KNumberState) {
 
     @Test
     fun testParseNumber() {
@@ -41,21 +39,5 @@ internal class KNumberStateTest {
         assertToken(KToken(KTokenType.TT_NUMBER, "", 6.0), "6,b", ",b")
         assertToken(KToken(KTokenType.TT_NUMBER, "", 1.23), "1.23,6b", ",6b")
         assertToken(KToken(KTokenType.TT_SYMBOL, "-", 0.0), "-,234", ",234")
-    }
-
-    private fun assertToken(expect: KToken, str: String, expectRest: String = "") {
-        val reader = CharReader(StringReader(str))
-        assertEquals(expect, numberState.nextToken(reader.read().toChar(), reader))
-        assertEquals(expectRest, readRest(reader))
-    }
-
-    private fun readRest(reader: CharReader): String {
-        var rest = ""
-        var ch = reader.read()
-        while (ch != -1) {
-            rest += ch.toChar().toString()
-            ch = reader.read()
-        }
-        return rest
     }
 }
