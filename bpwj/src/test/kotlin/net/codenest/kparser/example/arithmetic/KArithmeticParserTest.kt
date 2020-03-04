@@ -1,20 +1,11 @@
 package net.codenest.kparser.example.arithmetic
 
+import net.codenest.kparser.lexing.KToken
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
 class KArithmeticParserTest {
-    private val DELTA_TOLERANCE = 1e-6;
-
-    @Test
-    fun testParseNumber() {
-        checkValue(42.0, calculate("42"))
-        checkValue(37.6, calculate("37.6"))
-        checkValue(0.175, calculate("0.175"))
-        checkValue(-6.6, calculate("-6.6"))
-    }
-
     @Test
     fun testAssociativity() {
         assertEquals(4.0, calculate("7 - 3"))
@@ -46,7 +37,7 @@ class KArithmeticParserTest {
     }
 
     private fun checkValue(expected: Double, actual: Double) {
-        assertEquals(expected, actual, DELTA_TOLERANCE);
+        assertEquals(expected, actual, KToken.NUMERIC_TOLERANCE);
     }
 
     private fun assertImproperlyFormed(exp: String) {

@@ -1,8 +1,6 @@
 package net.codenest.kparser.lexing
 
 import org.apache.log4j.Logger
-import java.io.FilterReader
-import java.io.PushbackReader
 import java.io.Reader
 import java.lang.System.arraycopy
 
@@ -23,6 +21,10 @@ class CharReader(val input: Reader, private val bufferSize: Int = 4) {
         val c = if (pos < bufferSize) buf[pos++].toInt() else input.read()
         log.debug("read: " + if (c == -1) "-1" else c.toChar() + " -> $this")
         return c
+    }
+
+    fun unread(c: Int) {
+        if (c != -1) unread(c.toChar())
     }
 
     fun unread(ch: Char) {

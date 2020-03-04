@@ -24,6 +24,15 @@ internal class KNumberStateTest {
     }
 
     @Test
+    fun testScientificNotation() {
+        assertToken(KToken(KTokenType.TT_NUMBER, "", 602.0), "6.02e2")
+        assertToken(KToken(KTokenType.TT_NUMBER, "", 0.016), "1.6E-2")
+
+        assertToken(KToken(KTokenType.TT_NUMBER, "", -5.0), "-5e", "e")
+        assertToken(KToken(KTokenType.TT_NUMBER, "", 23.0), "23e-", "e-")
+    }
+
+    @Test
     fun testValidateNumber() {
         assertToken(KToken(KTokenType.TT_NUMBER, "", 4.0), "4.a", ".a")
         assertToken(KToken(KTokenType.TT_SYMBOL, "-", 0.0), "-a", "a")
