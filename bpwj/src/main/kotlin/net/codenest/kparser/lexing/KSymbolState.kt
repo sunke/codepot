@@ -27,7 +27,7 @@ object KSymbolState : KTokenizerState {
     }
 
     override fun nextToken(ch: Char, reader: CharReader): KToken {
-        var symbol = root.findSymbol(ch.toChar(), reader)
+        var symbol = root.findSymbol(ch, reader)
         if (symbol.isEmpty()) {
             symbol = ch.toString()
         }
@@ -38,15 +38,17 @@ object KSymbolState : KTokenizerState {
         private val children = mutableSetOf<KSymbolNode>()
 
         fun findSymbol(ch: Char, reader: CharReader): String {
-            if (ch.toInt() < 0) return ""
-            val child = findChild(ch)
+            val child = findChild(ch) ?: return ""
 
-            return if (child == null) {
-                //TODO ??
-                //tokenizer.reader.unread(ch)
-                ""
+            val next = reader.read()
+            if (next == -1) return ch.toString()
+
+            val symbol = child.findSymbol(next.toChar(), reader)
+            return if (symbol.isNotEmpty()) {
+                ch + symbol
             } else {
-                  ch + child.findSymbol(reader.read().toChar(), reader)
+                reader.unread(next)
+                ch.toString()
             }
         }
 
@@ -56,14 +58,12 @@ object KSymbolState : KTokenizerState {
             }
         }
 
-        private fun addChild(c: Char): KSymbolNode {
-            val child = findChild(c) ?: KSymbolNode(c)
+        private fun addChild(ch: Char): KSymbolNode {
+            val child = findChild(ch) ?: KSymbolNode(ch)
             children.add(child)
             return child
         }
 
-        private fun findChild(c: Char): KSymbolNode? {
-            return children.firstOrNull { it.schar == c }
-        }
+        private fun findChild(ch: Char): KSymbolNode? = children.firstOrNull { it.schar == ch }
     }
 }

@@ -19,7 +19,9 @@ object KTokenizerStateTable {
 
     fun isValidChar(c: Int) = c in states.indices
 
-    fun isWhitesapce(ch: Char) = getState(ch, null) is KWhitespaceState
+    fun isWhitespace(ch: Char) = getState(ch, null) is KWhitespaceState
+
+    fun isQuote(ch: Char) = getState(ch, null) is KQuoteState
 
     fun setState(ch: Char, state: KTokenizerState) {
         states[ch.toInt()] = state

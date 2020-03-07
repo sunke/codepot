@@ -16,11 +16,11 @@ class KToken (var ttype: KTokenType, var sval: String?, var nval: Double) {
         val NUMERIC_TOLERANCE = 1e-6;
     }
 
-    constructor(c: Char) : this(KTokenType.TT_SYMBOL, c.toString(), 0.0) {}
+    constructor(ch: Char) : this(KTokenType.TT_SYMBOL, ch.toString(), 0.0) {}
 
-    constructor(nval: Double) : this(KTokenType.TT_NUMBER, "", nval) {}
+    constructor(number: Double) : this(KTokenType.TT_NUMBER, "", number) {}
 
-    constructor(sval: String) : this(KTokenType.TT_WORD, sval, 0.0) {}
+    constructor(word: String) : this(KTokenType.TT_WORD, word, 0.0) {}
 
     fun isNumber() = ttype === KTokenType.TT_NUMBER
 

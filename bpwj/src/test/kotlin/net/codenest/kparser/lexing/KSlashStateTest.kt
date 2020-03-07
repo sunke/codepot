@@ -21,6 +21,7 @@ class KSlashStateTest: KTokenStateTest(state = KSlashState) {
     @Test
     fun testInvalidSlash() {
         assertToken(KToken(KTokenType.TT_SYMBOL, "/", 0.0), "/x", "x")
-        assertToken(KToken.SKIP, "/*/")
+        assertThrow("/*/x", "Unmatched slash symbol: /*/x")
+        assertThrow("/**x", "Unmatched slash symbol: /**x")
     }
 }
