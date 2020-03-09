@@ -7,7 +7,7 @@ import java.lang.System.arraycopy
 /**
  * A character reader that allows characters to be pushed back to the stream.
  */
-class CharReader(val input: Reader, private val bufferSize: Int = 4) {
+class CharReader(private val input: Reader, private val bufferSize: Int = 4) {
     init {
         require(this.bufferSize > 0) { "Buffer size should larger than zero." }
     }

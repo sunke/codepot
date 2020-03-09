@@ -1,5 +1,6 @@
 package net.codenest.kparser.lexing
 
+import net.codenest.kparser.lexing.KToken.Companion.createNumber
 import kotlin.math.pow
 
 /**
@@ -32,12 +33,12 @@ object KNumberState: KTokenizerState {
             endWithComma = isComma(next)
             if (isDigit(next)) value = value * 10 + (next - '0'.toInt())
             next = reader.read()
-            if (next == -1) return getTokenNumber(isNegative, value)
+            if (next == -1) return getNumber(isNegative, value)
         }
         if (endWithComma) {
             reader.unread(next)
             reader.unread(',')
-            return getTokenNumber(isNegative, value)
+            return getNumber(isNegative, value)
         }
 
         // get fraction part
@@ -46,7 +47,7 @@ object KNumberState: KTokenizerState {
             if (next == -1 || !isDigit(next)) {
                 reader.unread(next)
                 reader.unread('.')
-                return getTokenNumber(isNegative, value)
+                return getNumber(isNegative, value)
             }
 
             var place = 0.1
@@ -60,11 +61,11 @@ object KNumberState: KTokenizerState {
         // check scientific notation
         if (isExp(next)) {
             value *= 10.0.pow(getExpValue(next, reader))
-            return getTokenNumber(isNegative, value)
+            return getNumber(isNegative, value)
         }
 
         reader.unread(next)
-        return getTokenNumber(isNegative, value)
+        return getNumber(isNegative, value)
     }
 
     private fun getExpValue(exp: Int, reader: CharReader): Double {
@@ -105,8 +106,7 @@ object KNumberState: KTokenizerState {
         return if (isNegative) -value else value
     }
 
-    private fun getTokenNumber(isNegative: Boolean, value: Double) =
-            KToken(KTokenType.TT_NUMBER, "", if (isNegative) -value else value)
+    private fun getNumber(isNegative: Boolean, value: Double) = createNumber(if (isNegative) -value else value)
 
     private fun isDigit(c: Int) = c in '0'.toInt()..'9'.toInt()
 
