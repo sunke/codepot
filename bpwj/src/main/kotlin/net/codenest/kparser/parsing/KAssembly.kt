@@ -10,7 +10,7 @@ import org.apache.log4j.Logger
 open class KAssembly<T>(private val delimiter: String = ",") {
 
     // store the intermediate or final parsing result
-    var resultStack = mutableListOf<Any>()
+    private var resultStack = mutableListOf<Any>()
 
     fun push(t: Any) = apply { resultStack.add(t) }
 
@@ -18,9 +18,11 @@ open class KAssembly<T>(private val delimiter: String = ",") {
 
 
     // store the input items. The items can be tokens or characters
-    var itemList = mutableListOf<T>()
+    private var itemList = mutableListOf<T>()
 
     private var consumedItemPos = 0
+
+    fun addItem(t: T) = apply { itemList.add(t) }
 
     fun peekItem(): T? = if (consumedItemPos < itemList.size) itemList[consumedItemPos] else null
 
@@ -61,7 +63,7 @@ class KTokenAssembly(str: String): KAssembly<KToken>() {
         var next = tokenizer.nextToken()
         while (next != KToken.END) {
             if (next != KToken.START && next != KToken.SKIP) {
-                itemList.add(next)
+                addItem(next)
                 log.debug("add token: $next")
             }
             next = tokenizer.nextToken()
