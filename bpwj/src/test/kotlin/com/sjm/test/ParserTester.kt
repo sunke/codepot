@@ -7,9 +7,6 @@ import java.util.*
 /**
  * This class generates random language elements for a
  * parser and tests that the parser can accept them.
- *
- * @author Steven J. Metsker, Alan K. Sun
- * @version 2.0
  */
 class ParserTester(var parser: Parser, private val showLog: Boolean = true) {
 

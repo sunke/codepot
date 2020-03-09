@@ -10,6 +10,10 @@ abstract class KTerminal(name: String, level: Int = 0, private var discard: Bool
         return this
     }
 
+    /**
+     * Given a list of assemblies, this method matches this terminal against all of them, and returns a new
+     * list of the assemblies that result from the matches.
+     */
     override fun match(assemblies: List<KAssembly<KToken>>): List<KAssembly<KToken>> {
         val out = mutableListOf<KAssembly<KToken>>()
         assemblies.filter { it.hasMoreItem() && qualify(it.peekItem()!!) }
@@ -22,5 +26,8 @@ abstract class KTerminal(name: String, level: Int = 0, private var discard: Bool
         return out
     }
 
+    /**
+     * Check that the given token qualifies as the type of terminal this terminal looks for.
+     */
     abstract fun qualify(token: KToken): Boolean
 }

@@ -5,33 +5,47 @@ import org.apache.log4j.Logger
 /**
  * A parser is an object that recognizes a language.
  */
-abstract class KParser<T>(val name: String = "", val level: Int = 0) {
+abstract class KParser<T>(private val name: String = "", private val level: Int = 0) {
 
     private var log: Logger = Logger.getLogger(KParser::class.java.name)
 
-    var assembler: KAssembler<T>? = null
+    private var assembler: KAssembler<T>? = null
 
     fun setAssembler(assembler: KAssembler<T>): KParser<T> {
         this.assembler = assembler
         return this
     }
 
+    /**
+     * Return a new Assembly without unrecognized items or NULL
+     */
     fun completeMatch(assembly: KAssembly<T>): KAssembly<T>? {
         val best = bestMatch(assembly)
         return if (best != null && !best.hasMoreItem()) best else null
     }
 
+    /**
+     * Return a new Assembly with least unrecognized items
+     */
     fun bestMatch(assembly: KAssembly<T>): KAssembly<T>? {
-        return matchAndAssemble(listOf(assembly)).minBy { it.remainItemNr() }
+        val ays = matchAndAssemble(listOf(assembly)).sortedBy{ it.remainItemNr()}
+
+        // detect ambiguity
+        if (ays.size >= 2 && ays[0].remainItemNr() == 0 && ays[1].remainItemNr() == 0 )
+            throw Exception("Detect ambiguity in the parsing")
+
+        return ays.minBy{ it.remainItemNr() }
     }
 
+    /**
+     * Match the given assemblies and applying assemblers if exist.
+     */
     fun matchAndAssemble(assemblies: List<KAssembly<T>>): List<KAssembly<T>> {
-        printAST(assemblies)
-        return match(assemblies).apply { forEach { assembler?.workOn(it) } }
-    }
-
-    private fun printAST(assemblies: List<KAssembly<T>>) {
         log.debug("${"\t".repeat(level)}$name    $assemblies")
+
+        if (assemblies.isEmpty()) return assemblies;
+
+        return match(assemblies).apply { forEach { assembler?.workOn(it) } }
     }
 
     /**
@@ -46,7 +60,7 @@ abstract class KParser<T>(val name: String = "", val level: Int = 0) {
      *
      * @param assemblies a list of assemblies to match against
      *
-     * @return a list of assemblies that result from matching against a beginning list of assemblies
+     * @return a list of assemblies that result from matching against the given assemblies
      */
     abstract fun match(assemblies: List<KAssembly<T>>): List<KAssembly<T>>
 }
