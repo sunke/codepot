@@ -34,7 +34,6 @@ class KToken (var ttype: KTokenType, var sval: String?, var nval: Double) {
 
     fun value(): Any = when(ttype) {
         TT_NUMBER -> nval
-        TT_END -> END
         else -> sval ?: ttype
     }
 
@@ -60,7 +59,7 @@ class KToken (var ttype: KTokenType, var sval: String?, var nval: Double) {
 
     override fun toString() = when {
         ttype === TT_START -> "START"
-        ttype === TT_END -> "EOF"
+        ttype === TT_END -> "END"
         ttype === TT_SKIP -> "SKIP"
         else -> value().toString()
     }
