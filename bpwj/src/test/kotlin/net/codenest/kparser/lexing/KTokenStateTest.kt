@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import java.io.StringReader
 import kotlin.test.assertFailsWith
 
-open class KTokenStateTest(var state: KTokenizerState) {
+abstract class KTokenStateTest(var state: KTokenizerState) {
 
     fun assertToken(expect: KToken, str: String, expectRest: String = "") {
         val reader = CharReader(StringReader(str))
