@@ -1,6 +1,9 @@
 package net.codenest.kparser.parsing
 
 import net.codenest.kparser.lexing.KToken
+import net.codenest.kparser.lexing.KToken.Companion.createQuote
+import net.codenest.kparser.lexing.KToken.Companion.createSymbol
+import net.codenest.kparser.lexing.KToken.Companion.createWord
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -11,9 +14,9 @@ class KAssemblyTest {
         var expect: List<KToken>?
 
         expect = listOf(
-                KToken.createWord("Let's"),
-                KToken.createQuote("'rock and roll'"),
-                KToken.createSymbol("!"))
+                createWord("Let's"),
+                createQuote("'rock and roll'"),
+                createSymbol("!"))
         assertTokens(expect, "Let's 'rock and roll'!")
     }
 
