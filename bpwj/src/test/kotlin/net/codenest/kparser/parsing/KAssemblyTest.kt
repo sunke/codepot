@@ -20,6 +20,15 @@ class KAssemblyTest {
         assertTokens(expect, "Let's 'rock and roll'!")
     }
 
+    @Test
+    fun testPrintAssembly() {
+        assertEquals("[]|^Congress/admitted/Colorado/in/1876.0/.",
+                KTokenAssembly("Congress admitted Colorado in 1876.", "/").toString())
+
+        assertEquals("[]|^admitted/(/colorado/,/1876.0/)",
+                KTokenAssembly("admitted(colorado, 1876)", "/").toString())
+    }
+
     private fun assertTokens(expect: List<KToken>, str: String) {
         val assembly = KTokenAssembly(str)
         val actual = mutableListOf<KToken>()
