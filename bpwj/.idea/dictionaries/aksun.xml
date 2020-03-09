@@ -2,6 +2,8 @@
   <dictionary name="aksun">
     <words>
       <w>nval</w>
+      <w>sval</w>
+      <w>ttype</w>
     </words>
   </dictionary>
 </component>

@@ -12,18 +12,17 @@ import kotlin.math.abs
 class KToken (var ttype: KTokenType, var sval: String?, var nval: Double) {
 
     companion object {
+        const val NUMBER_DELTA_TOLERANCE = 1e-6
+
         val START = KToken(TT_START, "", 0.0)
         val END = KToken(TT_END, "", 0.0)
         val SKIP = KToken(TT_SKIP, "", 0.0)
 
-        const val NUMBER_DELTA_TOLERANCE = 1e-6
+        fun createSymbol(str: String) = KToken(TT_SYMBOL, str, 0.0)
+        fun createNumber(number: Double) = KToken(TT_NUMBER, "", number)
+        fun createWord(word: String) = KToken(TT_WORD, word, 0.0)
+        fun createQuote(str: String) = KToken(TT_QUOTED, str, 0.0)
     }
-
-    constructor(ch: Char) : this(TT_SYMBOL, ch.toString(), 0.0)
-
-    constructor(number: Double) : this(TT_NUMBER, "", number)
-
-    constructor(word: String) : this(TT_WORD, word, 0.0)
 
     fun isNumber() = ttype === TT_NUMBER
 

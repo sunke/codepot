@@ -1,15 +1,16 @@
 package net.codenest.kparser.lexing
 
+import net.codenest.kparser.lexing.KToken.Companion.createQuote
 import org.junit.jupiter.api.Test
 
 class KQuoteStateTest : KTokenStateTest(state = KQuoteState)  {
 
     @Test
     fun testQuoteText() {
-        assertToken(KToken(KTokenType.TT_QUOTED, "\"abc\"", 0.0), "\"abc\"def", "def")
-        assertToken(KToken(KTokenType.TT_QUOTED, "\"\"", 0.0), "\"\"")
-        assertToken(KToken(KTokenType.TT_QUOTED, "\'abc\'", 0.0), "\'abc\'def", "def")
-        assertToken(KToken(KTokenType.TT_QUOTED, "\'\'", 0.0), "\'\'")
+        assertToken(createQuote("\"abc\""), "\"abc\"def", "def")
+        assertToken(createQuote("\"\""), "\"\"")
+        assertToken(createQuote("\'abc\'"), "\'abc\'def", "def")
+        assertToken(createQuote("\'\'"), "\'\'")
     }
 
     @Test

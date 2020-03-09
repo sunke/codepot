@@ -1,5 +1,6 @@
 package net.codenest.kparser.lexing
 
+import net.codenest.kparser.lexing.KToken.Companion.createSymbol
 import org.junit.jupiter.api.Test
 
 class KSlashStateTest: KTokenStateTest(state = KSlashState) {
@@ -20,7 +21,7 @@ class KSlashStateTest: KTokenStateTest(state = KSlashState) {
 
     @Test
     fun testInvalidSlash() {
-        assertToken(KToken(KTokenType.TT_SYMBOL, "/", 0.0), "/x", "x")
+        assertToken(createSymbol("/"), "/x", "x")
         assertThrow("/*/x", "Unmatched slash symbol: /*/x")
         assertThrow("/**x", "Unmatched slash symbol: /**x")
     }

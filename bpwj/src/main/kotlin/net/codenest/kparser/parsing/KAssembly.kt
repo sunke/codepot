@@ -7,7 +7,7 @@ import org.apache.log4j.Logger
 /**
  * An assembly provides a parser with a work area.
  */
-open class KAssembly<T>(private val delimiter: String = ",") {
+open class KAssembly<T>(private val delimiter: String = "/") {
 
     // store the intermediate or final parsing result
     private var resultStack = mutableListOf<Any>()
@@ -55,7 +55,7 @@ open class KAssembly<T>(private val delimiter: String = ",") {
     private fun remainItems(): String = itemList.subList(consumedItemNr(), itemNr()).joinToString(separator = delimiter)
 }
 
-class KTokenAssembly(str: String): KAssembly<KToken>() {
+class KTokenAssembly(str: String, delimiter: String = "/"): KAssembly<KToken>(delimiter) {
     private var log: Logger = Logger.getLogger(KTokenAssembly::class.java.name)
 
     init {
@@ -64,7 +64,7 @@ class KTokenAssembly(str: String): KAssembly<KToken>() {
         while (next != KToken.END) {
             if (next != KToken.START && next != KToken.SKIP) {
                 addItem(next)
-                log.debug("add token: $next")
+                log.debug("add token: ${next.ttype} $next")
             }
             next = tokenizer.nextToken()
         }

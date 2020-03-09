@@ -1,25 +1,22 @@
 package net.codenest.kparser.lexing
 
+import net.codenest.kparser.lexing.KToken.Companion.createSymbol
 import org.junit.jupiter.api.Test
 
 class KSymbolStateTest : KTokenStateTest(state = KSymbolState)  {
 
     @Test
     fun testSingleSymbol() {
-        assertToken(getToken("="), "=2", "2")
-        assertToken(getToken(">"), ">a", "a")
-        assertToken(getToken("$"), "$12", "12")
-        assertToken(getToken("#"), "#abc", "abc")
+        assertToken(createSymbol("="), "=2", "2")
+        assertToken(createSymbol(">"), ">a", "a")
+        assertToken(createSymbol("$"), "$12", "12")
+        assertToken(createSymbol("#"), "#abc", "abc")
     }
 
     @Test
     fun testMultiCharSymbol() {
-        assertToken(getToken("!="), "!=2", "2")
-        assertToken(getToken(">="), ">=x", "x")
-        assertToken(getToken("<="), "<=!", "!")
-    }
-
-    private fun getToken(sval: String): KToken {
-        return KToken(KTokenType.TT_SYMBOL, sval, 0.0)
+        assertToken(createSymbol("!="), "!=2", "2")
+        assertToken(createSymbol(">="), ">=x", "x")
+        assertToken(createSymbol("<="), "<=!", "!")
     }
 }

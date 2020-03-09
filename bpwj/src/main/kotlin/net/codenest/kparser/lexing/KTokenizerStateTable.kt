@@ -11,7 +11,6 @@ object KTokenizerStateTable {
         for (i in 0xc0..0xff) states[i] = KWordState
         for (i in '0'.toInt()..'9'.toInt()) states[i] = KNumberState
         states['-'.toInt()] = KNumberState
-        states['.'.toInt()] = KNumberState
         states['"'.toInt()] = KQuoteState
         states['\''.toInt()] = KQuoteState
         states['/'.toInt()] = KSlashState
