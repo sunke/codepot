@@ -13,10 +13,7 @@ class KAssemblyTest {
     fun testTokenAssembly() {
         var expect: List<KToken>?
 
-        expect = listOf(
-                createWord("Let's"),
-                createQuote("'rock and roll'"),
-                createSymbol("!"))
+        expect = listOf(createWord("Let's"), createQuote("'rock and roll'"), createSymbol("!"))
         assertTokens(expect, "Let's 'rock and roll'!")
     }
 
