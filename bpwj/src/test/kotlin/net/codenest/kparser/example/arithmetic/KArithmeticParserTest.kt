@@ -37,7 +37,7 @@ class KArithmeticParserTest {
     }
 
     private fun checkValue(expected: Double, actual: Double) {
-        assertEquals(expected, actual, KToken.NUMERIC_TOLERANCE);
+        assertEquals(expected, actual, KToken.NUMBER_DELTA_TOLERANCE);
     }
 
     private fun assertImproperlyFormed(exp: String) {

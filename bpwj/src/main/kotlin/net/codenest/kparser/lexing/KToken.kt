@@ -1,5 +1,8 @@
 package net.codenest.kparser.lexing
 
+import net.codenest.kparser.lexing.KTokenType.*
+import kotlin.math.abs
+
 
 /**
   * A token represents a logical chunk of a string. For example, a typical tokenizer would break the string
@@ -9,31 +12,31 @@ package net.codenest.kparser.lexing
 class KToken (var ttype: KTokenType, var sval: String?, var nval: Double) {
 
     companion object {
-        val START = KToken(KTokenType.TT_START, "", 0.0)
-        val END = KToken(KTokenType.TT_END, "", 0.0)
-        val SKIP = KToken(KTokenType.TT_SKIP, "", 0.0)
+        val START = KToken(TT_START, "", 0.0)
+        val END = KToken(TT_END, "", 0.0)
+        val SKIP = KToken(TT_SKIP, "", 0.0)
 
-        val NUMERIC_TOLERANCE = 1e-6;
+        const val NUMBER_DELTA_TOLERANCE = 1e-6
     }
 
-    constructor(ch: Char) : this(KTokenType.TT_SYMBOL, ch.toString(), 0.0) {}
+    constructor(ch: Char) : this(TT_SYMBOL, ch.toString(), 0.0)
 
-    constructor(number: Double) : this(KTokenType.TT_NUMBER, "", number) {}
+    constructor(number: Double) : this(TT_NUMBER, "", number)
 
-    constructor(word: String) : this(KTokenType.TT_WORD, word, 0.0) {}
+    constructor(word: String) : this(TT_WORD, word, 0.0)
 
-    fun isNumber() = ttype === KTokenType.TT_NUMBER
+    fun isNumber() = ttype === TT_NUMBER
 
-    fun isQuotedString() = ttype === KTokenType.TT_QUOTED
+    fun isQuotedString() = ttype === TT_QUOTED
 
-    fun isSymbol() = ttype === KTokenType.TT_SYMBOL
+    fun isSymbol() = ttype === TT_SYMBOL
 
-    fun isWord() = ttype === KTokenType.TT_WORD
+    fun isWord() = ttype === TT_WORD
 
     fun value(): Any = when(ttype) {
-        KTokenType.TT_NUMBER -> nval
-        KTokenType.TT_END -> END
-        else -> sval?.toString() ?: ttype
+        TT_NUMBER -> nval
+        TT_END -> END
+        else -> sval ?: ttype
     }
 
     fun equals(other: Any?, ignoreCase: Boolean = false): Boolean {
@@ -42,17 +45,24 @@ class KToken (var ttype: KTokenType, var sval: String?, var nval: Double) {
         if (ttype !== other.ttype) return false
 
         return when(ttype) {
-            KTokenType.TT_NUMBER -> Math.abs(nval - other.nval) < NUMERIC_TOLERANCE
+            TT_NUMBER -> abs(nval - other.nval) < NUMBER_DELTA_TOLERANCE
             else -> sval?.equals(other.sval, ignoreCase) ?: (other.sval === null)
         }
     }
 
     override fun equals(other: Any?) = equals(other, false)
 
+    override fun hashCode(): Int {
+        var result = ttype.hashCode()
+        result = 31 * result + (sval?.hashCode() ?: 0)
+        result = 31 * result + nval.hashCode()
+        return result
+    }
+
     override fun toString() = when {
-        ttype === KTokenType.TT_START -> "START"
-        ttype === KTokenType.TT_END -> "EOF"
-        ttype === KTokenType.TT_SKIP -> "SKIP"
+        ttype === TT_START -> "START"
+        ttype === TT_END -> "EOF"
+        ttype === TT_SKIP -> "SKIP"
         else -> value().toString()
     }
 }

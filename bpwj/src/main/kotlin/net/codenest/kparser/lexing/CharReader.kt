@@ -14,7 +14,7 @@ class CharReader(val input: Reader, private val bufferSize: Int = 4) {
 
     private var log: Logger = Logger.getLogger(CharReader::class.java.name)
 
-    private var buf =  Array<Char>(bufferSize) { 0.toChar() }
+    private var buf =  Array(bufferSize) { 0.toChar() }
     private var pos = bufferSize // store chars in buf[pos .. bufferSize)
 
     fun read(): Int {
