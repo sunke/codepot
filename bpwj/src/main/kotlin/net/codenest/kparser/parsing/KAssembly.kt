@@ -3,6 +3,8 @@ package net.codenest.kparser.parsing
 import net.codenest.kparser.lexing.KToken
 import net.codenest.kparser.lexing.KTokenizer
 import org.apache.log4j.Logger
+import java.io.Reader
+import java.io.StringReader
 
 /**
  * An assembly provides a parser with a work area.
@@ -55,11 +57,13 @@ open class KAssembly<T>(private val delimiter: String = "/") {
     private fun remainItems(): String = itemList.subList(consumedItemNr(), itemNr()).joinToString(separator = delimiter)
 }
 
-class KTokenAssembly(str: String, delimiter: String = "/"): KAssembly<KToken>(delimiter) {
+class KTokenAssembly(private val reader: Reader, delimiter: String = "/"): KAssembly<KToken>(delimiter) {
     private var log: Logger = Logger.getLogger(KTokenAssembly::class.java.name)
 
+    constructor(str: String, delimiter: String = "/"): this(StringReader(str), delimiter)
+
     init {
-        val tokenizer = KTokenizer(str)
+        val tokenizer = KTokenizer(reader)
         var next = tokenizer.nextToken()
         while (next != KToken.END) {
             if (next != KToken.START && next != KToken.SKIP) {

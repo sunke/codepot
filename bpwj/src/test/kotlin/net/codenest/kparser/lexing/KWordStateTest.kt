@@ -7,6 +7,7 @@ class KWordStateTest : KTokenStateTest(state = KWordState)  {
 
     @Test
     fun testWord() {
+        (state as KWordState).setBlankAllowed(false)
         assertToken(createWord("hello"), "hello world", " world")
         assertToken(createWord("Peter's"), "Peter's book", " book")
         assertToken(createWord("Jan-Willem"), "Jan-Willem Schut", " Schut")
@@ -15,7 +16,7 @@ class KWordStateTest : KTokenStateTest(state = KWordState)  {
 
     @Test
     fun testWordWithWhitespace() {
-        (state as KWordState).setBlankAllowed()
+        (state as KWordState).setBlankAllowed(true)
         assertToken(createWord("Toasty Rita"), "Toasty Rita, Italian", ", Italian")
     }
 }

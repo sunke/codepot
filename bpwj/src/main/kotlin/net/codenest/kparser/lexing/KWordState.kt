@@ -18,7 +18,7 @@ object KWordState : KTokenizerState {
         return KToken(KTokenType.TT_WORD, str.toString(), 0.0)
     }
 
-    fun setBlankAllowed() = apply { allowBlank = true }
+    fun setBlankAllowed(b: Boolean) = apply { allowBlank = b }
 
     private fun isWordCharacter(ch: Char): Boolean {
         if (KTokenizerStateTable.getState(ch, null) is KWordState) return true

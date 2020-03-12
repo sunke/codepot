@@ -1,6 +1,7 @@
 package net.codenest.kparser.lexing
 
 
+import java.io.Reader
 import java.io.StringReader
 
 /**
@@ -39,12 +40,10 @@ import java.io.StringReader
 
  * ```
  */
-class KTokenizer(str: String) {
+class KTokenizer(private val input: Reader) {
     private val stateTable = KTokenizerStateTable
-
     private var previousState: KTokenizerState? = null
-
-    private val reader = CharReader(StringReader(str), 4)
+    private val reader = CharReader(input, 4)
 
     fun nextToken(): KToken {
         val c = reader.read()

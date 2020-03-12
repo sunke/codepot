@@ -9,8 +9,6 @@ const val ERR_AMBIGUOUS_GRAMMAR = "Detect ambiguity in the parsing"
  */
 abstract class KParser<T>(private val name: String = "", private val level: Int = 0) {
 
-
-
     private var log: Logger = Logger.getLogger(KParser::class.java.name)
 
     private var assembler: KAssembler<T>? = null
