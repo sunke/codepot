@@ -19,4 +19,10 @@ class KSymbolStateTest : KTokenStateTest(state = KSymbolState)  {
         assertToken(createSymbol(">="), ">=x", "x")
         assertToken(createSymbol("<="), "<=!", "!")
     }
+
+    @Test
+    fun testNewSymbol() {
+        (state as KSymbolState).addSymbol("=~=")
+        assertToken(createSymbol("=~="), "=~=42", "42")
+    }
 }

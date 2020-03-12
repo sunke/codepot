@@ -41,7 +41,7 @@ class KArithmeticParserTest {
     }
 
     private fun assertImproperlyFormed(exp: String) {
-        val exception = assertThrows(RuntimeException::class.java) { calculate(exp) }
+        val exception = assertThrows(Exception::class.java) { calculate(exp) }
         assertEquals(ERR_IMPROPERLY_FORMED, exception.message)
     }
 }

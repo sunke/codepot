@@ -2,6 +2,7 @@ package net.codenest.kparser.example.arithmetic
 
 import net.codenest.kparser.lexing.KToken
 import net.codenest.kparser.parsing.*
+import java.lang.Exception
 
 /**
  * This class provides a parser that recognizes arithmetic expressions. It includes the method `value`,
@@ -40,7 +41,7 @@ const val ERR_INTERNAL_ERROR = "Internal error in ArithmeticParser"
 
 fun calculate(exp: String): Double {
     val parser = KArithmeticParser().expression()
-    val value = parser.completeMatch(KTokenAssembly(exp)) ?: throw RuntimeException(ERR_IMPROPERLY_FORMED)
+    val value = parser.completeMatch(KTokenAssembly(exp)) ?: throw Exception(ERR_IMPROPERLY_FORMED)
     return value.pop() as? Double ?: throw RuntimeException(ERR_INTERNAL_ERROR)
 }
 

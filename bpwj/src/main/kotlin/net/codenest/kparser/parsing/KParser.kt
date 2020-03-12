@@ -2,10 +2,14 @@ package net.codenest.kparser.parsing
 
 import org.apache.log4j.Logger
 
+const val ERR_AMBIGUOUS_GRAMMAR = "Detect ambiguity in the parsing"
+
 /**
  * A parser is an object that recognizes a language.
  */
 abstract class KParser<T>(private val name: String = "", private val level: Int = 0) {
+
+
 
     private var log: Logger = Logger.getLogger(KParser::class.java.name)
 
@@ -31,8 +35,9 @@ abstract class KParser<T>(private val name: String = "", private val level: Int 
         val ays = matchAndAssemble(listOf(assembly)).sortedBy{ it.remainItemNr()}
 
         // detect ambiguity
-        if (ays.size >= 2 && ays[0].remainItemNr() == 0 && ays[1].remainItemNr() == 0 )
-            throw Exception("Detect ambiguity in the parsing")
+        if (ays.size >= 2 && ays[0].remainItemNr() == 0 && ays[1].remainItemNr() == 0 ) {
+            throw Exception(ERR_AMBIGUOUS_GRAMMAR)
+        }
 
         return ays.minBy{ it.remainItemNr() }
     }

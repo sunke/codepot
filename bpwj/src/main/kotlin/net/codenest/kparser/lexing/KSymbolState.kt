@@ -34,6 +34,10 @@ object KSymbolState : KTokenizerState {
         return KToken(KTokenType.TT_SYMBOL, symbol, 0.0)
     }
 
+    fun addSymbol(symbol: String) {
+        root.addSymbol(symbol)
+    }
+
     class KSymbolNode(private val schar: Char) {
         private val children = mutableSetOf<KSymbolNode>()
 
