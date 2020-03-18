@@ -26,7 +26,7 @@ object KSymbolState : KTokenizerState {
         root.addSymbol("<=")
     }
 
-    override fun nextToken(ch: Char, reader: CharReader): KToken {
+    override fun nextToken(ch: Char, reader: KCharReader): KToken {
         var symbol = root.findSymbol(ch, reader)
         if (symbol.isEmpty()) {
             symbol = ch.toString()
@@ -41,7 +41,7 @@ object KSymbolState : KTokenizerState {
     class KSymbolNode(private val schar: Char) {
         private val children = mutableSetOf<KSymbolNode>()
 
-        fun findSymbol(ch: Char, reader: CharReader): String {
+        fun findSymbol(ch: Char, reader: KCharReader): String {
             val child = findChild(ch) ?: return ""
 
             val next = reader.read()

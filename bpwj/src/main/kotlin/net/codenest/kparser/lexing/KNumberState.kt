@@ -9,7 +9,7 @@ import kotlin.math.pow
  */
 object KNumberState: KTokenizerState {
 
-    override fun nextToken(ch: Char, reader: CharReader): KToken {
+    override fun nextToken(ch: Char, reader: KCharReader): KToken {
         require(isDigit(ch.toInt()) || ch == '-')
 
         var isNegative = false
@@ -68,7 +68,7 @@ object KNumberState: KTokenizerState {
         return getNumber(isNegative, value)
     }
 
-    private fun getExpValue(exp: Int, reader: CharReader): Double {
+    private fun getExpValue(exp: Int, reader: KCharReader): Double {
         var isNegative = false
         var value = 0.0
 

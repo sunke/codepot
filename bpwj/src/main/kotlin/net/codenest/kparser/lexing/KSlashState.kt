@@ -3,7 +3,7 @@ package net.codenest.kparser.lexing
 
 object KSlashState : KTokenizerState {
 
-    override fun nextToken(ch: Char, reader: CharReader): KToken {
+    override fun nextToken(ch: Char, reader: KCharReader): KToken {
         require(ch == '/')
 
         var next = reader.read()

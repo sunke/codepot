@@ -7,7 +7,7 @@ package net.codenest.kparser.lexing
  */
 object KQuoteState : KTokenizerState {
 
-    override fun nextToken(ch: Char, reader: CharReader): KToken {
+    override fun nextToken(ch: Char, reader: KCharReader): KToken {
         require(KTokenizerStateTable.isQuote(ch))
 
         val str = StringBuilder(ch.toString())

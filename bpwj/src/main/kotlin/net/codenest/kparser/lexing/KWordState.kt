@@ -4,7 +4,7 @@ package net.codenest.kparser.lexing
 object KWordState : KTokenizerState {
     private var allowBlank = false
 
-    override fun nextToken(ch: Char, reader: CharReader): KToken {
+    override fun nextToken(ch: Char, reader: KCharReader): KToken {
         require(KTokenizerStateTable.getState(ch, null) is KWordState)
 
         var next = reader.read()
