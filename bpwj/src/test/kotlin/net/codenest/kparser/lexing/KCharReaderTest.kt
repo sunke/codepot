@@ -9,8 +9,8 @@ class KCharReaderTest {
 
     @Test
     fun testReadNewline() {
-        var str = "a\nb\r\nc\nd"
-        var reader = KCharReader(StringReader(str))
+        val str = "a\nb\r\nc\nd"
+        val reader = KCharReader(StringReader(str))
 
         assertEquals('a', reader.read().toChar())
         assertEquals(1, reader.row)
@@ -35,8 +35,8 @@ class KCharReaderTest {
 
     @Test
     fun testSpecialCases() {
-        var str = "a\n\nb\r\r\nc"
-        var reader = KCharReader(StringReader(str))
+        val str = "a\n\nb\r\r\nc"
+        val reader = KCharReader(StringReader(str))
 
         assertEquals('a', reader.read().toChar())
         assertEquals(1, reader.row)
